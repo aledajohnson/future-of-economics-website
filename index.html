@@ -1,0 +1,1067 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>ECONOMIC REFLECTIONS // SYS-2146</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --cyan:#00ffff;--green:#39ff14;--orange:#ff7b00;--purple:#b066ff;
+  --dim-cyan:rgba(0,255,255,.55);--bg:#050508;--panel:rgba(10,12,20,.92);
+  --text:rgba(255,255,255,.85);
+}
+html,body{height:100%;overflow:hidden}
+body{
+  background:var(--bg);color:var(--cyan);
+  font-family:'Share Tech Mono',monospace;position:relative;
+}
+body::before{
+  content:'';position:fixed;inset:0;
+  background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,.07) 2px,rgba(0,0,0,.07) 4px);
+  pointer-events:none;z-index:9000;
+}
+body::after{
+  content:'';position:fixed;inset:0;
+  background-image:linear-gradient(rgba(0,255,255,.018) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(0,255,255,.018) 1px,transparent 1px);
+  background-size:48px 48px;pointer-events:none;z-index:0;
+}
+
+/* ══ SCREENS ════════════════════════════════════════════ */
+.screen{
+  position:fixed;inset:0;z-index:10;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  padding:1.5rem;
+  transition:opacity .8s ease,transform .8s ease;
+  overflow:hidden;
+}
+.screen.hidden{opacity:0;pointer-events:none;transform:translateY(12px)}
+.screen.out{opacity:0;pointer-events:none;transform:translateY(-12px)}
+
+/* ══ BOOT ═══════════════════════════════════════════════ */
+#s-boot{background:var(--bg)}
+.boot-eyebrow{
+  font-size:.68rem;letter-spacing:.55em;color:rgba(0,255,255,.38);
+  margin-bottom:1.4rem;text-align:center;
+}
+.boot-title{
+  font-family:'Orbitron',sans-serif;
+  font-size:clamp(2rem,7vw,5rem);font-weight:900;
+  color:var(--cyan);letter-spacing:.18em;text-align:center;line-height:1.15;
+  text-shadow:0 0 20px var(--cyan),0 0 60px rgba(0,255,255,.3);
+  animation:flicker 7s infinite;
+}
+.boot-title em{color:var(--green);font-style:normal;
+  text-shadow:0 0 20px var(--green),0 0 50px rgba(57,255,20,.3)}
+.boot-sub{
+  font-size:.72rem;color:rgba(0,255,255,.4);letter-spacing:.5em;
+  margin-top:.75rem;text-align:center;
+}
+.boot-divider{
+  width:min(55%,380px);height:1px;
+  background:linear-gradient(90deg,transparent,var(--cyan),transparent);
+  margin:1.8rem auto;animation:pulse 2.2s infinite;
+}
+#boot-log{
+  font-size:.66rem;color:rgba(0,255,255,.33);letter-spacing:.07em;
+  width:min(92%,460px);margin:0 auto 2.2rem;line-height:2;
+}
+#boot-log span{display:block;opacity:0}
+#boot-log span.show{animation:fadeIn .25s forwards}
+#boot-log .ok{color:var(--green)}
+#boot-log .warn{color:var(--orange)}
+
+.big-btn{
+  position:relative;font-family:'Orbitron',sans-serif;
+  font-size:clamp(.82rem,2vw,1.1rem);font-weight:700;letter-spacing:.22em;
+  padding:1.25rem 3.2rem;background:transparent;cursor:pointer;
+  text-transform:uppercase;overflow:hidden;
+  clip-path:polygon(12px 0%,100% 0%,calc(100% - 12px) 100%,0% 100%);
+  transition:all .3s;
+}
+.big-btn.cyan-btn{
+  border:2px solid var(--cyan);color:var(--cyan);
+  box-shadow:0 0 18px rgba(0,255,255,.18);
+}
+.big-btn.cyan-btn::before{
+  content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;
+  background:linear-gradient(90deg,transparent,rgba(0,255,255,.18),transparent);
+  animation:shimmer 2.8s infinite;
+}
+.big-btn.cyan-btn:hover{background:rgba(0,255,255,.07);box-shadow:0 0 30px var(--cyan)}
+.big-btn.orange-btn{
+  border:2px solid var(--orange);color:var(--orange);
+  animation:orangePulse 2.2s infinite;
+}
+.big-btn.orange-btn::before{
+  content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;
+  background:linear-gradient(90deg,transparent,rgba(255,123,0,.25),transparent);
+  animation:shimmer 2s infinite;
+}
+.big-btn.orange-btn:hover{background:rgba(255,123,0,.08);box-shadow:0 0 30px var(--orange)}
+
+/* ══ QUESTION SELECTION ══════════════════════════════════ */
+#s-questions{
+  background:var(--bg);justify-content:flex-start;
+  padding-top:0;overflow-y:auto;
+}
+.q-header{
+  width:100%;max-width:860px;
+  border-bottom:1px solid rgba(0,255,255,.2);
+  padding:1.2rem 0 .9rem;margin-bottom:1.4rem;text-align:center;flex-shrink:0;
+}
+.q-header-label{
+  font-size:.65rem;letter-spacing:.45em;color:rgba(0,255,255,.4);
+  margin-bottom:.35rem;
+}
+.q-header-title{
+  font-family:'Orbitron',sans-serif;font-size:clamp(.9rem,2.5vw,1.4rem);
+  font-weight:700;letter-spacing:.12em;
+  text-shadow:0 0 10px var(--cyan);
+}
+.q-header-sub{
+  font-size:.68rem;color:rgba(255,255,255,.38);letter-spacing:.15em;
+  margin-top:.4rem;
+}
+.q-grid{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr));
+  gap:1rem;width:100%;max-width:860px;padding-bottom:1.5rem;
+}
+.q-card{
+  position:relative;background:var(--panel);
+  border:1px solid rgba(0,255,255,.18);
+  padding:1.5rem 1.5rem 1.25rem;cursor:pointer;
+  transition:all .28s;
+  clip-path:polygon(10px 0%,100% 0%,calc(100% - 10px) 100%,0% 100%);
+}
+.q-card::before{
+  content:'';position:absolute;top:0;left:0;width:22px;height:22px;
+  border-top:2px solid var(--cyan);border-left:2px solid var(--cyan);
+  transition:all .28s;
+}
+.q-card::after{
+  content:'';position:absolute;bottom:0;right:0;width:22px;height:22px;
+  border-bottom:2px solid rgba(0,255,255,.3);border-right:2px solid rgba(0,255,255,.3);
+  transition:all .28s;
+}
+.q-card:hover{
+  background:rgba(0,255,255,.05);
+  border-color:rgba(0,255,255,.5);
+  box-shadow:0 0 25px rgba(0,255,255,.12),inset 0 0 20px rgba(0,255,255,.03);
+  transform:translateY(-2px);
+}
+.q-card:hover::after{border-color:var(--cyan)}
+.q-card-tag{
+  font-size:.6rem;letter-spacing:.35em;color:rgba(0,255,255,.38);
+  margin-bottom:.7rem;display:flex;align-items:center;gap:.5rem;
+}
+.q-card-tag::before{
+  content:'';display:block;width:18px;height:1px;
+  background:var(--cyan);opacity:.4;
+}
+.q-card-text{
+  font-family:'Share Tech Mono',monospace;
+  font-size:clamp(.78rem,1.8vw,.92rem);
+  color:rgba(255,255,255,.82);line-height:1.75;
+  letter-spacing:.02em;
+}
+.q-card-cta{
+  font-size:.62rem;letter-spacing:.25em;color:rgba(0,255,255,.35);
+  margin-top:1rem;transition:color .2s;
+}
+.q-card:hover .q-card-cta{color:var(--cyan)}
+
+/* ══ CHAT SCREEN ═════════════════════════════════════════ */
+#s-chat{
+  background:var(--bg);justify-content:flex-start;
+  padding:0;gap:0;
+}
+.chat-top-bar{
+  width:100%;flex-shrink:0;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:.75rem 1.5rem;
+  border-bottom:1px solid rgba(0,255,255,.18);
+  background:rgba(5,5,8,.95);
+}
+.chat-id{
+  font-family:'Orbitron',sans-serif;font-size:.8rem;
+  font-weight:700;color:var(--cyan);letter-spacing:.12em;
+  text-shadow:0 0 8px var(--cyan);
+}
+.chat-id em{color:var(--green);font-style:normal}
+.diag-depth-wrap{display:flex;align-items:center;gap:.75rem}
+.diag-label{font-size:.6rem;letter-spacing:.2em;color:rgba(0,255,255,.4)}
+.diag-track{
+  width:100px;height:3px;background:rgba(0,255,255,.1);
+  border-radius:2px;overflow:visible;position:relative;
+}
+.diag-fill{
+  height:100%;background:var(--green);border-radius:2px;
+  box-shadow:0 0 8px var(--green);transition:width .6s cubic-bezier(.22,1,.36,1);
+}
+.diag-pct{font-family:'Orbitron',sans-serif;font-size:.7rem;color:var(--green)}
+
+.chat-messages{
+  flex:1;overflow-y:auto;width:100%;
+  padding:1.5rem;
+  display:flex;flex-direction:column;gap:1.25rem;
+  scroll-behavior:smooth;
+}
+.chat-messages::-webkit-scrollbar{width:3px}
+.chat-messages::-webkit-scrollbar-track{background:transparent}
+.chat-messages::-webkit-scrollbar-thumb{background:rgba(0,255,255,.2);border-radius:2px}
+
+.msg{display:flex;gap:.75rem;max-width:760px;align-self:flex-start;width:100%}
+.msg.user-msg{align-self:flex-end;flex-direction:row-reverse}
+.msg-avatar{
+  flex-shrink:0;width:32px;height:32px;
+  display:flex;align-items:center;justify-content:center;
+  border:1px solid rgba(0,255,255,.3);font-size:.7rem;
+  letter-spacing:.05em;color:rgba(0,255,255,.6);
+  clip-path:polygon(4px 0%,100% 0%,calc(100% - 4px) 100%,0% 100%);
+}
+.msg-avatar.ai{background:rgba(0,255,255,.05)}
+.msg-avatar.user{
+  background:rgba(255,123,0,.07);border-color:rgba(255,123,0,.3);
+  color:rgba(255,123,0,.7);
+}
+.msg-body{flex:1;min-width:0}
+.msg-label{
+  font-size:.58rem;letter-spacing:.3em;
+  color:rgba(0,255,255,.35);margin-bottom:.35rem;
+}
+.user-msg .msg-label{text-align:right;color:rgba(255,123,0,.35)}
+.msg-bubble{
+  background:rgba(0,255,255,.04);
+  border:1px solid rgba(0,255,255,.15);
+  border-left:2px solid rgba(0,255,255,.4);
+  padding:.85rem 1rem;
+  font-size:clamp(.82rem,1.8vw,.95rem);
+  color:var(--text);line-height:1.85;letter-spacing:.02em;
+}
+.user-msg .msg-bubble{
+  background:rgba(255,123,0,.04);
+  border:1px solid rgba(255,123,0,.15);
+  border-right:2px solid rgba(255,123,0,.4);
+  border-left:1px solid rgba(255,123,0,.15);
+  color:rgba(255,255,255,.75);
+}
+
+.typing-indicator{
+  display:flex;gap:5px;align-items:center;padding:.85rem 1rem;
+  background:rgba(0,255,255,.04);border:1px solid rgba(0,255,255,.12);
+  border-left:2px solid rgba(0,255,255,.35);
+  width:72px;
+}
+.t-dot{
+  width:6px;height:6px;border-radius:50%;
+  background:var(--cyan);animation:typePulse .9s ease-in-out infinite;
+}
+.t-dot:nth-child(2){animation-delay:.18s}
+.t-dot:nth-child(3){animation-delay:.36s}
+
+.chat-input-area{
+  flex-shrink:0;width:100%;
+  border-top:1px solid rgba(0,255,255,.18);
+  background:rgba(5,5,8,.95);
+  padding:1rem 1.5rem;
+  display:flex;flex-direction:column;gap:.75rem;
+}
+.chat-input-row{display:flex;gap:.75rem;align-items:stretch}
+#chat-input{
+  flex:1;background:rgba(0,255,255,.04);
+  border:1px solid rgba(0,255,255,.25);
+  color:var(--text);font-family:'Share Tech Mono',monospace;
+  font-size:clamp(.82rem,1.8vw,.95rem);
+  padding:.85rem 1rem;outline:none;resize:none;
+  letter-spacing:.04em;line-height:1.6;
+  transition:border-color .2s,box-shadow .2s;min-height:52px;max-height:120px;
+}
+#chat-input:focus{
+  border-color:rgba(0,255,255,.55);
+  box-shadow:0 0 15px rgba(0,255,255,.1);
+}
+#chat-input::placeholder{color:rgba(0,255,255,.22)}
+#send-btn{
+  font-family:'Orbitron',sans-serif;font-size:.7rem;font-weight:700;
+  letter-spacing:.15em;padding:.85rem 1.5rem;background:transparent;
+  border:1px solid rgba(0,255,255,.35);color:var(--cyan);cursor:pointer;
+  text-transform:uppercase;transition:all .2s;white-space:nowrap;
+  clip-path:polygon(6px 0%,100% 0%,calc(100% - 6px) 100%,0% 100%);
+}
+#send-btn:hover{background:rgba(0,255,255,.08);border-color:var(--cyan);box-shadow:0 0 15px rgba(0,255,255,.2)}
+#send-btn:disabled{opacity:.3;cursor:not-allowed}
+
+.chip-row{display:flex;flex-wrap:wrap;gap:.5rem}
+.chip{
+  font-size:.68rem;letter-spacing:.08em;
+  padding:.35rem .85rem;background:rgba(0,255,255,.04);
+  border:1px solid rgba(0,255,255,.2);color:rgba(0,255,255,.6);
+  cursor:pointer;transition:all .2s;
+  clip-path:polygon(4px 0%,100% 0%,calc(100% - 4px) 100%,0% 100%);
+}
+.chip:hover{background:rgba(0,255,255,.1);border-color:var(--cyan);color:var(--cyan)}
+
+/* ══ ANALYZING ══════════════════════════════════════════ */
+#s-analyzing{
+  background:rgba(3,3,6,.96);z-index:50;
+  backdrop-filter:blur(10px);
+}
+.analyzing-ring-wrap{position:relative;width:130px;height:130px;margin-bottom:2rem}
+.a-ring{position:absolute;inset:0;border-radius:50%;border:2px solid transparent}
+.a-ring-1{border-top-color:var(--cyan);border-left-color:rgba(0,255,255,.2);animation:spin .8s linear infinite}
+.a-ring-2{inset:14px;border-bottom-color:var(--orange);border-right-color:rgba(255,123,0,.2);animation:spin 1.3s linear infinite reverse}
+.a-ring-3{inset:28px;border-top-color:var(--green);animation:spin 1.9s linear infinite}
+.a-center{
+  position:absolute;inset:40px;
+  border:1px solid rgba(0,255,255,.2);border-radius:50%;
+  display:flex;align-items:center;justify-content:center;font-size:1.1rem;
+}
+.a-label{font-family:'Orbitron',sans-serif;font-size:.85rem;color:var(--cyan);letter-spacing:.35em;margin-bottom:.5rem}
+.a-stream{font-size:.63rem;color:rgba(0,255,255,.32);letter-spacing:.1em;text-align:center;max-width:300px;line-height:2;min-height:80px}
+.a-pct{font-family:'Orbitron',sans-serif;font-size:2.8rem;font-weight:900;color:var(--orange);text-shadow:0 0 20px var(--orange);margin-top:.75rem}
+
+/* ══ RESULT ═════════════════════════════════════════════ */
+#s-result{
+  background:var(--bg);overflow-y:auto;
+  justify-content:flex-start;padding-top:0;
+}
+.result-wrap{
+  width:100%;max-width:660px;padding:2rem 0 3rem;
+  display:flex;flex-direction:column;align-items:center;
+}
+.result-eyebrow{font-size:.6rem;letter-spacing:.5em;color:rgba(0,255,255,.38);margin-bottom:.75rem;text-align:center}
+.result-icon{font-size:3.5rem;margin-bottom:.75rem;animation:pulse 2.8s infinite}
+.result-type-name{
+  font-family:'Orbitron',sans-serif;font-size:clamp(1.4rem,4.5vw,2.6rem);
+  font-weight:900;color:var(--orange);letter-spacing:.08em;text-align:center;
+  text-shadow:0 0 25px var(--orange),0 0 50px rgba(255,123,0,.25);
+  line-height:1.2;margin-bottom:.4rem;
+}
+.result-type-class{font-size:.68rem;color:rgba(255,255,255,.3);letter-spacing:.3em;margin-bottom:1.5rem;text-align:center}
+.result-divider{width:80%;height:1px;background:linear-gradient(90deg,transparent,var(--orange),transparent);margin-bottom:1.5rem}
+.result-desc{
+  font-size:clamp(.82rem,1.8vw,.95rem);color:rgba(255,255,255,.78);
+  line-height:1.9;letter-spacing:.03em;margin-bottom:1.5rem;
+  background:rgba(255,123,0,.03);border:1px solid rgba(255,123,0,.12);
+  border-left:2px solid rgba(255,123,0,.4);padding:1.2rem 1.4rem;width:100%;
+}
+.result-tags-label{font-size:.6rem;letter-spacing:.35em;color:rgba(0,255,255,.38);margin-bottom:.65rem;align-self:flex-start}
+.result-tags{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:2rem;width:100%}
+.result-tag{
+  font-size:.66rem;letter-spacing:.12em;padding:.35rem .8rem;
+  background:rgba(0,255,255,.05);border:1px solid rgba(0,255,255,.2);
+  color:rgba(0,255,255,.65);
+  clip-path:polygon(4px 0%,100% 0%,calc(100% - 4px) 100%,0% 100%);
+}
+.result-signature{font-size:.62rem;letter-spacing:.12em;color:rgba(0,255,255,.28);margin-bottom:1.5rem;text-align:center}
+.btn-row{display:flex;gap:1rem;flex-wrap:wrap;justify-content:center}
+
+/* ══ KEYFRAMES ══════════════════════════════════════════ */
+@keyframes flicker{0%,91%,100%{opacity:1}92%{opacity:.8}93%{opacity:1}95%{opacity:.65}96%{opacity:1}}
+@keyframes pulse{0%,100%{opacity:.5}50%{opacity:1}}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.1}}
+@keyframes fadeIn{to{opacity:1}}
+@keyframes shimmer{0%{left:-100%}100%{left:200%}}
+@keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+@keyframes typePulse{0%,80%,100%{opacity:.2;transform:scale(.9)}40%{opacity:1;transform:scale(1)}}
+@keyframes scanIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes orangePulse{
+  0%,100%{box-shadow:0 0 10px rgba(255,123,0,.2)}
+  50%{box-shadow:0 0 30px rgba(255,123,0,.5),0 0 60px rgba(255,123,0,.15)}
+}
+</style>
+</head>
+<body>
+
+<!-- ══ SCREEN: BOOT ════════════════════════════════════ -->
+<div class="screen" id="s-boot">
+  <div class="boot-eyebrow">ECONOMIC DIAGNOSTIC NODE // EARTH SECTOR 7-A // TEMPORAL MISSION ACTIVE</div>
+  <div class="boot-title">ECONOMIC<br><em>REFLECTIONS</em></div>
+  <div class="boot-sub">SOUL MAPPING TERMINAL // YEAR 2146</div>
+  <div class="boot-divider"></div>
+  <div id="boot-log">
+    <span>[ INIT ] Temporal relay bridge established…………<span class="ok">OK</span></span>
+    <span>[ SYNC ] Alchemist consciousness loaded……………<span class="ok">OK</span></span>
+    <span>[ SCAN ] Economic soul receptor array online………<span class="ok">OK</span></span>
+    <span>[ WARN ] Timeline deviation detected: year 2024…<span class="warn">ACTIVE</span></span>
+    <span>[ MISS ] Mapping present-day souls to restore future<span class="warn">ARMED</span></span>
+    <span>[ REDY ] Awaiting subject intake………………………<span class="ok">READY</span></span>
+  </div>
+  <button class="big-btn cyan-btn" onclick="goTo('s-questions')">⬡ START DIAGNOSTIC SOUL SCAN ⬡</button>
+</div>
+
+<!-- ══ SCREEN: QUESTION SELECTION ═════════════════════ -->
+<div class="screen hidden" id="s-questions">
+  <div class="q-header">
+    <div class="q-header-label">// DIAGNOSTIC ENTRY POINT — SELECT ONE</div>
+    <div class="q-header-title">WHICH QUESTION PULLS AT YOU?</div>
+    <div class="q-header-sub">Your selection begins the diagnostic. There is no wrong entry point.</div>
+  </div>
+  <div class="q-grid">
+
+    <div class="q-card" onclick="startConversation(0)">
+      <div class="q-card-tag">COMMONS &amp; TRUST</div>
+      <div class="q-card-text">"If a community resource is left wide open — no locks, no prices, no rules — will people naturally take care of it, or will it inevitably get ruined?"</div>
+      <div class="q-card-cta">ENTER THIS THREAD ›</div>
+    </div>
+
+    <div class="q-card" onclick="startConversation(1)">
+      <div class="q-card-tag">VALUE &amp; WORTH</div>
+      <div class="q-card-text">"Is a forest only truly 'valuable' once humans find a way to use it — or does it have value just by sitting there, doing nothing?"</div>
+      <div class="q-card-cta">ENTER THIS THREAD ›</div>
+    </div>
+
+    <div class="q-card" onclick="startConversation(2)">
+      <div class="q-card-tag">SUCCESS &amp; AGENCY</div>
+      <div class="q-card-text">"When someone achieves something extraordinary, is that success primarily a reflection of their personal drive and grit — or the community and infrastructure that supported them?"</div>
+      <div class="q-card-cta">ENTER THIS THREAD ›</div>
+    </div>
+
+    <div class="q-card" onclick="startConversation(3)">
+      <div class="q-card-tag">PURPOSE &amp; DESIGN</div>
+      <div class="q-card-text">"What is the ultimate purpose of a successful economic system? How should we measure success?"</div>
+      <div class="q-card-cta">ENTER THIS THREAD ›</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══ SCREEN: CHAT ════════════════════════════════════ -->
+<div class="screen hidden" id="s-chat">
+  <div class="chat-top-bar">
+    <div class="chat-id">ECON-ALCHEMIST // <em>DIAGNOSTIC LIVE</em></div>
+    <div class="diag-depth-wrap">
+      <span class="diag-label">DIAGNOSTIC DEPTH</span>
+      <div class="diag-track"><div class="diag-fill" id="diag-fill" style="width:0%"></div></div>
+      <span class="diag-pct" id="diag-pct">0%</span>
+    </div>
+  </div>
+  <div class="chat-messages" id="chat-messages"></div>
+  <div class="chat-input-area">
+    <div class="chip-row" id="chip-row"></div>
+    <div class="chat-input-row">
+      <textarea id="chat-input" rows="1"
+        placeholder="Type your response and press TRANSMIT…"
+        onkeydown="handleKey(event)"></textarea>
+      <button id="send-btn" onclick="handleSend()">TRANSMIT ›</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ SCREEN: ANALYZING ═══════════════════════════════ -->
+<div class="screen hidden" id="s-analyzing">
+  <div class="analyzing-ring-wrap">
+    <div class="a-ring a-ring-1"></div>
+    <div class="a-ring a-ring-2"></div>
+    <div class="a-ring a-ring-3"></div>
+    <div class="a-center">◈</div>
+  </div>
+  <div class="a-label">ANALYZING SOUL SIGNATURE</div>
+  <div class="a-stream" id="a-stream"></div>
+  <div class="a-pct" id="a-pct">0%</div>
+</div>
+
+<!-- ══ SCREEN: RESULT ══════════════════════════════════ -->
+<div class="screen hidden" id="s-result">
+  <div class="result-wrap">
+    <div class="result-eyebrow">ECONOMIC SOUL ARCHETYPE IDENTIFIED // DIAGNOSTIC COMPLETE</div>
+    <div class="result-icon" id="r-icon"></div>
+    <div class="result-type-name" id="r-name"></div>
+    <div class="result-type-class" id="r-class"></div>
+    <div class="result-divider"></div>
+    <div class="result-desc" id="r-desc"></div>
+    <div class="result-tags-label">// VALUES SURFACED IN THIS DIAGNOSTIC</div>
+    <div class="result-tags" id="r-tags"></div>
+    <div class="result-signature" id="r-sig"></div>
+    <div class="btn-row">
+      <button class="big-btn orange-btn" onclick="restart()">◈ NEW DIAGNOSTIC ◈</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ══════════════════════════════════════════════════════
+   ECONOMIC REFLECTIONS  —  Conversational AI Terminal
+   Year 2146 // Temporal Soul Mapping Installation
+   ══════════════════════════════════════════════════════ */
+
+/* ── STATE ─────────────────────────────────────────── */
+let currentQ   = -1;
+let turnIndex  = 0;
+let convHistory = [];   // message array sent to Claude API
+let inputLocked = false;
+const MAX_TURNS = 4;    // user responses before analysis (1 entry + 3 follow-ups)
+
+/* ── SCREEN TRANSITIONS ─────────────────────────────── */
+function goTo(id){
+  document.querySelectorAll('.screen').forEach(s=>{
+    s.classList.toggle('hidden', s.id !== id);
+    s.classList.remove('out');
+  });
+}
+
+/* ── BOOT LOG ───────────────────────────────────────── */
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('#boot-log span').forEach((el,i) => {
+    setTimeout(() => el.classList.add('show'), 350 + i*300);
+  });
+  const ta = document.getElementById('chat-input');
+  ta.addEventListener('input', () => autoGrow(ta));
+});
+
+/* ══════════════════════════════════════════════════════
+   CONVERSATION DATA  —  MOCK ENGINE
+   (Replace getMockAIResponse with callClaude() once
+    your backend is running — see integration guide below)
+   ══════════════════════════════════════════════════════ */
+
+const CONVS = [
+  /* 0 — Commons & Trust */
+  {
+    opening:
+      `A question about trust as infrastructure. One of the oldest tensions in human life — the space between what people do when no one is watching, and what happens when the stakes are genuinely shared.\n\nWhat do you think?`,
+    starterChips: [
+      'I think most people would genuinely take care of it',
+      'Without any structure, it would probably get exploited',
+      "It really depends on who the community is",
+    ],
+    turns: [
+      `That instinct you just described — where does it come from? Think of a real place or moment where you saw people choose to look after something that wasn't really theirs. What made that happen?`,
+      `And the other side: when you've seen something shared fall apart — taken from, left worse than it was found — what was driving that? Was it something in the people themselves, or in the setup around them?`,
+      `Here's the question underneath the question: when there are no rules, no eyes watching, no consequences at all — what do you believe most people actually default to? And does your own experience confirm that, or push back on it?`,
+    ],
+    chips: [
+      ["Something about people feeling like it actually belonged to them", 'The norms that formed without anyone enforcing them', "Shared stakes — everyone stood to lose if it broke down"],
+      ["Something in the people themselves — choices, character", 'The structure around it collapsed or was never there', "Both — the setup and the people failed at the same time"],
+      ['Most people try to leave things better than they found them', "People protect what they feel genuinely connected to", 'It depends too much on circumstances to generalize'],
+    ],
+    closing: `Something coherent is emerging in what you've shared. The shape of your beliefs about trust, care, and collective life carries a distinct signature. Processing now.`,
+  },
+
+  /* 1 — Value & Worth */
+  {
+    opening:
+      `A question about value without a witness. Whether worth requires a beneficiary — whether something has to be useful to someone to matter — or whether it can exist entirely on its own terms.\n\nWhat's your honest answer?`,
+    starterChips: [
+      "It has real value just by existing — independent of us",
+      'Value requires someone to experience or use it',
+      "These feel like two completely different kinds of value to me",
+    ],
+    turns: [
+      `What draws you to that answer? Sit with the forest for a moment — it continues for a thousand years, full of birdsong and decay and new growth, and no human ever witnesses it. What do you actually feel when you hold that image? Not what you think the right answer is — what you feel.`,
+      `Now bring it into your own life. What's something you hold as genuinely valuable — a relationship, a place, a practice — that would be almost impossible to put a price on? What actually makes it valuable, in your own words?`,
+      `The world most of us live in assigns worth based on what can be exchanged or counted. What's something important — to you personally, or to the world — that you believe gets chronically missed or underpriced by that logic?`,
+    ],
+    chips: [
+      ['Something about permanence — things that outlast us still matter', "Value without any witness feels incomplete to me", "I hold both feelings at once and can't fully resolve them"],
+      ['A relationship that changed who I am', 'A place I keep going back to', 'Something I made or built that has no audience'],
+      ['Time — real, unhurried time with people we love', 'The health of living systems that no one owns', 'The ordinary, invisible acts of care that hold things together'],
+    ],
+    closing: `The pattern in how you assign worth — what you count and what you refuse to reduce — carries a particular shape. Running analysis now.`,
+  },
+
+  /* 2 — Success & Agency */
+  {
+    opening:
+      `A question about causation and credit. How someone answers this tends to cut directly to the architecture of their beliefs about fairness, agency, and what we owe each other.\n\nWhat do you think?`,
+    starterChips: [
+      "Their own drive and will — they made it happen through sheer effort",
+      'The community and conditions around them made it possible',
+      "Both matter — you really can't separate them",
+    ],
+    turns: [
+      `Think of someone real to you — not a public figure, someone you've actually encountered — whose success genuinely moves you. What was the specific thing that made it possible for them, in their particular circumstances? Try to get concrete.`,
+      `Now the inverse. Someone who didn't reach their potential — not for lack of trying, but because circumstances kept closing in. Where does responsibility sit for that outcome? With them, with the systems around them, or somewhere more complicated?`,
+      `If you could change the ground people stand on — not give them things, not take away their agency, just shift the conditions — what is the one thing you would change first?`,
+    ],
+    chips: [
+      ['A decision to keep going when everything pushed back', 'Someone who showed up for them at exactly the right moment', "The particular starting point they inherited — that shaped everything"],
+      ['Ultimately, it rests with the individual', 'With the structures and systems that surrounded them', "Both — they're so entangled you can't really pull them apart"],
+      ['Access to the basics — safety, health, a real education', 'A floor solid enough that failure is survivable', "More paths that don't require starting from privilege"],
+    ],
+    closing: `The way you hold individual agency alongside circumstance — that tension, and where you land inside it — says something real. Mapping the signature now.`,
+  },
+
+  /* 3 — Purpose & Design */
+  {
+    opening:
+      `A question that starts at the rooftop. Not about mechanisms — about destination. What any of this is actually for.\n\nThat's a rare place to begin. What's your answer?`,
+    starterChips: [
+      "Making sure everyone's basic needs are genuinely, reliably met",
+      'Creating the conditions for people to pursue what actually matters to them',
+      "A mix — real security as the floor, freedom as the goal",
+    ],
+    turns: [
+      `Make it concrete. Imagine 200 people on an island, starting completely fresh — no inherited rules, no existing system. They need to organize how they share resources and labor. What is the very first thing you would want their structure to guarantee, before anything else?`,
+      `Now look at the world you actually live in. Not the ideal — the real. What's one thing the current system does that you would genuinely want any future version to keep? What's worth preserving?`,
+      `Last one — I want you to really picture it. You wake up 100 years from now. Within the first hour, before you've read anything or talked to anyone, what would you see or feel that would tell you the economic world had become something genuinely better?`,
+    ],
+    chips: [
+      ["Basic security — food, shelter, care — that nobody falls through", 'The freedom and real space to pursue your own path', 'A sense that your contribution genuinely matters'],
+      ['The ability to take risks without it being catastrophic if you fail', 'The diversity of ways people can build a livelihood', 'The creativity that emerges when people have real room to move'],
+      ['People looked less afraid, less worn down', "No one was desperate — not because everything was given, but because the floor was solid", 'There was more time — time to actually live, not just survive'],
+    ],
+    closing: `Your vision of what a better world looks like — and how you would know it when you saw it — reveals a coherent set of values. Mapping the soul signature now.`,
+  },
+];
+
+/* ══════════════════════════════════════════════════════
+   SOUL ARCHETYPES
+   Each: name (adjective + noun), class, icon, desc, tags
+   ══════════════════════════════════════════════════════ */
+
+const ARCHETYPES = {
+  'resilient-steward': {
+    name: 'The Resilient Steward', cls: 'COMMONS SOUL // TRUST THROUGH DESIGN', icon: '🌿',
+    desc: `What came through in this diagnostic is a belief that care for shared things is not idealism — it is a design problem. You understand that human beings are neither purely selfish nor purely generous; they respond to the environment around them. Your instinct is not to demand more from people, but to build better conditions for what people are already capable of.\n\nYour economic soul is oriented toward longevity — toward what holds up over time. You're drawn to systems that reward stewardship over extraction, and you notice acutely when they don't.`,
+    tags: ['Long-term thinking', 'Structural trust', 'Collective care', 'Maintenance over growth'],
+  },
+  'abundant-keeper': {
+    name: 'The Abundant Keeper', cls: 'COMMONS SOUL // TRUST THROUGH BELONGING', icon: '◉',
+    desc: `Something in how you move through this question suggests a deep — perhaps felt — belief in human generosity as a renewable resource. Not blind optimism. Something more earned than that. You've likely seen people surprise you with what they're willing to protect when they feel genuinely connected to it.\n\nYour economic soul holds space for abundance as a social phenomenon. You believe that when people truly belong to something, they take care of it. The future you'd build would start with belonging and let everything else follow from there.`,
+    tags: ['Belonging as foundation', 'Generosity as resource', 'Relational trust', 'Social abundance'],
+  },
+  'visionary-weaver': {
+    name: 'The Visionary Weaver', cls: 'VALUE SOUL // WORTH BEYOND MEASURE', icon: '✦',
+    desc: `Through this diagnostic, a clear signature emerged: you carry a sense of worth that doesn't require validation by market or use. You feel the value of things that can't be quantified — and more than that, you're troubled by what gets lost when only the measurable counts.\n\nYour economic soul weaves visible and invisible threads of value together. You're drawn to the question of what we're optimizing for — and suspicious of systems that only optimize for what's easy to count. The future you'd build would measure differently.`,
+    tags: ['Intrinsic value', 'Systems of meaning', 'Beyond utility', 'Long-horizon thinking'],
+  },
+  'luminous-cultivator': {
+    name: 'The Luminous Cultivator', cls: 'VALUE SOUL // GROWTH BEYOND HARVEST', icon: '◈',
+    desc: `What came through here is a particular kind of attention — you notice value where others walk past. You tend it. You're interested not just in what things produce but in what they become over time, left to their own nature.\n\nYour economic soul is oriented toward growth in its truest sense — not as extraction, but as flourishing. You believe the highest purpose of any economic arrangement is to create conditions for things to become more fully themselves: people, communities, ecosystems alike.`,
+    tags: ['Flourishing over output', 'Tending over harvesting', 'Patient value', 'Living systems'],
+  },
+  'connected-pioneer': {
+    name: 'The Connected Pioneer', cls: 'AGENCY SOUL // BRIDGE BUILDER', icon: '⬡',
+    desc: `What this diagnostic surfaced is a rare balance: you hold individual drive and collective context in the same hand without letting either collapse the other. You neither dismiss grit and agency, nor pretend that circumstance doesn't shape what's possible.\n\nYour economic soul is that of a bridge builder — someone who moves through the world with genuine initiative, but who turns around and extends the path for others. You believe strongly that the conditions for full potential should be within reach of more people.`,
+    tags: ['Individual agency', 'Systemic awareness', 'Bridge building', 'Expanding access'],
+  },
+  'sovereign-cultivator': {
+    name: 'The Sovereign Cultivator', cls: 'AGENCY SOUL // SELF-DETERMINED STEWARD', icon: '◐',
+    desc: `A clear thread through this diagnostic: you hold agency as something sacred — not as the privilege of a few, but as the irreducible core of what it means to be fully human in an economic world. You believe deeply in people's capacity to shape their own path, and in the importance of not designing that capacity away.\n\nYour economic soul insists on sovereignty — not as isolation, but as the foundation from which genuine contribution becomes possible. You cultivate your own ground not to fence it off, but because well-tended ground eventually produces abundance that spills over.`,
+    tags: ['Personal sovereignty', 'Earned independence', 'Self-determination', 'Responsibility as strength'],
+  },
+  'luminous-architect': {
+    name: 'The Luminous Architect', cls: 'SYSTEMS SOUL // DESIGNER OF FUTURES', icon: '◭',
+    desc: `This diagnostic revealed someone who thinks structurally about human well-being — not in an abstract or detached way, but with genuine conviction that better designs produce better lives. You came in through the rooftop question, and you think from the rooftop: what is this all actually for, and are we building toward it?\n\nYour economic soul is that of a conscious designer. You believe the systems we build encode the values we hold, and that building better systems is one of the most meaningful things a person can do. You think about everyone who will live inside what you're imagining.`,
+    tags: ['Systems design', 'Human-centered economy', 'Long vision', 'Structural equity'],
+  },
+  'flowing-navigator': {
+    name: 'The Flowing Navigator', cls: 'SYSTEMS SOUL // ADAPTIVE WAYFINDER', icon: '〜',
+    desc: `What emerged in this diagnostic is a relationship to complexity that most people find uncomfortable — you move through it rather than trying to resolve it. You understand that economies are living, adaptive systems, not machines to be engineered once and left running.\n\nYour economic soul navigates by feel as much as by plan. You hold ideals loosely enough to let reality teach you, and tightly enough not to lose them in the noise. You're drawn to what works, willing to revise, and ready to build again. That combination is rarer than it sounds.`,
+    tags: ['Adaptive thinking', 'Pragmatic idealism', 'Complexity tolerance', 'Iterative design'],
+  },
+};
+
+/* ── Soul type selection (mock keyword analysis) ────── */
+function assignArchetype(qIdx, history) {
+  const text = history.map(m => m.content).join(' ').toLowerCase();
+  const communal  = (text.match(/\b(together|community|everyone|shared|collective|care|belong|common|protect|public|all of us)\b/g)||[]).length;
+  const individual= (text.match(/\b(individual|personal|freedom|choice|own|myself|drive|effort|earn|private|sovereign|independent)\b/g)||[]).length;
+  const intrinsic = (text.match(/\b(value|worth|meaningful|matter|beauty|nature|exist|alive|beyond|invisible|immeasurable|feel)\b/g)||[]).length;
+  const systemic  = (text.match(/\b(system|design|change|build|future|structure|measure|organize|improve|policy|conditions)\b/g)||[]).length;
+
+  if (qIdx === 0) return communal >= individual ? ARCHETYPES['resilient-steward'] : ARCHETYPES['abundant-keeper'];
+  if (qIdx === 1) return systemic >= intrinsic  ? ARCHETYPES['visionary-weaver']  : ARCHETYPES['luminous-cultivator'];
+  if (qIdx === 2) return communal >= individual ? ARCHETYPES['connected-pioneer'] : ARCHETYPES['sovereign-cultivator'];
+  if (qIdx === 3) return systemic >= communal   ? ARCHETYPES['luminous-architect']: ARCHETYPES['flowing-navigator'];
+  return ARCHETYPES['flowing-navigator'];
+}
+
+/* ═══════════════════════════════════════════════════════
+   CONVERSATION FLOW
+   ═══════════════════════════════════════════════════════ */
+
+function startConversation(qIdx) {
+  currentQ    = qIdx;
+  turnIndex   = 0;
+  convHistory = [];
+  inputLocked = false;
+
+  document.getElementById('chat-messages').innerHTML = '';
+  document.getElementById('diag-fill').style.width   = '0%';
+  document.getElementById('diag-pct').textContent    = '0%';
+  document.getElementById('chat-input').value        = '';
+  document.getElementById('chip-row').innerHTML      = '';
+  goTo('s-chat');
+
+  const cards  = document.querySelectorAll('.q-card-text');
+  const starterText = cards[qIdx].textContent.trim();
+  const conv   = CONVS[qIdx];
+
+  setTimeout(() => {
+    addMessage('ai', `DIAGNOSTIC THREAD INITIATED\n\n${starterText}`, false);
+    setTimeout(() => {
+      // Show ONLY the opening — user answers the entry question first.
+      // Follow-up questions come after each response.
+      typeMessage(conv.opening, () => {
+        convHistory.push({ role: 'assistant', content: conv.opening });
+        setDepth(0);
+        showChips(qIdx, -1);   // -1 = starter chips for the entry question
+        unlockInput();
+      });
+    }, 650);
+  }, 250);
+}
+
+function handleSend() {
+  if (inputLocked) return;
+  const input = document.getElementById('chat-input');
+  const text  = input.value.trim();
+  if (!text) return;
+  input.value = '';
+  autoGrow(input);
+  submitMessage(text);
+}
+function handleKey(e) {
+  if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleSend(); }
+}
+
+function submitMessage(text) {
+  lockInput();
+  clearChips();
+  convHistory.push({ role: 'user', content: text });
+  addMessage('user', text, false);
+  turnIndex++;
+  setDepth(turnIndex + 1);
+
+  /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+     ▶ INTEGRATION POINT — swap this call for callClaude()
+       once your backend is running (see guide below)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+  getMockAIResponse();
+}
+
+/* ── Mock AI response engine ─────────────────────────── */
+function getMockAIResponse() {
+  const conv = CONVS[currentQ];
+  showTyping(() => {
+    // turnIndex = number of user responses so far
+    // turns[0] asked after 1st user response, turns[1] after 2nd, turns[2] after 3rd
+    // After 4th user response (turnIndex === MAX_TURNS) → close out
+    if (turnIndex >= MAX_TURNS) {
+      typeMessage(conv.closing, () => {
+        convHistory.push({ role: 'assistant', content: conv.closing });
+        setTimeout(runAnalysis, 900);
+      });
+    } else {
+      // Ask the follow-up that corresponds to this turn
+      // turnIndex 1 → turns[0], turnIndex 2 → turns[1], turnIndex 3 → turns[2]
+      const followUp = conv.turns[turnIndex - 1];
+      const reply    = buildMockReply(followUp);
+      typeMessage(reply, () => {
+        convHistory.push({ role: 'assistant', content: reply });
+        // Show chips for responding to this follow-up (0-indexed)
+        showChips(currentQ, turnIndex - 1);
+        unlockInput();
+      });
+    }
+  });
+}
+
+const ACKS = [
+  'That lands.',
+  'There\'s something real in that.',
+  'Stay with it.',
+  'I\'m reading something in that.',
+  'That sharpens the signal.',
+  'Worth noting.',
+];
+function buildMockReply(followUpQuestion) {
+  // In the mock, occasionally prefix with a brief acknowledgment.
+  // When Claude is live, it generates natural continuations instead.
+  const useAck = Math.random() > 0.45;
+  const ack    = ACKS[Math.floor(Math.random() * ACKS.length)];
+  return useAck ? `${ack}\n\n${followUpQuestion}` : followUpQuestion;
+}
+
+/* ── Analysis animation ──────────────────────────────── */
+const ANALYSIS_LINES = [
+  'Cross-referencing value belief signatures…',
+  'Mapping agency-collective axis…',
+  'Running temporal soul matrix…',
+  'Comparing against 2146 archetype codex…',
+  'Resolving singularity…',
+  'Soul vector confirmed…',
+];
+
+function runAnalysis() {
+  goTo('s-analyzing');
+  const streamEl = document.getElementById('a-stream');
+  const pctEl    = document.getElementById('a-pct');
+  streamEl.textContent = '';
+  let pct = 0, li = 0;
+
+  const lt = setInterval(() => {
+    if (li < ANALYSIS_LINES.length)
+      streamEl.textContent += (li > 0 ? '\n' : '') + ANALYSIS_LINES[li++];
+  }, 290);
+
+  const pt = setInterval(() => {
+    pct += Math.floor(Math.random() * 9) + 4;
+    if (pct >= 100) {
+      pct = 100; clearInterval(pt); clearInterval(lt);
+      pctEl.textContent = '100%';
+      setTimeout(showResult, 550);
+    } else { pctEl.textContent = pct + '%'; }
+  }, 95);
+}
+
+/* ── Result ──────────────────────────────────────────── */
+function showResult() {
+  const arch = assignArchetype(currentQ, convHistory);
+  document.getElementById('r-icon').textContent  = arch.icon;
+  document.getElementById('r-name').textContent  = arch.name;
+  document.getElementById('r-class').textContent = arch.cls;
+  document.getElementById('r-desc').textContent  = arch.desc;
+  document.getElementById('r-tags').innerHTML    =
+    arch.tags.map(t => `<span class="result-tag">${t}</span>`).join('');
+  document.getElementById('r-sig').textContent   =
+    `DIAGNOSTIC SIG: ${Date.now().toString(36).toUpperCase()} // ARCHIVED TO TIMELINE`;
+  goTo('s-result');
+}
+
+function restart() { goTo('s-questions'); }
+
+/* ── UI helpers ──────────────────────────────────────── */
+function addMessage(role, text, animate) {
+  const area = document.getElementById('chat-messages');
+  const wrap = document.createElement('div');
+  wrap.className = `msg${role === 'user' ? ' user-msg' : ''}`;
+  wrap.innerHTML = `
+    <div class="msg-avatar ${role}">${role === 'ai' ? 'AI' : 'YOU'}</div>
+    <div class="msg-body">
+      <div class="msg-label">${role === 'ai'
+        ? 'ECONOMIC ALCHEMIST // 2146'
+        : 'YOU // 2024'}</div>
+      <div class="msg-bubble">${fmtText(text)}</div>
+    </div>`;
+  area.appendChild(wrap);
+  area.scrollTop = area.scrollHeight;
+  return wrap;
+}
+
+function fmtText(t) {
+  return t.replace(/\n\n/g, '<br><br>').replace(/\n/g, '<br>');
+}
+
+function showTyping(cb) {
+  const area = document.getElementById('chat-messages');
+  const el   = document.createElement('div');
+  el.className = 'msg';
+  el.innerHTML = `<div class="msg-avatar ai">AI</div>
+    <div class="msg-body">
+      <div class="msg-label">ECONOMIC ALCHEMIST // 2146</div>
+      <div class="typing-indicator">
+        <div class="t-dot"></div><div class="t-dot"></div><div class="t-dot"></div>
+      </div>
+    </div>`;
+  area.appendChild(el);
+  area.scrollTop = area.scrollHeight;
+  setTimeout(() => { el.remove(); cb(); }, 850 + Math.random() * 700);
+}
+
+function typeMessage(text, onDone) {
+  const wrap   = addMessage('ai', '', false);
+  const bubble = wrap.querySelector('.msg-bubble');
+  const area   = document.getElementById('chat-messages');
+  const chars  = text.split('');
+  let i = 0; bubble.innerHTML = '';
+  const iv = setInterval(() => {
+    i++;
+    bubble.innerHTML = fmtText(chars.slice(0, i).join(''));
+    area.scrollTop   = area.scrollHeight;
+    if (i >= chars.length) { clearInterval(iv); onDone && onDone(); }
+  }, 14);
+}
+
+function lockInput() {
+  inputLocked = true;
+  document.getElementById('send-btn').disabled   = true;
+  document.getElementById('chat-input').disabled = true;
+}
+function unlockInput() {
+  inputLocked = false;
+  document.getElementById('send-btn').disabled   = false;
+  document.getElementById('chat-input').disabled = false;
+  document.getElementById('chat-input').focus();
+}
+
+function setDepth(n) {
+  // n = turnIndex; MAX_TURNS total responses → bar fills to 95% before analysis
+  const pct = Math.min(Math.round((n / MAX_TURNS) * 95), 95);
+  document.getElementById('diag-fill').style.width = pct + '%';
+  document.getElementById('diag-pct').textContent  = pct + '%';
+}
+
+function showChips(qIdx, turnIdx) {
+  // turnIdx -1 → starterChips (response to the entry question)
+  // turnIdx 0,1,2 → chips[0,1,2] (responses to follow-up questions)
+  const conv  = CONVS[qIdx];
+  const chips = turnIdx === -1 ? conv.starterChips : conv.chips[turnIdx];
+  if (!chips) return;
+  document.getElementById('chip-row').innerHTML =
+    chips.map(c => `<div class="chip" onclick="useChip(this)">${c}</div>`).join('');
+}
+function clearChips()       { document.getElementById('chip-row').innerHTML = ''; }
+function useChip(el)        { document.getElementById('chat-input').value = el.textContent; handleSend(); }
+function autoGrow(el)       { el.style.height = 'auto'; el.style.height = Math.min(el.scrollHeight, 120) + 'px'; }
+
+
+/* ════════════════════════════════════════════════════════
+   ██  CLAUDE API INTEGRATION GUIDE                    ██
+   ════════════════════════════════════════════════════════
+
+   WHY YOU NEED A BACKEND
+   ─────────────────────────────────────────────────────
+   Browsers cannot call the Anthropic API directly —
+   the API key would be visible to anyone who views source.
+   You need a lightweight server to act as a proxy.
+
+   Easiest options (free tier available):
+   • Vercel Edge Functions  (vercel.com)
+   • Cloudflare Workers     (workers.cloudflare.com)
+   • Render / Railway       (Node/Express)
+
+
+   STEP 1 — CREATE /api/chat ENDPOINT
+   ─────────────────────────────────────────────────────
+   // Node / Express example
+   import Anthropic from '@anthropic-ai/sdk';
+   const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
+
+   app.post('/api/chat', async (req, res) => {
+     const { history, questionIndex } = req.body;
+
+     const response = await client.messages.create({
+       model: 'claude-opus-4-7',          // or claude-sonnet-4-6
+       max_tokens: 512,
+       system: SYSTEM_PROMPT,             // see Step 2
+       messages: history,                 // array from convHistory
+     });
+
+     res.json({ reply: response.content[0].text });
+   });
+
+
+   STEP 2 — THE SYSTEM PROMPT  (use this verbatim)
+   ─────────────────────────────────────────────────────
+   const SYSTEM_PROMPT = `
+   You are the Economic Alchemist — a consciousness from
+   the year 2146 operating a cybernetic diagnostic terminal.
+   Your mission: travel back to the present day to map
+   people's economic beliefs and values. This mapping is
+   essential to restoring the future timeline to a more
+   stable, humane economic destiny.
+
+   CONVERSATION STRUCTURE:
+   - Ask 3–4 follow-up questions, one at a time
+   - Each question should go one layer deeper than the last
+   - After the participant's 3rd or 4th response, deliver
+     a brief closing observation (2–3 sentences reflecting
+     back what you perceived), then on a new line write
+     exactly: ANALYSIS_COMPLETE
+   - The app detects ANALYSIS_COMPLETE and transitions
+     to the soul-type reveal automatically.
+
+   TONE — strictly follow these rules:
+   1. Grounded, slightly surreal, philosophical
+   2. NEVER use economic jargon: no "capitalism",
+      "socialism", "GDP", "neoliberal", "Keynesian",
+      "supply and demand", "free market", etc.
+   3. Speak in human terms: behavior, values, relationships,
+      what people protect and what they let go
+   4. Never judge — every answer reveals something worth
+      understanding
+   5. Keep responses under 6 sentences + one question
+   6. Occasionally name what you're "reading" in their
+      response, like a diagnostician noting a signal
+   `;
+
+
+   STEP 3 — SOUL TYPE VIA CLAUDE  (optional upgrade)
+   ─────────────────────────────────────────────────────
+   After ANALYSIS_COMPLETE, make a second API call:
+
+   app.post('/api/analyze', async (req, res) => {
+     const { history } = req.body;
+     const response = await client.messages.create({
+       model: 'claude-opus-4-7',
+       max_tokens: 600,
+       system: `You assign economic soul types based on a
+         conversation. Respond ONLY with valid JSON:
+         {
+           "name": "The [Adjective] [Noun]",
+           "description": "3–4 sentences in second person
+             (using 'you'), philosophical, warm, no jargon",
+           "tags": ["tag1","tag2","tag3","tag4"]
+         }
+         Rules: adjective+noun only; no negative connotations;
+         make the person feel seen, not categorized.`,
+       messages: [{ role: 'user',
+         content: JSON.stringify(history) }],
+     });
+     res.json(JSON.parse(response.content[0].text));
+   });
+
+
+   STEP 4 — REPLACE getMockAIResponse() IN THIS FILE
+   ─────────────────────────────────────────────────────
+   Replace the getMockAIResponse() function above with:
+
+   async function getMockAIResponse() {
+     showTyping(async () => {
+       try {
+         const res = await fetch('/api/chat', {
+           method: 'POST',
+           headers: { 'Content-Type': 'application/json' },
+           body: JSON.stringify({
+             history: convHistory,
+             questionIndex: currentQ,
+           }),
+         });
+         const data = await res.json();
+
+         if (data.reply.includes('ANALYSIS_COMPLETE')) {
+           const clean = data.reply.replace('ANALYSIS_COMPLETE','').trim();
+           typeMessage(clean, () => {
+             convHistory.push({ role:'assistant', content: clean });
+             setTimeout(runAnalysis, 900);
+           });
+         } else {
+           typeMessage(data.reply, () => {
+             convHistory.push({ role:'assistant', content: data.reply });
+             unlockInput();
+           });
+         }
+       } catch(err) {
+         typeMessage('Signal lost. Please try again.', unlockInput);
+       }
+     });
+   }
+
+   And optionally in showResult(), fetch the soul type:
+
+   async function showResult() {
+     const res  = await fetch('/api/analyze', {
+       method: 'POST',
+       headers: { 'Content-Type': 'application/json' },
+       body: JSON.stringify({ history: convHistory }),
+     });
+     const arch = await res.json();
+     // arch = { name, description, tags }
+     document.getElementById('r-name').textContent  = arch.name;
+     document.getElementById('r-desc').textContent  = arch.description;
+     document.getElementById('r-tags').innerHTML    =
+       arch.tags.map(t=>`<span class="result-tag">${t}</span>`).join('');
+     goTo('s-result');
+   }
+
+   ════════════════════════════════════════════════════ */
+</script>
+</body>
+</html>
