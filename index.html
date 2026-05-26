@@ -3,14 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ECONOMIC MODELS // EXPLORER NODE</title>
+<title>Economic Models Explorer</title>
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --cyan:#00ffff;--green:#39ff14;--orange:#ff7b00;--purple:#b066ff;
-  --dim-cyan:rgba(0,255,255,.55);--bg:#050508;--panel:rgba(10,12,20,.92);
-  --text:rgba(255,255,255,.85);
+  --cyan:#00e5e5;--green:#2ecc40;--orange:#e07b00;
+  --bg:#07070e;--panel:rgba(14,16,28,.95);
+  --text:rgba(255,255,255,.82);--text-dim:rgba(255,255,255,.52);
+  --border:rgba(0,229,229,.14);--border-hover:rgba(0,229,229,.38);
 }
 html{scroll-behavior:smooth}
 html,body{min-height:100%}
@@ -18,346 +19,266 @@ body{
   background:var(--bg);color:var(--cyan);
   font-family:'Share Tech Mono',monospace;position:relative;
 }
-/* CRT scanlines */
-body::before{
-  content:'';position:fixed;inset:0;
-  background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,.07) 2px,rgba(0,0,0,.07) 4px);
-  pointer-events:none;z-index:9000;
-}
-/* Grid overlay */
+/* Subtle grid overlay only */
 body::after{
   content:'';position:fixed;inset:0;
-  background-image:linear-gradient(rgba(0,255,255,.015) 1px,transparent 1px),
-    linear-gradient(90deg,rgba(0,255,255,.015) 1px,transparent 1px);
-  background-size:48px 48px;pointer-events:none;z-index:0;
+  background-image:
+    linear-gradient(rgba(0,229,229,.008) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(0,229,229,.008) 1px,transparent 1px);
+  background-size:56px 56px;pointer-events:none;z-index:0;
 }
 
-/* ══ SCROLLBAR ══════════════════════════════════════════ */
+/* ── SCROLLBAR ── */
 ::-webkit-scrollbar{width:3px}
 ::-webkit-scrollbar-track{background:transparent}
-::-webkit-scrollbar-thumb{background:rgba(0,255,255,.2);border-radius:2px}
+::-webkit-scrollbar-thumb{background:rgba(0,229,229,.18);border-radius:2px}
 
-/* ══ NAV ════════════════════════════════════════════════ */
+/* ── NAV ── */
 nav{
   position:fixed;top:0;left:0;right:0;z-index:8000;
-  background:rgba(5,5,8,.96);
-  border-bottom:1px solid rgba(0,255,255,.2);
+  background:rgba(7,7,14,.97);
+  border-bottom:1px solid var(--border);
   padding:0 2rem;height:56px;
   display:flex;align-items:center;justify-content:space-between;
   backdrop-filter:blur(10px);
 }
 .nav-logo{
-  font-family:'Orbitron',sans-serif;font-size:.85rem;font-weight:900;
-  letter-spacing:.18em;color:var(--cyan);text-decoration:none;
-  text-shadow:0 0 12px var(--cyan);
-  animation:flicker 9s infinite;
+  font-family:'Orbitron',sans-serif;font-size:.82rem;font-weight:900;
+  letter-spacing:.16em;color:var(--cyan);text-decoration:none;
+  text-shadow:0 0 10px rgba(0,229,229,.5);
 }
 .nav-logo em{color:var(--green);font-style:normal}
 .nav-links{display:flex;gap:2rem;list-style:none}
 .nav-links a{
-  font-size:.62rem;letter-spacing:.22em;color:rgba(0,255,255,.45);
+  font-size:.62rem;letter-spacing:.2em;color:rgba(0,229,229,.4);
   text-decoration:none;text-transform:uppercase;
-  transition:color .2s,text-shadow .2s;
+  transition:color .2s;
 }
-.nav-links a:hover{color:var(--cyan);text-shadow:0 0 10px var(--cyan)}
+.nav-links a:hover{color:var(--cyan)}
 
-/* ══ HERO ═══════════════════════════════════════════════ */
+/* ── HERO ── */
 #hero{
-  padding:120px 2.5rem 80px;
-  max-width:900px;position:relative;z-index:1;
+  padding:116px 2.5rem 72px;
+  max-width:860px;position:relative;z-index:1;
 }
 .hero-eyebrow{
-  font-size:.62rem;letter-spacing:.45em;
-  color:rgba(0,255,255,.38);margin-bottom:1.6rem;
+  font-size:.62rem;letter-spacing:.38em;
+  color:rgba(0,229,229,.4);margin-bottom:1.4rem;
   text-transform:uppercase;
 }
 .hero-title{
   font-family:'Orbitron',sans-serif;
-  font-size:clamp(2rem,7vw,5rem);font-weight:900;
-  color:var(--cyan);letter-spacing:.12em;line-height:1.15;
-  text-shadow:0 0 20px var(--cyan),0 0 60px rgba(0,255,255,.3);
-  margin-bottom:1.4rem;animation:flicker 9s infinite;
+  font-size:clamp(1.8rem,6vw,4.2rem);font-weight:900;
+  color:var(--cyan);letter-spacing:.1em;line-height:1.18;
+  text-shadow:0 0 24px rgba(0,229,229,.35);
+  margin-bottom:1.2rem;
 }
 .hero-title em{
   color:var(--orange);font-style:normal;
-  text-shadow:0 0 20px var(--orange),0 0 50px rgba(255,123,0,.3);
+  text-shadow:0 0 20px rgba(224,123,0,.4);
 }
 .hero-body{
-  font-size:clamp(.82rem,1.8vw,.95rem);color:rgba(255,255,255,.62);
-  line-height:1.85;max-width:580px;margin-bottom:1.8rem;letter-spacing:.03em;
+  font-size:clamp(.84rem,1.8vw,.97rem);color:rgba(255,255,255,.68);
+  line-height:1.9;max-width:580px;margin-bottom:1.6rem;letter-spacing:.02em;
 }
 .hero-note{
-  font-size:.6rem;letter-spacing:.18em;color:rgba(0,255,255,.3);
-  border-left:2px solid rgba(0,255,255,.25);padding-left:1rem;
+  font-size:.6rem;letter-spacing:.15em;color:rgba(0,229,229,.3);
+  border-left:2px solid rgba(0,229,229,.2);padding-left:1rem;
   text-transform:uppercase;
 }
 .hero-divider{
-  width:min(55%,380px);height:1px;
-  background:linear-gradient(90deg,transparent,var(--cyan),transparent);
-  margin:2rem 0;animation:pulse 2.2s infinite;
+  width:min(50%,340px);height:1px;
+  background:linear-gradient(90deg,transparent,rgba(0,229,229,.4),transparent);
+  margin:1.8rem 0;
 }
 
-/* ══ SECTION WRAPPER ════════════════════════════════════ */
+/* ── SECTION ── */
 section{
-  padding:0 2.5rem 80px;
+  padding:0 2.5rem 72px;
   max-width:1100px;position:relative;z-index:1;
 }
 .section-label{
-  font-size:.6rem;letter-spacing:.45em;
-  color:rgba(0,255,255,.35);text-transform:uppercase;
-  margin-bottom:.6rem;
+  font-size:.6rem;letter-spacing:.4em;
+  color:rgba(0,229,229,.32);text-transform:uppercase;
+  margin-bottom:.5rem;
 }
 .section-title{
-  font-family:'Orbitron',sans-serif;font-size:clamp(1rem,2.5vw,1.5rem);
-  font-weight:700;letter-spacing:.12em;
-  color:var(--cyan);text-shadow:0 0 10px var(--cyan);
+  font-family:'Orbitron',sans-serif;font-size:clamp(.95rem,2.2vw,1.35rem);
+  font-weight:700;letter-spacing:.1em;
+  color:var(--cyan);text-shadow:0 0 12px rgba(0,229,229,.25);
   margin-bottom:.6rem;
 }
 .section-body{
-  font-size:clamp(.78rem,1.6vw,.9rem);color:rgba(255,255,255,.52);
-  max-width:560px;margin-bottom:3rem;line-height:1.8;letter-spacing:.03em;
+  font-size:clamp(.8rem,1.6vw,.92rem);color:var(--text-dim);
+  max-width:560px;margin-bottom:2.8rem;line-height:1.85;letter-spacing:.02em;
 }
 
-/* ══ TAXONOMY NOTE ══════════════════════════════════════ */
+/* ── TAXONOMY NOTE ── */
 .taxonomy-note{
   background:var(--panel);
-  border:1px solid rgba(0,255,255,.15);
-  border-left:2px solid rgba(0,255,255,.4);
+  border:1px solid var(--border);
+  border-left:2px solid rgba(0,229,229,.35);
   padding:1.25rem 1.5rem;
-  margin-bottom:3.5rem;
-  font-size:clamp(.75rem,1.5vw,.88rem);
-  color:rgba(255,255,255,.6);line-height:1.85;letter-spacing:.03em;
-  max-width:680px;position:relative;
+  margin-bottom:3rem;
+  font-size:clamp(.76rem,1.5vw,.88rem);
+  color:rgba(255,255,255,.62);line-height:1.9;letter-spacing:.02em;
+  max-width:680px;
 }
-.taxonomy-note::before{
-  content:'';position:absolute;top:0;left:0;width:18px;height:18px;
-  border-top:2px solid var(--cyan);border-left:2px solid var(--cyan);
-}
-.taxonomy-note strong{color:var(--cyan);font-weight:normal}
-.taxonomy-note em{color:var(--orange);font-style:normal}
+.taxonomy-note strong{color:rgba(0,229,229,.85);font-weight:normal}
 
-/* ══ LAYER ══════════════════════════════════════════════ */
-.layer{margin-bottom:2rem}
+/* ── LAYER ── */
+.layer{margin-bottom:1.75rem}
 
 .layer-header{
   display:flex;align-items:center;gap:1rem;cursor:pointer;
-  padding:1.1rem 1.5rem;
-  border:1px solid rgba(0,255,255,.18);
+  padding:1rem 1.4rem;
+  border:1px solid var(--border);
   background:var(--panel);
-  transition:background .25s,border-color .25s;
+  transition:background .22s,border-color .22s;
   user-select:none;position:relative;
-  clip-path:polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%);
 }
-.layer-header::before{
-  content:'';position:absolute;top:0;left:0;width:16px;height:16px;
-  border-top:2px solid var(--cyan);border-left:2px solid var(--cyan);
-  transition:all .25s;
-}
-.layer-header:hover{
-  background:rgba(0,255,255,.05);border-color:rgba(0,255,255,.45);
-}
-.layer-header.open{border-color:rgba(0,255,255,.4)}
-.layer-header.open::after{
-  content:'';position:absolute;bottom:0;right:0;width:16px;height:16px;
-  border-bottom:2px solid var(--cyan);border-right:2px solid var(--cyan);
-}
+.layer-header:hover{background:rgba(0,229,229,.04);border-color:var(--border-hover)}
+.layer-header.open{border-color:rgba(0,229,229,.32)}
 
-.layer-dot{
-  width:8px;height:8px;border-radius:50%;flex-shrink:0;
-}
-.dot-systems{background:var(--cyan);box-shadow:0 0 8px var(--cyan)}
-.dot-policy{background:var(--orange);box-shadow:0 0 8px var(--orange)}
-.dot-alt{background:var(--green);box-shadow:0 0 8px var(--green)}
+.layer-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.dot-systems{background:var(--cyan);box-shadow:0 0 6px rgba(0,229,229,.6)}
+.dot-policy{background:var(--orange);box-shadow:0 0 6px rgba(224,123,0,.6)}
+.dot-alt{background:var(--green);box-shadow:0 0 6px rgba(46,204,64,.6)}
 
-.layer-label{
-  font-size:.55rem;letter-spacing:.35em;color:rgba(0,255,255,.4);
-  text-transform:uppercase;
-}
+.layer-label{font-size:.55rem;letter-spacing:.3em;color:rgba(0,229,229,.35);text-transform:uppercase}
 .layer-name{
-  font-family:'Orbitron',sans-serif;font-size:clamp(.82rem,2vw,1rem);
-  font-weight:700;letter-spacing:.1em;color:var(--cyan);flex:1;
+  font-family:'Orbitron',sans-serif;font-size:clamp(.8rem,1.8vw,.95rem);
+  font-weight:700;letter-spacing:.08em;color:var(--cyan);flex:1;
 }
-.dot-policy + div .layer-name{color:var(--orange);text-shadow:0 0 8px rgba(255,123,0,.5)}
-.dot-alt + div .layer-name{color:var(--green);text-shadow:0 0 8px rgba(57,255,20,.5)}
+.dot-policy ~ .layer-name-wrap .layer-name,
+.layer-header:has(.dot-policy) .layer-name{color:var(--orange)}
+.layer-header:has(.dot-alt) .layer-name{color:var(--green)}
 
-.layer-desc{
-  font-size:.62rem;letter-spacing:.08em;color:rgba(255,255,255,.3);
-  max-width:340px;text-align:right;
-}
-.layer-toggle{
-  font-family:'Orbitron',sans-serif;font-size:1.1rem;
-  color:rgba(0,255,255,.4);transition:transform .3s,color .2s;flex-shrink:0;
-}
+.layer-desc{font-size:.62rem;letter-spacing:.06em;color:rgba(255,255,255,.28);max-width:320px;text-align:right}
+.layer-toggle{font-size:1rem;color:rgba(0,229,229,.35);transition:transform .3s,color .2s;flex-shrink:0}
 .layer-header.open .layer-toggle{transform:rotate(45deg);color:var(--cyan)}
-.dot-policy + div + .layer-desc + .layer-toggle,
-.layer-header.open .layer-toggle{color:var(--cyan)}
 
-.layer-body{
-  display:none;
-  border:1px solid rgba(0,255,255,.18);
-  border-top:none;
-  background:rgba(0,0,0,.3);overflow:hidden;
-}
+.layer-body{display:none;border:1px solid var(--border);border-top:none;background:rgba(0,0,0,.25);overflow:hidden}
 .layer-body.open{display:block}
 
-/* ══ MODEL GRID ═════════════════════════════════════════ */
+/* ── MODEL GRID ── */
 .model-grid{
   display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(min(100%,260px),1fr));
-  gap:1px;background:rgba(0,255,255,.08);
+  grid-template-columns:repeat(auto-fill,minmax(min(100%,250px),1fr));
+  gap:1px;background:rgba(0,229,229,.07);
 }
 
 .model-card{
-  background:var(--panel);
-  padding:1.4rem;cursor:pointer;position:relative;
-  transition:background .18s,transform .18s;
+  background:var(--panel);padding:1.3rem;cursor:pointer;
+  position:relative;transition:background .18s;
 }
-.model-card::before{
-  content:'';position:absolute;top:0;left:0;width:14px;height:14px;
-  border-top:2px solid rgba(0,255,255,.25);border-left:2px solid rgba(0,255,255,.25);
-  transition:all .2s;
-}
-.model-card:hover{background:rgba(0,255,255,.05);transform:translateY(-1px)}
-.model-card:hover::before{border-color:var(--cyan);width:18px;height:18px}
-.model-card.expanded{
-  background:rgba(0,255,255,.06);
-  border-bottom:1px solid rgba(0,255,255,.3);
-}
+.model-card:hover{background:rgba(0,229,229,.04)}
+.model-card.expanded{background:rgba(0,229,229,.05);border-bottom:1px solid rgba(0,229,229,.22)}
 
 .model-tag{
-  font-size:.55rem;letter-spacing:.22em;text-transform:uppercase;
-  padding:3px 8px;display:inline-block;margin-bottom:.9rem;
-  clip-path:polygon(3px 0%,100% 0%,calc(100% - 3px) 100%,0% 100%);
+  font-size:.54rem;letter-spacing:.18em;text-transform:uppercase;
+  padding:3px 8px;display:inline-block;margin-bottom:.85rem;
 }
-.tag-systems{
-  background:rgba(0,255,255,.08);color:var(--cyan);
-  border:1px solid rgba(0,255,255,.3);
-}
-.tag-policy{
-  background:rgba(255,123,0,.08);color:var(--orange);
-  border:1px solid rgba(255,123,0,.3);
-}
-.tag-alt{
-  background:rgba(57,255,20,.06);color:var(--green);
-  border:1px solid rgba(57,255,20,.25);
-}
+.tag-systems{background:rgba(0,229,229,.07);color:var(--cyan);border:1px solid rgba(0,229,229,.22)}
+.tag-policy{background:rgba(224,123,0,.07);color:var(--orange);border:1px solid rgba(224,123,0,.22)}
+.tag-alt{background:rgba(46,204,64,.05);color:var(--green);border:1px solid rgba(46,204,64,.2)}
 
 .model-name{
-  font-family:'Orbitron',sans-serif;font-size:clamp(.82rem,1.8vw,.98rem);
-  font-weight:700;letter-spacing:.1em;
-  color:rgba(255,255,255,.88);margin-bottom:.6rem;line-height:1.2;
+  font-family:'Orbitron',sans-serif;font-size:clamp(.8rem,1.6vw,.92rem);
+  font-weight:700;letter-spacing:.08em;
+  color:rgba(255,255,255,.88);margin-bottom:.55rem;line-height:1.25;
 }
 .model-tagline{
-  font-size:clamp(.72rem,1.5vw,.82rem);color:rgba(255,255,255,.48);
-  line-height:1.65;letter-spacing:.03em;
+  font-size:clamp(.73rem,1.4vw,.82rem);color:rgba(255,255,255,.5);
+  line-height:1.7;letter-spacing:.02em;
 }
 .model-expand-hint{
-  font-size:.58rem;letter-spacing:.2em;color:rgba(0,255,255,.3);
-  margin-top:1rem;text-transform:uppercase;transition:color .2s;
+  font-size:.58rem;letter-spacing:.18em;color:rgba(0,229,229,.28);
+  margin-top:.9rem;text-transform:uppercase;transition:color .2s;
 }
 .model-card:hover .model-expand-hint{color:var(--cyan)}
 
-/* ══ MODEL DETAIL ═══════════════════════════════════════ */
+/* ── MODEL DETAIL ── */
 .model-detail{
   display:none;
-  background:rgba(5,5,8,.98);
-  border-top:1px solid rgba(0,255,255,.18);
-  padding:2rem;
-  animation:scanIn .3s ease;
+  background:rgba(5,5,10,.98);
+  border-top:1px solid rgba(0,229,229,.14);
+  padding:1.8rem 2rem;
+  animation:fadeUp .25s ease;
 }
 .model-detail.open{display:block}
 
 .detail-grid{
-  display:grid;
-  grid-template-columns:2fr 1fr 1fr 1fr;
-  gap:1.5rem;margin-bottom:1.5rem;
+  display:grid;grid-template-columns:2fr 1fr 1fr 1fr;
+  gap:1.5rem;margin-bottom:1.4rem;
 }
-@media(max-width:768px){
-  .detail-grid{grid-template-columns:1fr 1fr}
-}
+@media(max-width:768px){.detail-grid{grid-template-columns:1fr 1fr}}
 
 .detail-block-label{
-  font-size:.57rem;letter-spacing:.3em;color:rgba(0,255,255,.35);
-  text-transform:uppercase;margin-bottom:.6rem;
+  font-size:.56rem;letter-spacing:.26em;color:rgba(0,229,229,.32);
+  text-transform:uppercase;margin-bottom:.55rem;
 }
 .detail-block-text{
-  font-size:clamp(.74rem,1.5vw,.86rem);color:rgba(255,255,255,.65);
-  line-height:1.75;letter-spacing:.02em;
+  font-size:clamp(.76rem,1.4vw,.87rem);color:rgba(255,255,255,.68);
+  line-height:1.8;letter-spacing:.02em;
 }
-.detail-block-text strong{color:rgba(255,255,255,.9);font-weight:normal}
 
 .detail-weakness{
-  background:rgba(255,123,0,.04);
-  border:1px solid rgba(255,123,0,.18);
-  border-left:2px solid rgba(255,123,0,.45);
-  padding:1rem 1.2rem;
-  font-size:clamp(.74rem,1.5vw,.86rem);color:rgba(255,255,255,.58);
-  line-height:1.75;letter-spacing:.02em;position:relative;
-  margin-top:.25rem;
+  background:rgba(224,123,0,.04);
+  border:1px solid rgba(224,123,0,.16);
+  border-left:2px solid rgba(224,123,0,.4);
+  padding:.95rem 1.2rem;
+  font-size:clamp(.76rem,1.4vw,.87rem);color:rgba(255,255,255,.62);
+  line-height:1.8;letter-spacing:.02em;
 }
 .detail-weakness::before{
-  content:'// HONEST WEAKNESS';
-  font-size:.55rem;letter-spacing:.25em;text-transform:uppercase;
-  color:var(--orange);display:block;margin-bottom:.5rem;
+  content:'KEY LIMITATION';
+  font-size:.54rem;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--orange);display:block;margin-bottom:.45rem;
 }
 
 .detail-compare-btn{
   display:inline-flex;align-items:center;gap:.5rem;
-  margin-top:1.25rem;
-  font-family:'Orbitron',sans-serif;font-size:.6rem;letter-spacing:.18em;
+  margin-top:1.1rem;
+  font-family:'Orbitron',sans-serif;font-size:.58rem;letter-spacing:.15em;
   text-transform:uppercase;color:var(--cyan);
-  background:transparent;border:1px solid rgba(0,255,255,.3);
-  padding:.6rem 1.2rem;cursor:pointer;
-  clip-path:polygon(5px 0%,100% 0%,calc(100% - 5px) 100%,0% 100%);
+  background:transparent;border:1px solid rgba(0,229,229,.25);
+  padding:.55rem 1.1rem;cursor:pointer;
   transition:all .2s;
 }
-.detail-compare-btn:hover{
-  background:rgba(0,255,255,.08);border-color:var(--cyan);
-  box-shadow:0 0 15px rgba(0,255,255,.2);
-}
+.detail-compare-btn:hover{background:rgba(0,229,229,.07);border-color:var(--cyan)}
 
-/* ══ DIVIDER ════════════════════════════════════════════ */
+/* ── DIVIDER ── */
 .divider{
-  border:none;margin:0 2.5rem 80px;height:1px;
-  background:linear-gradient(90deg,transparent,rgba(0,255,255,.25),transparent);
+  border:none;margin:0 2.5rem 72px;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(0,229,229,.18),transparent);
   position:relative;z-index:1;
 }
 
-/* ══ COMPARISON TOOL ════════════════════════════════════ */
-#compare{
-  padding:0 2.5rem 120px;
-  max-width:1100px;position:relative;z-index:1;
-}
+/* ── COMPARISON TOOL ── */
+#compare{padding:0 2.5rem 100px;max-width:1100px;position:relative;z-index:1}
 
 .compare-selectors{
   display:grid;grid-template-columns:1fr auto 1fr;
-  gap:1rem;align-items:center;margin-bottom:2.5rem;
+  gap:1rem;align-items:center;margin-bottom:2.2rem;
 }
-
 .compare-select{
   appearance:none;background:var(--panel);
-  border:1px solid rgba(0,255,255,.25);
-  padding:.9rem 1.2rem;
+  border:1px solid rgba(0,229,229,.2);
+  padding:.85rem 1.1rem;
   font-family:'Share Tech Mono',monospace;
-  font-size:.82rem;letter-spacing:.05em;color:rgba(255,255,255,.75);
+  font-size:.82rem;letter-spacing:.04em;color:rgba(255,255,255,.72);
   cursor:pointer;width:100%;
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='7' viewBox='0 0 10 7'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%2300ffff' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
-  background-repeat:no-repeat;background-position:right 14px center;
-  padding-right:36px;
-  transition:border-color .2s,box-shadow .2s;
-  clip-path:polygon(5px 0%,100% 0%,calc(100% - 5px) 100%,0% 100%);
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='7' viewBox='0 0 10 7'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%2300e5e5' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 13px center;
+  padding-right:34px;transition:border-color .2s;
 }
-.compare-select:focus{
-  outline:none;border-color:rgba(0,255,255,.55);
-  box-shadow:0 0 15px rgba(0,255,255,.1);
-}
-.compare-select option,.compare-select optgroup{
-  background:#0a0c14;color:rgba(255,255,255,.75);
-}
+.compare-select:focus{outline:none;border-color:rgba(0,229,229,.45)}
+.compare-select option,.compare-select optgroup{background:#0a0c18;color:rgba(255,255,255,.72)}
 
 .compare-vs{
-  font-family:'Orbitron',sans-serif;font-size:.75rem;letter-spacing:.2em;
-  color:rgba(0,255,255,.3);text-align:center;text-transform:uppercase;
+  font-family:'Orbitron',sans-serif;font-size:.7rem;letter-spacing:.18em;
+  color:rgba(0,229,229,.28);text-align:center;text-transform:uppercase;
 }
 
 #compare-result{display:none}
@@ -365,77 +286,66 @@ section{
 
 .compare-table{
   width:100%;border-collapse:collapse;
-  border:1px solid rgba(0,255,255,.15);background:rgba(0,0,0,.2);
+  border:1px solid rgba(0,229,229,.12);background:rgba(0,0,0,.18);
 }
 .compare-table th{
-  padding:.9rem 1.2rem;text-align:left;
-  background:rgba(0,255,255,.05);
-  border-bottom:1px solid rgba(0,255,255,.2);
-  font-family:'Orbitron',sans-serif;font-size:.62rem;letter-spacing:.18em;
+  padding:.85rem 1.1rem;text-align:left;
+  background:rgba(0,229,229,.04);
+  border-bottom:1px solid rgba(0,229,229,.15);
+  font-family:'Orbitron',sans-serif;font-size:.6rem;letter-spacing:.15em;
   text-transform:uppercase;font-weight:700;
 }
 .compare-table th:first-child{
-  font-family:'Share Tech Mono',monospace;font-size:.58rem;
-  letter-spacing:.25em;color:rgba(0,255,255,.3);width:160px;
+  font-family:'Share Tech Mono',monospace;font-size:.56rem;
+  letter-spacing:.2em;color:rgba(0,229,229,.28);width:160px;
 }
-.compare-table th.col-a{color:var(--cyan);text-shadow:0 0 8px var(--cyan)}
-.compare-table th.col-b{color:var(--orange);text-shadow:0 0 8px var(--orange)}
+.compare-table th.col-a{color:var(--cyan)}
+.compare-table th.col-b{color:var(--orange)}
 
 .compare-table td{
-  padding:.9rem 1.2rem;
-  border-bottom:1px solid rgba(0,255,255,.08);
-  font-size:clamp(.74rem,1.5vw,.86rem);color:rgba(255,255,255,.6);
-  line-height:1.7;vertical-align:top;letter-spacing:.02em;
+  padding:.85rem 1.1rem;
+  border-bottom:1px solid rgba(0,229,229,.06);
+  font-size:clamp(.76rem,1.4vw,.87rem);color:rgba(255,255,255,.62);
+  line-height:1.78;vertical-align:top;letter-spacing:.02em;
 }
 .compare-table tr:last-child td{border-bottom:none}
 .compare-table td:first-child{
-  font-size:.58rem;letter-spacing:.18em;color:rgba(0,255,255,.3);
-  text-transform:uppercase;background:rgba(0,255,255,.03);
+  font-size:.56rem;letter-spacing:.15em;color:rgba(0,229,229,.28);
+  text-transform:uppercase;background:rgba(0,229,229,.02);
 }
-.compare-table td.cell-a{border-left:2px solid rgba(0,255,255,.25)}
-.compare-table td.cell-b{border-left:2px solid rgba(255,123,0,.25)}
-.compare-table tr:hover td{background:rgba(0,255,255,.02)}
+.compare-table td.cell-a{border-left:2px solid rgba(0,229,229,.2)}
+.compare-table td.cell-b{border-left:2px solid rgba(224,123,0,.2)}
 
 .compare-empty{
-  text-align:center;padding:3.5rem;
-  font-size:.82rem;color:rgba(0,255,255,.28);
-  letter-spacing:.15em;border:1px solid rgba(0,255,255,.1);
-  background:rgba(0,255,255,.02);
+  text-align:center;padding:3rem;
+  font-size:.8rem;color:rgba(0,229,229,.25);
+  letter-spacing:.12em;border:1px solid rgba(0,229,229,.08);
 }
 
-/* ══ FOOTER ═════════════════════════════════════════════ */
+/* ── FOOTER ── */
 footer{
-  border-top:1px solid rgba(0,255,255,.15);
-  padding:1.8rem 2.5rem;
+  border-top:1px solid rgba(0,229,229,.1);
+  padding:1.6rem 2.5rem;
   display:flex;justify-content:space-between;align-items:center;
-  position:relative;z-index:1;background:rgba(5,5,8,.9);
+  position:relative;z-index:1;
 }
-.footer-note{
-  font-size:.6rem;letter-spacing:.2em;color:rgba(0,255,255,.28);
-  text-transform:uppercase;
-}
-.footer-credit{
-  font-size:.62rem;letter-spacing:.12em;color:rgba(255,255,255,.3);
-}
-.footer-credit a{color:var(--orange);text-decoration:none;transition:text-shadow .2s}
-.footer-credit a:hover{text-shadow:0 0 10px var(--orange)}
+.footer-note{font-size:.6rem;letter-spacing:.18em;color:rgba(0,229,229,.24);text-transform:uppercase}
+.footer-credit{font-size:.62rem;letter-spacing:.1em;color:rgba(255,255,255,.28)}
+.footer-credit a{color:var(--orange);text-decoration:none}
+.footer-credit a:hover{text-decoration:underline}
 
-/* ══ KEYFRAMES ══════════════════════════════════════════ */
-@keyframes flicker{0%,91%,100%{opacity:1}92%{opacity:.8}93%{opacity:1}95%{opacity:.65}96%{opacity:1}}
-@keyframes pulse{0%,100%{opacity:.4}50%{opacity:1}}
-@keyframes shimmer{0%{left:-100%}100%{left:200%}}
-@keyframes scanIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
-@keyframes fadeIn{to{opacity:1}}
+/* ── KEYFRAMES ── */
+@keyframes fadeUp{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
 
-/* ══ RESPONSIVE ═════════════════════════════════════════ */
+/* ── RESPONSIVE ── */
 @media(max-width:640px){
   nav{padding:0 1.2rem}
-  #hero{padding:100px 1.2rem 60px}
+  #hero{padding:96px 1.2rem 56px}
   section,#compare{padding-left:1.2rem;padding-right:1.2rem}
-  .compare-selectors{grid-template-columns:1fr;gap:.75rem}
+  .compare-selectors{grid-template-columns:1fr;gap:.6rem}
   .compare-vs{display:none}
   .divider{margin-left:1.2rem;margin-right:1.2rem}
-  footer{flex-direction:column;gap:.75rem;padding:1.5rem 1.2rem}
+  footer{flex-direction:column;gap:.6rem;padding:1.4rem 1.2rem;text-align:center}
   .layer-desc{display:none}
 }
 </style>
@@ -443,31 +353,31 @@ footer{
 <body>
 
 <nav>
-  <a class="nav-logo" href="#">ECONOMIC<em> MODELS</em></a>
+  <a class="nav-logo" href="#">ECONOMIC <em>MODELS</em></a>
   <ul class="nav-links">
-    <li><a href="#map">THE MAP</a></li>
-    <li><a href="#compare">COMPARE</a></li>
-    <li><a href="portal.html">⬡ SOUL DIAGNOSTIC</a></li>
+    <li><a href="#map">The Map</a></li>
+    <li><a href="#compare">Compare</a></li>
+    <li><a href="portal.html">Soul Diagnostic</a></li>
   </ul>
 </nav>
 
 <!-- HERO -->
 <div id="hero">
-  <div class="hero-eyebrow">// A GUIDE TO ECONOMIC THINKING // EXPLORER NODE ACTIVE</div>
-  <h1 class="hero-title">WHAT IS AN<br>ECONOMY <em>ACTUALLY FOR?</em></h1>
+  <div class="hero-eyebrow">A guide to economic thinking</div>
+  <h1 class="hero-title">What is an economy<br><em>actually for?</em></h1>
   <div class="hero-divider"></div>
-  <p class="hero-body">Economics isn't one thing. It's a set of ongoing, contested arguments about how societies should organize resources, value work, and measure what matters. This is a map of those arguments.</p>
-  <div class="hero-note">// A COMPANION TO THE TIME EXCHANGE · FUTURE OF US FESTIVAL · SAN FRANCISCO · JULY 2026</div>
+  <p class="hero-body">Economics is not one thing. It is a set of ongoing, contested arguments about how societies should organize resources, value work, and measure what matters. This is a map of those arguments.</p>
+  <div class="hero-note">A companion to The Time Exchange · Future of Us Festival · San Francisco · July 2026</div>
 </div>
 
 <!-- MAP SECTION -->
 <section id="map">
-  <div class="section-label">// THE MAP</div>
-  <h2 class="section-title">THREE KINDS OF ECONOMIC THINKING</h2>
-  <p class="section-body">Before comparing frameworks, it helps to understand they're not all answering the same question. These three categories cover different levels of the same conversation.</p>
+  <div class="section-label">The Map</div>
+  <h2 class="section-title">Three kinds of economic thinking</h2>
+  <p class="section-body">These three categories address different levels of the same conversation. Understanding how they differ helps clarify why people often talk past each other in debates about the economy.</p>
 
   <div class="taxonomy-note">
-    <strong>SYSTEMS</strong> ask who owns production and who makes decisions. <strong>POLICY SCHOOLS</strong> debate how to run an economy within a given system — usually capitalism. <strong>ALTERNATIVE FRAMEWORKS</strong> step back and ask what the economy should be <em>FOR</em> in the first place. Most public debate happens in the middle layer while the other two go unexamined.
+    <strong>Economic Systems</strong> ask who owns the means of production and who makes decisions. <strong>Policy Schools</strong> debate how to manage an economy within a given system, usually capitalism. <strong>Economic Frameworks</strong> step back to ask what the economy should be for in the first place, and how we should measure whether it is working. Most public debate happens in the middle layer while the other two go largely unexamined.
   </div>
 
   <!-- LAYER 1: SYSTEMS -->
@@ -475,8 +385,8 @@ footer{
     <div class="layer-header" onclick="toggleLayer('systems')">
       <div class="layer-dot dot-systems"></div>
       <div>
-        <div class="layer-label">LAYER 01</div>
-        <div class="layer-name">ECONOMIC SYSTEMS</div>
+        <div class="layer-label">Layer 1</div>
+        <div class="layer-name">Economic Systems</div>
       </div>
       <div class="layer-desc">Who owns the means of production and who decides?</div>
       <div class="layer-toggle">+</div>
@@ -491,10 +401,10 @@ footer{
     <div class="layer-header" onclick="toggleLayer('policy')">
       <div class="layer-dot dot-policy"></div>
       <div>
-        <div class="layer-label">LAYER 02</div>
-        <div class="layer-name">POLICY SCHOOLS</div>
+        <div class="layer-label">Layer 2</div>
+        <div class="layer-name">Policy Schools</div>
       </div>
-      <div class="layer-desc">How should a (mostly capitalist) economy be managed?</div>
+      <div class="layer-desc">How should a capitalist economy be managed?</div>
       <div class="layer-toggle">+</div>
     </div>
     <div class="layer-body" id="body-policy">
@@ -502,13 +412,13 @@ footer{
     </div>
   </div>
 
-  <!-- LAYER 3: ALT FRAMEWORKS -->
+  <!-- LAYER 3: ECONOMIC FRAMEWORKS -->
   <div class="layer" id="layer-alt">
     <div class="layer-header" onclick="toggleLayer('alt')">
       <div class="layer-dot dot-alt"></div>
       <div>
-        <div class="layer-label">LAYER 03</div>
-        <div class="layer-name">ALTERNATIVE FRAMEWORKS</div>
+        <div class="layer-label">Layer 3</div>
+        <div class="layer-name">Economic Frameworks</div>
       </div>
       <div class="layer-desc">What should an economy be for, and what should it measure?</div>
       <div class="layer-toggle">+</div>
@@ -524,35 +434,32 @@ footer{
 
 <!-- COMPARISON TOOL -->
 <div id="compare">
-  <div class="section-label">// COMPARISON TOOL</div>
-  <h2 class="section-title">COMPARE ANY TWO MODELS</h2>
-  <p class="section-body">Select two models from anywhere on the map to see how they approach the same core economic challenges.</p>
+  <div class="section-label">Comparison Tool</div>
+  <h2 class="section-title">Compare any two models</h2>
+  <p class="section-body">Select two models from anywhere on the map to see how they approach the same core economic questions.</p>
 
   <div class="compare-selectors">
     <select class="compare-select" id="sel-a" onchange="runCompare()">
-      <option value="">— SELECT FIRST MODEL —</option>
+      <option value="">Choose first model</option>
     </select>
-    <div class="compare-vs">VS</div>
+    <div class="compare-vs">vs</div>
     <select class="compare-select" id="sel-b" onchange="runCompare()">
-      <option value="">— SELECT SECOND MODEL —</option>
+      <option value="">Choose second model</option>
     </select>
   </div>
 
   <div id="compare-result">
-    <div class="compare-empty" id="compare-empty">// SELECT TWO MODELS ABOVE TO COMPARE</div>
+    <div class="compare-empty" id="compare-empty">Select two models above to compare them</div>
     <table class="compare-table" id="compare-table" style="display:none"></table>
   </div>
 </div>
 
 <footer>
-  <div class="footer-note">// ECONOMIC MODELS EXPLORER · V1 · 2026</div>
-  <div class="footer-credit">Part of <a href="#">THE TIME EXCHANGE</a> · FUTURE OF US FESTIVAL</div>
+  <div class="footer-note">Economic Models Explorer · 2026</div>
+  <div class="footer-credit">Part of <a href="#">The Time Exchange</a> · Future of Us Festival</div>
 </footer>
 
 <script>
-// ══════════════════════════════════════════
-// DATA
-// ══════════════════════════════════════════
 const MODELS = [
 
   // ── SYSTEMS ──
@@ -561,44 +468,44 @@ const MODELS = [
     layer: 'systems',
     name: 'Capitalism',
     tagline: 'Private ownership, market allocation, profit as the primary signal.',
-    what: 'An economic system in which the means of production — factories, resources, businesses — are privately owned. Prices and wages are determined by markets. Profit motive drives decisions. Most economies today are capitalist in structure, though they vary enormously in how regulated they are.',
-    measures: 'GDP growth, corporate profit, employment rates, stock market performance.',
-    time_work: 'Work is a commodity — it is bought and sold. Time has value only insofar as it generates economic output. Unpaid care work is largely invisible.',
-    tried: 'The dominant global system. Ranges from the relatively unregulated (19th century US) to heavily mixed (Nordic countries).',
-    weakness: 'Tends to concentrate wealth. Externalises costs onto workers, communities and the environment. Treats nature as a free input.'
+    what: 'An economic system in which the means of production, including factories, resources, and businesses, are privately owned. Prices and wages are determined by markets. Profit motive drives decisions. Most economies today are capitalist in structure, though they vary considerably in how regulated they are.',
+    measures: 'GDP growth, corporate profit, employment rates, and stock market performance.',
+    time_work: 'Work is treated as a commodity to be bought and sold. Time has value insofar as it generates economic output. Unpaid care work is largely invisible in this accounting.',
+    tried: 'The dominant global system. Examples range from lightly regulated (19th-century United States) to heavily mixed (contemporary Nordic countries).',
+    weakness: 'Tends to concentrate wealth over time. Externalizes costs onto workers, communities, and the environment. Treats nature as a free input with no intrinsic value.'
   },
   {
     id: 'socialism',
     layer: 'systems',
     name: 'Socialism',
     tagline: 'Collective or state ownership of key industries; production for need, not profit.',
-    what: 'A broad family of ideas holding that the major means of production should be owned collectively — either by the state, by workers, or by communities — rather than by private individuals. Ranges from democratic socialism (strong public ownership within democracy) to more authoritarian variants.',
-    measures: 'Meeting collective needs, reducing inequality, quality of public services.',
-    time_work: 'Labor is valued as a social contribution, not a commodity. Care and community work may be formally recognized. Shorter working hours historically part of socialist programs.',
-    tried: 'Mixed public/private economies (UK post-war, Scandinavian countries). Worker cooperatives. Cuba, Venezuela. State socialism (USSR — now generally considered a failed experiment).',
-    weakness: 'Central planning can be inefficient and prone to political distortion. State ownership without democracy risks authoritarianism.'
+    what: 'A broad family of ideas holding that the major means of production should be owned collectively, whether by the state, by workers, or by communities, rather than by private individuals. Ranges from democratic socialism with strong public ownership within democracy, to more centralized variants.',
+    measures: 'Meeting collective needs, reducing inequality, and quality of public services.',
+    time_work: 'Labor is valued as a social contribution rather than a commodity. Care and community work may be formally recognized. Shorter working hours have historically been part of socialist policy programs.',
+    tried: 'Mixed public and private economies (postwar UK, Scandinavian countries). Worker cooperatives. Cuba and Venezuela. State socialism as practiced in the USSR is now widely regarded as a failed experiment.',
+    weakness: 'Central planning can be inefficient and prone to political distortion. State ownership without democratic accountability risks concentrating power in ways that harm individuals.'
   },
   {
     id: 'mixed',
     layer: 'systems',
     name: 'Mixed Economy',
     tagline: 'Private markets for most things; public ownership and regulation for essentials.',
-    what: 'The reality most countries actually live in. Private enterprise drives most economic activity, but the state owns or heavily regulates essential services — healthcare, utilities, education, transport. The balance shifts with political winds.',
-    measures: 'GDP growth alongside public service quality indicators. The mix of metrics varies by country.',
-    time_work: 'Mostly market-determined, but public sector employment sets a floor. Social safety nets partially recognise the cost of unpaid work.',
-    tried: 'Most of Western Europe, Canada, Japan, Australia — essentially all developed economies operate as mixed economies.',
-    weakness: 'Often an unstable compromise — private interests constantly push to privatise public goods; crises push back toward public ownership.'
+    what: 'The structure most countries actually operate within. Private enterprise drives most economic activity, but the state owns or heavily regulates essential services such as healthcare, utilities, education, and transport. The balance between public and private shifts with political conditions.',
+    measures: 'GDP growth alongside public service quality indicators. The specific mix of metrics varies by country and government.',
+    time_work: 'Mostly market-determined, but public sector employment sets a floor. Social safety nets partially recognize the cost of unpaid work.',
+    tried: 'Most of Western Europe, Canada, Japan, and Australia operate as mixed economies. This is effectively the standard model among developed nations.',
+    weakness: 'Often an unstable compromise. Private interests push to privatize public goods, while economic crises tend to push back toward public ownership. The balance is contested rather than settled.'
   },
   {
     id: 'commons',
     layer: 'systems',
     name: 'Commons-Based Economy',
-    tagline: 'Resources managed collectively, without either private ownership or state control.',
-    what: 'An alternative to both capitalism and state socialism. Communities manage shared resources — land, water, knowledge, digital infrastructure — through collectively agreed rules, without either private ownership or top-down state management. Inspired by Elinor Ostrom\'s Nobel Prize-winning research.',
-    measures: 'Sustainability of shared resources, community wellbeing, participation in governance.',
-    time_work: 'Commoning is itself a form of work — stewarding shared resources, maintaining community governance. Time given to the commons is valued.',
-    tried: 'Village commons in pre-enclosure England. Swiss alpine communities. Open-source software. Wikipedia. Indigenous land management systems.',
-    weakness: 'Vulnerable to privatisation ("enclosure"). Requires active community participation and can struggle to scale beyond the local.'
+    tagline: 'Resources managed collectively, without private ownership or state control.',
+    what: 'An approach that differs from both capitalism and state socialism. Communities manage shared resources, including land, water, knowledge, and digital infrastructure, through collectively agreed rules. Inspired by Elinor Ostrom\'s Nobel Prize-winning research into how communities successfully govern shared resources.',
+    measures: 'Sustainability of shared resources, community wellbeing, and participation in governance.',
+    time_work: 'Commoning is itself recognized as a form of work, including stewarding shared resources and maintaining community governance structures. Time given to the commons is valued.',
+    tried: 'Village commons in pre-enclosure England. Swiss alpine communities. Open-source software. Wikipedia. Indigenous land management systems worldwide.',
+    weakness: 'Vulnerable to privatization. Requires active community participation and can be difficult to scale beyond local or regional levels.'
   },
 
   // ── POLICY SCHOOLS ──
@@ -606,152 +513,146 @@ const MODELS = [
     id: 'keynesian',
     layer: 'policy',
     name: 'Keynesianism',
-    tagline: 'Government spending drives growth. Invest in recessions; pull back in booms.',
-    what: 'Developed by John Maynard Keynes in the 1930s in response to the Great Depression. Argues that private markets are inherently unstable and that government spending can and should stabilise them. When private demand collapses, public spending fills the gap. Became the dominant Western consensus from the 1940s to the 1970s.',
-    measures: 'GDP growth, employment, aggregate demand. Success is a growing economy with full employment.',
-    time_work: 'Work and wages are central — Keynes was concerned with mass unemployment. Care and unpaid work largely ignored. The 40-hour week was a Keynesian-era achievement.',
-    tried: 'US New Deal (1930s). Post-war European welfare states. Obama stimulus (2009). Covid-era government spending globally.',
-    weakness: 'Can lead to inflation when spending exceeds productive capacity. Politically difficult to pull back during booms. Doesn\'t address wealth concentration or ecological limits.'
+    tagline: 'Government spending stabilizes growth. Invest in recessions; pull back in booms.',
+    what: 'Developed by John Maynard Keynes in the 1930s in response to the Great Depression. Argues that private markets are inherently unstable and that government spending can and should stabilize them. When private demand collapses, public spending fills the gap. This approach became the dominant Western economic consensus from the 1940s through the 1970s.',
+    measures: 'GDP growth, employment, and aggregate demand. A successful economy is one that is growing with full employment.',
+    time_work: 'Work and wages are central concerns. Keynes was focused on mass unemployment as a social crisis. The 40-hour work week became an achievement of the Keynesian era. Unpaid care work remained largely outside the framework.',
+    tried: 'The US New Deal in the 1930s. Postwar European welfare states. The Obama stimulus in 2009. Large-scale government spending during the COVID-19 pandemic.',
+    weakness: 'Can produce inflation when spending exceeds productive capacity. Politically difficult to reduce spending during economic booms. Does not address wealth concentration or ecological limits.'
   },
   {
     id: 'neoliberal',
     layer: 'policy',
     name: 'Neoliberalism',
-    tagline: 'Free markets, minimal government, deregulation, privatisation, free trade.',
-    what: 'The dominant policy orthodoxy from roughly 1980 to 2008. Argues that markets allocate resources more efficiently than governments. Policy prescriptions: cut taxes (especially on wealth), privatise public services, deregulate markets, reduce trade barriers. Associated with Thatcher, Reagan, and the Washington Consensus.',
-    measures: 'GDP growth, low inflation, business confidence, trade volumes. Success is a growing, open economy with a small state.',
-    time_work: 'Labour markets should be "flexible" — which in practice means easier to fire workers, lower minimum wages, weaker unions. Care work is private and invisible.',
-    tried: 'UK and US from 1979-1980. Global South via IMF structural adjustment. Most of the developed world to varying degrees from 1980 to 2008.',
-    weakness: 'Dramatically increased wealth inequality. Hollowed out public services. The 2008 financial crisis was widely seen as its intellectual collapse. Ecological costs ignored entirely.'
+    tagline: 'Free markets, minimal government, deregulation, privatization, free trade.',
+    what: 'The dominant policy orthodoxy from roughly 1980 to 2008. Argues that markets allocate resources more efficiently than governments. Core policy prescriptions include cutting taxes especially on wealth, privatizing public services, deregulating markets, and reducing trade barriers. Associated with Thatcher, Reagan, and the Washington Consensus.',
+    measures: 'GDP growth, low inflation, business confidence, and trade volumes. Success is defined as a growing, open economy with a small state.',
+    time_work: 'Labour markets should be flexible, which in practice means easier to dismiss workers, lower minimum wages, and weaker unions. Care work is treated as private and economically invisible.',
+    tried: 'UK and US from 1979 to 1980. Global South economies via IMF structural adjustment programs. Most developed economies to varying degrees from 1980 to 2008.',
+    weakness: 'Has contributed to significantly increased wealth inequality. Hollowed out public services in many countries. The 2008 financial crisis raised serious questions about its core assumptions. Ecological costs are not part of the framework.'
   },
   {
     id: 'supply-side',
     layer: 'policy',
     name: 'Supply-Side Economics',
-    tagline: 'Cut taxes on the wealthy and businesses; growth will trickle down.',
-    what: 'A variant of neoliberalism arguing that economic growth is driven by producers and investors rather than consumers. Key policy: cut taxes on corporations and high earners to stimulate investment, which creates jobs and raises all incomes. Popularised as "trickle-down economics."',
-    measures: 'GDP growth, business investment, job creation. Tax cuts are seen as self-funding through growth.',
-    time_work: 'Work is incentivised by lower taxes — higher take-home pay motivates effort. No real framework for valuing unpaid work.',
-    tried: 'Reagan tax cuts (1981). Bush tax cuts (2001, 2003). Trump Tax Cuts and Jobs Act (2017). Kansas "real-time experiment" (2012) — reversed after state revenues collapsed.',
-    weakness: 'Little empirical evidence that tax cuts on the wealthy generate broad growth. Has contributed significantly to wealth inequality. The Kansas experiment became a cautionary tale.'
+    tagline: 'Cut taxes on the wealthy and businesses; investment will raise all incomes.',
+    what: 'A variant of neoliberal thinking that argues economic growth is driven by producers and investors rather than consumers. The key policy is cutting taxes on corporations and high earners to stimulate investment, which is expected to create jobs and raise incomes broadly. Commonly called trickle-down economics.',
+    measures: 'GDP growth, business investment, and job creation. Tax cuts are often presented as self-funding through subsequent growth.',
+    time_work: 'Work is incentivized by higher take-home pay from lower taxes. No developed framework for valuing unpaid care or community work.',
+    tried: 'Reagan tax cuts (1981). Bush tax cuts (2001, 2003). Trump Tax Cuts and Jobs Act (2017). Kansas conducted a significant supply-side experiment in 2012, which was reversed after state revenues declined sharply.',
+    weakness: 'Empirical evidence that tax cuts on high earners generate broad income growth is limited. Has contributed to increased wealth concentration. The Kansas experiment provided a widely studied example of the policy\'s limits in practice.'
   },
   {
     id: 'mmt',
     layer: 'policy',
     name: 'Modern Monetary Theory',
     tagline: 'Governments that issue their own currency can spend what is needed; inflation is the real constraint.',
-    what: 'MMT argues that sovereign governments (those that issue their own currency, like the US or UK) cannot "run out of money" in the way households can. They create money by spending it. The real constraint on spending isn\'t a budget — it\'s inflation. Tax\'s primary role is to remove money from circulation, not to fund spending.',
-    measures: 'Full employment is the primary goal. Proposes a federal job guarantee as an automatic stabiliser. Inflation as the key operational constraint.',
-    time_work: 'A job guarantee would give everyone who wants work a public option. Potentially transformative for valuing care and community work if those are included.',
-    tried: 'MMT as explicit policy is untested nationally. Elements appeared in Covid-era spending. Japan\'s fiscal policy has long resembled MMT in practice.',
-    weakness: 'Critics argue it underestimates inflation risk. The international dimension (countries with debt in foreign currencies can\'t apply MMT) is undertheorised. Politically difficult to implement.'
+    what: 'MMT argues that sovereign governments, those that issue their own currency such as the US or UK, cannot run out of money in the way households can. They create money by spending it. The real constraint on spending is inflation rather than a budget limit. Taxation\'s primary role in this view is to remove money from circulation rather than to fund spending.',
+    measures: 'Full employment is the primary goal. MMT economists propose a federal job guarantee as an automatic stabilizer. Inflation serves as the key operational constraint on government spending.',
+    time_work: 'A job guarantee would provide everyone who wants work a public employment option. This could be transformative for valuing care and community work if such roles were included.',
+    tried: 'MMT as explicit national policy has not been implemented. Elements appeared in COVID-era government spending. Japan\'s fiscal policy has long resembled MMT in practice.',
+    weakness: 'Critics argue it underestimates inflation risk. The international dimension is undertheorized, particularly for countries with debt denominated in foreign currencies. Politically difficult to implement consistently.'
   },
   {
     id: 'social-democracy',
     layer: 'policy',
     name: 'Social Democracy',
     tagline: 'Capitalism with strong redistribution, powerful public services, and labour protections.',
-    what: 'Accepts market capitalism as the engine of production but argues that its outcomes must be actively redistributed and its worst effects regulated away. Strong unions, universal healthcare, free education, generous unemployment benefits, active industrial policy. The Nordic model is its most cited example.',
-    measures: 'GDP alongside Gini coefficient (inequality), HDI (human development), life expectancy, social mobility.',
-    time_work: 'Strong worker protections. Parental leave, subsidised childcare, shorter working hours (in Nordic countries). Care work partially recognised through public provision.',
-    tried: 'Sweden, Denmark, Norway, Finland, Netherlands. Post-war Germany. To varying degrees, most of Western Europe.',
-    weakness: 'Has retreated under neoliberal pressure since the 1980s. Depends on strong labour movements to sustain. Can maintain inequality at the national level while benefiting from global inequality.'
+    what: 'Accepts market capitalism as the engine of production but holds that its outcomes must be actively redistributed and its worst effects regulated. Relies on strong unions, universal healthcare, free education, generous unemployment benefits, and active industrial policy. The Nordic countries are the most frequently cited examples.',
+    measures: 'GDP alongside the Gini coefficient for inequality, the Human Development Index, life expectancy, and social mobility.',
+    time_work: 'Strong worker protections including parental leave, subsidized childcare, and shorter working hours in Nordic countries. Care work is partially recognized through public provision of services.',
+    tried: 'Sweden, Denmark, Norway, Finland, and the Netherlands. Postwar Germany. To varying degrees, most of Western Europe.',
+    weakness: 'Has faced significant political pressure since the 1980s. Depends on strong labour movements to sustain over time. Can reduce inequality domestically while still benefiting from inequality in global supply chains.'
   },
   {
     id: 'regulation',
     layer: 'policy',
     name: 'Regulated Capitalism',
-    tagline: 'Markets are good at some things; strong rules prevent them from causing harm.',
-    what: 'Not a unified school but a pragmatic tradition arguing that markets work well within the right institutional framework — and cause serious harm outside it. Emphasises antitrust enforcement, environmental regulation, consumer protection, financial regulation, and labour standards. Associated with the progressive wing of mainstream economics.',
-    measures: 'Market competition, consumer welfare, environmental outcomes alongside GDP.',
-    time_work: 'Labour regulation protects working hours, minimum wages, and workplace safety. Environmental regulation implicitly values future time. Care work largely still invisible.',
-    tried: 'New Deal regulation (US, 1930s). EU single market rules. Post-2008 financial regulation. Environmental legislation globally.',
-    weakness: 'Regulators are frequently captured by the industries they regulate. Rules lag behind market innovation. Doesn\'t address structural inequality or ecological limits.'
+    tagline: 'Markets work well within the right rules; strong regulation prevents harm.',
+    what: 'Not a unified school but a pragmatic tradition arguing that markets function well within the right institutional framework and cause serious harm outside it. Emphasizes antitrust enforcement, environmental regulation, consumer protection, financial oversight, and labour standards. Associated with the progressive wing of mainstream economics.',
+    measures: 'Market competition, consumer welfare, and environmental outcomes alongside GDP.',
+    time_work: 'Labour regulation protects working hours, minimum wages, and workplace safety. Environmental regulation implicitly places value on future time and generations. Care work remains largely invisible in the framework.',
+    tried: 'New Deal regulation in the United States in the 1930s. European Union single market rules. Post-2008 financial regulation. Environmental legislation across many countries.',
+    weakness: 'Regulators can be captured by the industries they oversee. Rules tend to lag behind market innovation. Does not address structural inequality or ecological limits in a fundamental way.'
   },
 
-  // ── ALTERNATIVE FRAMEWORKS ──
+  // ── ECONOMIC FRAMEWORKS ──
   {
     id: 'doughnut',
     layer: 'alt',
     name: 'Doughnut Economics',
     tagline: 'Thrive within a social floor and a planetary ceiling.',
-    what: 'Developed by economist Kate Raworth. Visualises a "safe and just space for humanity" as a doughnut: the inner ring is a social foundation (no one falls below it — hunger, poverty, exclusion); the outer ring is an ecological ceiling (we cannot exceed it — climate, biodiversity, freshwater). The goal is to thrive in the space between.',
-    measures: 'Meeting all social needs (housing, health, education, democracy) while staying within nine planetary boundaries. GDP is explicitly not the goal.',
-    time_work: 'Care and community work are explicitly valued as part of the "core economy." Unpaid work underpins paid work and should be recognised. Shorter working hours fit naturally.',
-    tried: 'Amsterdam adopted doughnut economics as its official city framework in 2020. Brussels, Copenhagen, and others have explored it. The Wellbeing Economy Governments group.',
-    weakness: 'More a goal-setting framework than a policy prescription — it describes where we should be, not always how to get there. Implementation at national scale remains largely untested.'
+    what: 'Developed by economist Kate Raworth. Visualizes a safe and just space for humanity as a doughnut shape: the inner ring is a social foundation below which no one should fall, covering needs like food, housing, and healthcare; the outer ring is an ecological ceiling that must not be exceeded, covering climate, biodiversity, and freshwater. The goal is to meet everyone\'s needs while staying within planetary limits.',
+    measures: 'Meeting all social needs including housing, health, education, and democratic participation, while staying within nine defined planetary boundaries. GDP growth is not the primary goal.',
+    time_work: 'Care and community work are explicitly valued as part of what Raworth calls the core economy. Unpaid work is understood to underpin the paid economy and deserves recognition. Shorter working hours fit naturally within the framework.',
+    tried: 'Amsterdam adopted doughnut economics as its official city framework in 2020. Brussels, Copenhagen, and other cities have explored it. The Wellbeing Economy Governments group applies related thinking at national scale.',
+    weakness: 'Primarily a goal-setting framework rather than a detailed policy prescription. It describes the destination clearly but leaves considerable work on how to get there. National-scale implementation remains largely untested.'
   },
   {
     id: 'postgrowth',
     layer: 'alt',
-    name: 'Post-Growth',
-    tagline: 'Stop optimising for growth. Design economies that work without it.',
-    what: 'An umbrella term for frameworks that question whether continuous economic growth is desirable or possible on a finite planet. Includes wellbeing economics, degrowth, and steady-state economics. The common thread: GDP growth should not be the primary goal of economic policy. Associated with the Post Growth Institute and organisations like Wellbeing Economy Governments.',
-    measures: 'Wellbeing, equity, ecological health, meaningful work and participation. GDP is a means at best, not an end.',
-    time_work: 'Shorter working hours are central — time sovereignty is a core value. Care, community, creativity and rest are explicitly valued alongside paid work.',
-    tried: 'New Zealand\'s Wellbeing Budget (2019). Scotland and Wales have adopted wellbeing goals legislatively. Iceland\'s 4-day work week trials. Finland\'s basic income experiment.',
-    weakness: 'Politically challenging — governments, businesses, and voters are all conditioned to expect growth. Transitioning away from growth without causing mass unemployment is an unsolved problem.'
+    name: 'Post-Growth Economics',
+    tagline: 'Stop optimizing for growth. Design economies that work without it.',
+    what: 'An umbrella term for frameworks that question whether continuous economic growth is desirable or possible on a finite planet. Includes wellbeing economics, degrowth, and steady-state economics. The common thread is that GDP growth should not be the primary goal of economic policy. Associated with the Post Growth Institute and with organizations such as Wellbeing Economy Governments.',
+    measures: 'Wellbeing, equity, ecological health, meaningful work, and civic participation. GDP is treated as one input at best rather than as the goal.',
+    time_work: 'Shorter working hours are a central policy. Time sovereignty, meaning people\'s ability to decide how they spend their time, is treated as a core value. Care, community, creativity, and rest are valued alongside paid work.',
+    tried: 'New Zealand\'s Wellbeing Budget in 2019. Scotland and Wales have adopted wellbeing goals in legislation. Iceland\'s four-day work week trials. Finland\'s basic income experiment.',
+    weakness: 'Politically challenging in contexts where governments, businesses, and voters expect growth. The practical question of how to transition away from growth without causing widespread unemployment remains difficult to answer.'
   },
   {
     id: 'degrowth',
     layer: 'alt',
     name: 'Degrowth',
-    tagline: 'Deliberately shrink harmful economic activity. Less, but better.',
-    what: 'The most radical branch of post-growth thinking. Argues that wealthy economies must actively reduce their scale of production and consumption — not as an accidental recession, but as a planned political project. Focus on reducing carbon-intensive, exploitative, and unnecessary production while increasing wellbeing. Slogan: "Less of what harms, more of what matters."',
-    measures: 'Carbon footprint, material throughput, inequality, working hours, wellbeing. GDP is the wrong metric entirely.',
-    time_work: 'A 4-day or even 3-day work week is a flagship policy. Reduced work means more time for care, creativity, community, and rest. These are the point, not consolation prizes.',
-    tried: 'No country has implemented degrowth explicitly. Elements visible in some European cities (car-free zones, reduced advertising). The 15-minute city concept aligns with degrowth values.',
-    weakness: 'Critics ask: how do you maintain employment while shrinking the economy? Requires managing the transition carefully to avoid hitting the poor hardest. Faces enormous political opposition.'
+    tagline: 'Deliberately reduce harmful economic activity. Less extraction, more wellbeing.',
+    what: 'The most structurally ambitious branch of post-growth thinking. Argues that wealthy economies must actively reduce their scale of production and consumption, not as an accidental recession but as a deliberate political project. The focus is on reducing carbon-intensive, exploitative, and unnecessary production while increasing human wellbeing.',
+    measures: 'Carbon footprint, material throughput, inequality, working hours, and wellbeing. GDP is considered the wrong metric for a functioning society.',
+    time_work: 'A four-day or three-day work week is a flagship proposal. Reduced work time is intended to create space for care, creativity, community, and rest. These are treated as primary goals rather than byproducts of economic success.',
+    tried: 'No country has implemented degrowth as explicit national policy. Elements appear in some European cities through car-free zones and reduced advertising. The 15-minute city concept aligns with degrowth values.',
+    weakness: 'The central challenge is maintaining employment while reducing economic scale. Managing this transition without the burden falling disproportionately on lower-income people is an unsolved problem. Faces significant political resistance in most contexts.'
   },
   {
     id: 'wellbeing',
     layer: 'alt',
     name: 'Wellbeing Economy',
     tagline: 'Measure what actually makes people\'s lives good.',
-    what: 'Argues that economies should be explicitly designed and measured around human flourishing — health, social connection, meaning, security, and environmental sustainability — not GDP. Often associated with government policy rather than academic theory. Countries like New Zealand, Scotland, Iceland, Wales and Finland have formed the Wellbeing Economy Governments group.',
+    what: 'Argues that economies should be explicitly designed and measured around human flourishing, including health, social connection, meaning, security, and environmental sustainability, rather than GDP. More a policy orientation than a single academic theory. New Zealand, Scotland, Iceland, Wales, and Finland have formed the Wellbeing Economy Governments group to develop this approach in practice.',
     measures: 'The OECD Better Life Index. Happiness and life satisfaction surveys. Health outcomes. Social connection. Environmental quality. Inequality measures.',
-    time_work: 'Time for family, rest, and community is a policy goal, not an afterthought. Work-life balance is explicitly part of wellbeing. Care work has economic value.',
-    tried: 'New Zealand\'s 2019 Wellbeing Budget explicitly prioritised mental health, child poverty, and indigenous wellbeing. Iceland\'s work week trials. Scotland\'s National Performance Framework.',
-    weakness: 'Often sits alongside rather than replacing GDP — politically it\'s easier to add new measures than remove old ones. Wellbeing metrics can be gamed. Hard to agree on what wellbeing means across cultures.'
+    time_work: 'Time for family, rest, and community is treated as a policy goal. Work-life balance is explicitly part of wellbeing. Care work is recognized as having genuine economic value.',
+    tried: 'New Zealand\'s 2019 Wellbeing Budget prioritized mental health, child poverty, and indigenous wellbeing. Iceland\'s working week trials. Scotland\'s National Performance Framework.',
+    weakness: 'Often added alongside GDP rather than replacing it, as removing existing measures is politically difficult. Wellbeing metrics can be shaped by how questions are asked. Defining what constitutes wellbeing across diverse cultures and values is an ongoing challenge.'
   },
   {
     id: 'solidarity',
     layer: 'alt',
     name: 'Solidarity Economy',
     tagline: 'An ecosystem of cooperative, mutual, and community-owned enterprises.',
-    what: 'Not a single model but an ecosystem of practices: worker cooperatives, credit unions, mutual aid networks, time banks, community land trusts, social enterprises. The goal is to build economic institutions that are democratic, equitable, and rooted in community — from the bottom up rather than top-down reform.',
-    measures: 'Worker ownership and control, democratic governance, local wealth circulation, community resilience, ecological sustainability.',
-    time_work: 'Cooperatives tend to share work more equitably and work shorter hours than conventional firms. Time banks (everyone\'s hour = one credit) explicitly equalise the value of different kinds of work.',
-    tried: 'Mondragon cooperative corporation (Basque Country, Spain — 80,000+ workers). Emilia-Romagna region in Italy (40% of GDP through cooperatives). BACE time bank (Bay Area). Equal Exchange.',
-    weakness: 'Hard to scale. Cooperatives can adopt competitive market behaviour to survive. Without broader structural change, solidarity economy institutions operate within hostile terrain.'
+    what: 'Not a single model but an ecosystem of practices including worker cooperatives, credit unions, mutual aid networks, time banks, community land trusts, and social enterprises. The goal is to build economic institutions that are democratic, equitable, and rooted in community, growing from the bottom up rather than through top-down policy reform.',
+    measures: 'Worker ownership and democratic control, local wealth circulation, community resilience, and ecological sustainability.',
+    time_work: 'Cooperatives tend to share work more equitably and maintain shorter working hours than conventional firms. Time banks, in which every person\'s hour earns one credit, explicitly treat all forms of work as equally valuable.',
+    tried: 'Mondragon cooperative corporation in the Basque Country, Spain, with over 80,000 worker-owners. The Emilia-Romagna region of Italy, where cooperatives account for roughly 40 percent of GDP. The BACE time bank in the Bay Area. Equal Exchange.',
+    weakness: 'Difficult to scale. Individual cooperatives may adopt competitive market behaviors in order to survive. Without broader structural change, solidarity economy institutions operate within systems that were not designed to support them.'
   }
 ];
 
-// Core comparison dimensions
 const DIMENSIONS = [
   { key: 'what',       label: 'What it is' },
   { key: 'measures',  label: 'How it measures success' },
-  { key: 'time_work', label: 'How it values time & work' },
-  { key: 'tried',     label: 'Where it\'s been tried' },
-  { key: 'weakness',  label: 'Honest weakness' },
+  { key: 'time_work', label: 'How it values time and work' },
+  { key: 'tried',     label: 'Where it has been tried' },
+  { key: 'weakness',  label: 'Key limitation' },
 ];
 
-// ══════════════════════════════════════════
-// RENDER MODEL CARDS
-// ══════════════════════════════════════════
 function tagClass(layer) {
   return { systems:'tag-systems', policy:'tag-policy', alt:'tag-alt' }[layer];
 }
 function tagLabel(layer) {
-  return { systems:'SYSTEM', policy:'POLICY SCHOOL', alt:'ALT FRAMEWORK' }[layer];
+  return { systems:'System', policy:'Policy School', alt:'Framework' }[layer];
 }
 
 function renderCards() {
-  const layers = ['systems', 'policy', 'alt'];
-  layers.forEach(layer => {
+  ['systems', 'policy', 'alt'].forEach(layer => {
     const grid = document.getElementById('grid-' + layer);
-    const models = MODELS.filter(m => m.layer === layer);
-    models.forEach(model => {
+    MODELS.filter(m => m.layer === layer).forEach(model => {
       const card = document.createElement('div');
       card.className = 'model-card';
       card.id = 'card-' + model.id;
@@ -759,7 +660,7 @@ function renderCards() {
         <div class="model-tag ${tagClass(model.layer)}">${tagLabel(model.layer)}</div>
         <div class="model-name">${model.name}</div>
         <div class="model-tagline">${model.tagline}</div>
-        <div class="model-expand-hint">EXPLORE ›</div>
+        <div class="model-expand-hint">Expand</div>
       `;
       card.onclick = () => toggleDetail(model.id, layer);
       grid.appendChild(card);
@@ -767,26 +668,19 @@ function renderCards() {
   });
 }
 
-// ══════════════════════════════════════════
-// MODEL DETAIL EXPAND
-// ══════════════════════════════════════════
 let openDetail = null;
 
 function toggleDetail(modelId, layer) {
   const model = MODELS.find(m => m.id === modelId);
   const card  = document.getElementById('card-' + modelId);
 
-  // Remove any existing detail
   const existing = document.getElementById('detail-' + (openDetail || ''));
   if (existing) {
     existing.remove();
     document.querySelectorAll('.model-card.expanded').forEach(c => c.classList.remove('expanded'));
   }
 
-  if (openDetail === modelId) {
-    openDetail = null;
-    return;
-  }
+  if (openDetail === modelId) { openDetail = null; return; }
 
   openDetail = modelId;
   card.classList.add('expanded');
@@ -797,55 +691,45 @@ function toggleDetail(modelId, layer) {
   detail.innerHTML = `
     <div class="detail-grid">
       <div class="detail-block">
-        <div class="detail-block-label">// WHAT IT IS</div>
+        <div class="detail-block-label">What it is</div>
         <div class="detail-block-text">${model.what}</div>
       </div>
       <div class="detail-block">
-        <div class="detail-block-label">// MEASURES SUCCESS BY</div>
+        <div class="detail-block-label">How it measures success</div>
         <div class="detail-block-text">${model.measures}</div>
       </div>
       <div class="detail-block">
-        <div class="detail-block-label">// TIME & WORK</div>
+        <div class="detail-block-label">Time and work</div>
         <div class="detail-block-text">${model.time_work}</div>
       </div>
       <div class="detail-block">
-        <div class="detail-block-label">// WHERE TRIED</div>
+        <div class="detail-block-label">Where tried</div>
         <div class="detail-block-text">${model.tried}</div>
       </div>
     </div>
     <div class="detail-weakness">${model.weakness}</div>
     <button class="detail-compare-btn" onclick="loadIntoCompare('${modelId}')">
-      + LOAD INTO COMPARISON TOOL
+      + Add to comparison
     </button>
   `;
 
-  const layerBody = document.getElementById('body-' + layer);
-  layerBody.appendChild(detail);
+  document.getElementById('body-' + layer).appendChild(detail);
   detail.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 }
 
-// ══════════════════════════════════════════
-// LAYER TOGGLE
-// ══════════════════════════════════════════
 function toggleLayer(layer) {
-  const header = document.querySelector(`#layer-${layer} .layer-header`);
-  const body   = document.getElementById('body-' + layer);
-  header.classList.toggle('open');
-  body.classList.toggle('open');
+  document.querySelector(`#layer-${layer} .layer-header`).classList.toggle('open');
+  document.getElementById('body-' + layer).classList.toggle('open');
 }
 
-// ══════════════════════════════════════════
-// COMPARISON TOOL
-// ══════════════════════════════════════════
 function populateSelects() {
-  const selA = document.getElementById('sel-a');
-  const selB = document.getElementById('sel-b');
   const groups = [
-    { label: 'ECONOMIC SYSTEMS',       models: MODELS.filter(m => m.layer === 'systems') },
-    { label: 'POLICY SCHOOLS',         models: MODELS.filter(m => m.layer === 'policy') },
-    { label: 'ALTERNATIVE FRAMEWORKS', models: MODELS.filter(m => m.layer === 'alt') },
+    { label: 'Economic Systems',    models: MODELS.filter(m => m.layer === 'systems') },
+    { label: 'Policy Schools',      models: MODELS.filter(m => m.layer === 'policy') },
+    { label: 'Economic Frameworks', models: MODELS.filter(m => m.layer === 'alt') },
   ];
-  [selA, selB].forEach(sel => {
+  ['sel-a','sel-b'].forEach(id => {
+    const sel = document.getElementById(id);
     groups.forEach(g => {
       const og = document.createElement('optgroup');
       og.label = g.label;
@@ -862,16 +746,16 @@ function populateSelects() {
 function loadIntoCompare(modelId) {
   const selA = document.getElementById('sel-a');
   const selB = document.getElementById('sel-b');
-  if (!selA.value) { selA.value = modelId; }
-  else if (!selB.value && selB.value !== modelId) { selB.value = modelId; }
-  else { selA.value = modelId; }
+  if (!selA.value) selA.value = modelId;
+  else if (!selB.value && selB.value !== modelId) selB.value = modelId;
+  else selA.value = modelId;
   runCompare();
   document.getElementById('compare').scrollIntoView({ behavior: 'smooth' });
 }
 
 function runCompare() {
-  const idA   = document.getElementById('sel-a').value;
-  const idB   = document.getElementById('sel-b').value;
+  const idA = document.getElementById('sel-a').value;
+  const idB = document.getElementById('sel-b').value;
   const result = document.getElementById('compare-result');
   const empty  = document.getElementById('compare-empty');
   const table  = document.getElementById('compare-table');
@@ -882,14 +766,13 @@ function runCompare() {
     empty.style.display = 'block';
     table.style.display = 'none';
     empty.textContent = idA === idB
-      ? '// SELECT TWO DIFFERENT MODELS'
-      : '// SELECT TWO MODELS ABOVE TO COMPARE';
+      ? 'Please select two different models'
+      : 'Select two models above to compare them';
     return;
   }
 
   const mA = MODELS.find(m => m.id === idA);
   const mB = MODELS.find(m => m.id === idB);
-
   empty.style.display = 'none';
   table.style.display = 'table';
 
@@ -897,14 +780,14 @@ function runCompare() {
     <thead>
       <tr>
         <th></th>
-        <th class="col-a">${mA.name.toUpperCase()}</th>
-        <th class="col-b">${mB.name.toUpperCase()}</th>
+        <th class="col-a">${mA.name}</th>
+        <th class="col-b">${mB.name}</th>
       </tr>
     </thead>
     <tbody>
       ${DIMENSIONS.map(d => `
         <tr>
-          <td>${d.label.toUpperCase()}</td>
+          <td>${d.label}</td>
           <td class="cell-a">${mA[d.key]}</td>
           <td class="cell-b">${mB[d.key]}</td>
         </tr>
@@ -913,9 +796,6 @@ function runCompare() {
   `;
 }
 
-// ══════════════════════════════════════════
-// INIT
-// ══════════════════════════════════════════
 renderCards();
 populateSelects();
 </script>
