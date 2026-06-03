@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Actions & Resources — Economic Models Explorer</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@900&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #08080f;
+  --surface: #111118;
+  --border: rgba(255,255,255,.08);
+  --border-hover: rgba(255,255,255,.16);
+  --text: rgba(255,255,255,.82);
+  --text-dim: rgba(255,255,255,.46);
+  --text-muted: rgba(255,255,255,.28);
+  --cyan: #00d4d4;
+  --orange: #d47b00;
+  --green: #2ab52a;
+}
+
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-thumb { background: rgba(255,255,255,.12); border-radius: 2px; }
+
+/* ── NAV ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  background: rgba(8,8,15,.96);
+  border-bottom: 1px solid var(--border);
+  height: 52px;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 2rem;
+  backdrop-filter: blur(12px);
+}
+.nav-logo {
+  font-family: 'Orbitron', sans-serif;
+  font-size: .78rem; font-weight: 900; letter-spacing: .14em;
+  color: var(--cyan); text-decoration: none;
+}
+.nav-logo em { color: var(--green); font-style: normal; }
+.nav-links { display: flex; gap: 1.75rem; list-style: none; }
+.nav-links a {
+  font-size: .78rem; color: var(--text-dim); text-decoration: none;
+  transition: color .15s;
+}
+.nav-links a:hover { color: var(--text); }
+.nav-links a.active { color: var(--text); }
+
+/* ── HERO ── */
+#hero {
+  padding: 100px 2rem 56px;
+  max-width: 720px;
+}
+.hero-label {
+  font-size: .72rem; letter-spacing: .12em; text-transform: uppercase;
+  color: var(--text-muted); margin-bottom: 1rem;
+}
+.hero-title {
+  font-family: 'Orbitron', sans-serif;
+  font-size: clamp(1.6rem, 5vw, 3rem);
+  font-weight: 900; letter-spacing: .06em; line-height: 1.2;
+  color: #fff; margin-bottom: 1rem;
+}
+.hero-title em { color: var(--cyan); font-style: normal; }
+.hero-body {
+  font-size: 1rem; color: var(--text-dim); line-height: 1.75;
+  max-width: 540px;
+}
+
+/* ── SECTION ── */
+.section {
+  padding: 0 2rem 64px;
+  max-width: 760px;
+}
+.section-label {
+  font-size: .72rem; letter-spacing: .12em; text-transform: uppercase;
+  color: var(--text-muted); margin-bottom: .5rem;
+}
+.section-title {
+  font-size: 1.1rem; font-weight: 600; color: #fff;
+  margin-bottom: .5rem; letter-spacing: -.01em;
+}
+.section-body {
+  font-size: .9rem; color: var(--text-dim); line-height: 1.75;
+  max-width: 540px; margin-bottom: 1.75rem;
+}
+
+/* ── ORG LIST ── */
+.org-list {
+  display: flex; flex-direction: column; gap: 1px;
+}
+
+.org-card {
+  display: block;
+  padding: 1.25rem 1.4rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  text-decoration: none;
+  transition: background .15s, border-color .15s;
+  margin-bottom: -1px;
+  position: relative;
+}
+.org-card:first-child { border-radius: 6px 6px 0 0; }
+.org-card:last-child  { border-radius: 0 0 6px 6px; margin-bottom: 0; }
+.org-card:hover {
+  background: rgba(255,255,255,.03);
+  border-color: var(--border-hover);
+}
+.org-card:hover .org-arrow { opacity: 1; transform: translateX(0); }
+
+.org-header {
+  display: flex; align-items: flex-start;
+  justify-content: space-between; gap: 1rem;
+  margin-bottom: .4rem;
+}
+.org-name {
+  font-size: .97rem; font-weight: 600; color: #fff; line-height: 1.3;
+}
+.org-arrow {
+  font-size: .9rem; color: var(--cyan);
+  opacity: 0; transform: translateX(-4px);
+  transition: opacity .15s, transform .15s;
+  flex-shrink: 0; margin-top: 2px;
+}
+.org-desc {
+  font-size: .88rem; color: var(--text-dim); line-height: 1.65;
+}
+.org-url {
+  font-size: .72rem; color: var(--text-muted);
+  margin-top: .5rem; letter-spacing: .02em;
+}
+
+/* ── DIVIDER ── */
+.divider {
+  border: none; height: 1px;
+  background: var(--border);
+  margin: 0 2rem 56px;
+}
+
+/* ── FOOTER ── */
+footer {
+  border-top: 1px solid var(--border);
+  padding: 1.4rem 2rem;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.footer-note  { font-size: .75rem; color: var(--text-muted); }
+.footer-credit { font-size: .75rem; color: var(--text-muted); }
+.footer-credit a { color: var(--orange); text-decoration: none; }
+.footer-credit a:hover { text-decoration: underline; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 640px) {
+  nav { padding: 0 1rem; }
+  #hero, .section { padding-left: 1rem; padding-right: 1rem; }
+  .divider { margin-left: 1rem; margin-right: 1rem; }
+  footer { flex-direction: column; gap: .5rem; padding: 1.2rem 1rem; text-align: center; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="index.html">ECONOMIC <em>MODELS</em></a>
+  <ul class="nav-links">
+    <li><a href="index.html#explore">Explore</a></li>
+    <li><a href="index.html#compare">Compare</a></li>
+    <li><a href="actions.html" class="active">Actions & Resources</a></li>
+    <li><a href="portal.html">Soul Diagnostic</a></li>
+  </ul>
+</nav>
+
+<div id="hero">
+  <div class="hero-label">Get involved</div>
+  <h1 class="hero-title">Actions <em>&</em> Resources</h1>
+  <p class="hero-body">Organizations working on the economic questions this site explores. Each is doing practical work — research, advocacy, and community organizing — to shape what comes next.</p>
+</div>
+
+<div class="section">
+  <div class="section-label">Organizations</div>
+  <div class="org-list">
+
+    <a class="org-card" href="https://www.degrowthcalifornia.org/" target="_blank" rel="noopener">
+      <div class="org-header">
+        <div class="org-name">Degrowth California</div>
+        <div class="org-arrow">↗</div>
+      </div>
+      <div class="org-desc">A grassroots organization building a movement for a post-growth economy in California, one that prioritizes community wellbeing and environmental health over endless expansion.</div>
+      <div class="org-url">degrowthcalifornia.org</div>
+    </a>
+
+    <a class="org-card" href="https://advancesf.org/" target="_blank" rel="noopener">
+      <div class="org-header">
+        <div class="org-name">Advance SF</div>
+        <div class="org-arrow">↗</div>
+      </div>
+      <div class="org-desc">A coalition of San Francisco's leading employers working toward an equitable and resilient local economy through research, advocacy, and engagement on housing, public safety, and economic opportunity.</div>
+      <div class="org-url">advancesf.org</div>
+    </a>
+
+    <a class="org-card" href="https://www.bayareaeconomy.org/" target="_blank" rel="noopener">
+      <div class="org-header">
+        <div class="org-name">Bay Area Council Economic Institute</div>
+        <div class="org-arrow">↗</div>
+      </div>
+      <div class="org-desc">The leading think tank focused on economic and policy issues facing the nine-county Bay Area region, connecting business, labor, government, and education through research and convening.</div>
+      <div class="org-url">bayareaeconomy.org</div>
+    </a>
+
+  </div>
+</div>
+
+<footer>
+  <div class="footer-note">Economic Models Explorer · 2026</div>
+  <div class="footer-credit">Part of <a href="#">The Time Exchange</a> · Future of Us Festival</div>
+</footer>
+
+</body>
+</html>
