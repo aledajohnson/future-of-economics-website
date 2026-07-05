@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A.G.E.N.C.Y. | School of Thought</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..700&family=Orbitron:wght@700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #0b0a1a;
+  --field: #0d0d1c;
+  --border: rgba(90,180,255,.22);
+  --text: rgba(220,255,230,.88);
+  --text-dim: rgba(180,220,190,.56);
+  --text-muted: rgba(160,200,170,.34);
+  --amber: #ffb347;
+  --school-col: var(--amber);
+}
+
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: 17px;
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-thumb { background: rgba(90,180,255,.18); border-radius: 2px; }
+
+/* ── NAV ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  background: rgba(11,10,26,.92);
+  border-bottom: 1px solid var(--border);
+  height: 56px;
+  display: flex; align-items: center; justify-content: flex-end;
+  padding: 0 2rem;
+  backdrop-filter: blur(14px);
+}
+.nav-links { display: flex; gap: 1.75rem; list-style: none; }
+.nav-links a {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: .68rem; letter-spacing: .12em; text-transform: uppercase;
+  color: var(--text-dim); text-decoration: none;
+  transition: color .15s;
+}
+.nav-links a:hover { color: #fff; }
+.nav-links a.active { color: var(--amber); }
+
+/* ── HERO ── */
+.theory-hero {
+  margin-top: 56px;
+  border-bottom: 3px solid var(--school-col);
+  padding: 3rem 2rem 2.4rem;
+  position: relative;
+  background: radial-gradient(ellipse 70% 60% at 50% 0%, rgba(255,255,255,.03), transparent 70%);
+}
+.school-label {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: .68rem; letter-spacing: .25em; text-transform: uppercase;
+  color: var(--school-col); margin-bottom: .75rem;
+}
+.school-name {
+  font-family: 'Orbitron', sans-serif;
+  font-size: clamp(2rem, 6vw, 3.4rem); font-weight: 900; letter-spacing: .04em;
+  color: #fff; line-height: 1.15;
+  text-shadow: 0 0 30px color-mix(in srgb, var(--school-col) 40%, transparent);
+  margin-bottom: .7rem;
+}
+.school-tag {
+  font-size: 1.2rem; font-style: italic; color: var(--text-dim);
+  font-weight: 300;
+}
+.back-link {
+  position: absolute; top: 1.4rem; right: 2rem;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: .68rem; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--text-muted); text-decoration: none;
+  border: 1px solid var(--border); padding: .45rem 1rem; border-radius: 4px;
+  transition: color .2s, border-color .2s;
+}
+.back-link:hover { color: var(--text); border-color: rgba(90,180,255,.5); }
+
+/* ── CONTENT ── */
+.theory-body {
+  max-width: 820px; margin: 0 auto; padding: 3rem 2rem 6rem;
+  display: flex; flex-direction: column; gap: 2.8rem;
+}
+.theory-sections { display: flex; flex-direction: column; gap: 2.5rem; }
+.theory-section-label {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: .65rem; letter-spacing: .22em; text-transform: uppercase;
+  color: var(--school-col); margin-bottom: .75rem;
+}
+.theory-overview {
+  font-size: 1.15rem; line-height: 1.75; color: var(--text);
+  font-weight: 300;
+}
+.theory-thinkers {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: .9rem; color: var(--text-dim); line-height: 1.65;
+}
+.theory-policy {
+  font-size: 1rem; color: var(--text-dim); line-height: 1.7; font-weight: 300;
+}
+
+/* Not-found state */
+.not-found {
+  padding: 8rem 2rem; text-align: center; color: var(--text-dim);
+  font-family: 'Share Tech Mono', monospace; font-size: .9rem; letter-spacing: .1em;
+}
+
+/* ── COMPARE TABLE ── */
+.compare-wrap { display: flex; flex-direction: column; gap: 1rem; }
+.compare-label {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: .68rem; letter-spacing: .25em; text-transform: uppercase;
+  color: var(--amber);
+}
+.compare-scroll {
+  overflow-x: auto;
+  border: 1px solid var(--border); border-radius: 12px;
+  background: var(--field);
+}
+.compare-tbl {
+  width: 100%; border-collapse: collapse;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: .8rem; line-height: 1.6;
+}
+.compare-tbl thead th {
+  padding: .85rem 1rem;
+  font-family: 'Orbitron', sans-serif;
+  font-size: .68rem; font-weight: 700; letter-spacing: .06em;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+  white-space: nowrap;
+}
+.compare-tbl thead th:first-child { color: var(--text-muted); width: 130px; }
+.compare-tbl tbody td {
+  padding: .9rem 1rem;
+  border-bottom: 1px solid rgba(90,180,255,.07);
+  vertical-align: top; color: var(--text-dim);
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: .95rem; line-height: 1.65;
+}
+.compare-tbl tbody tr:last-child td { border-bottom: none; }
+.compare-tbl tbody tr:hover td { background: rgba(255,255,255,.018); }
+.compare-tbl tbody td:first-child {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: .6rem; letter-spacing: .18em; text-transform: uppercase;
+  color: var(--text-muted); padding-top: 1.1rem; width: 130px; min-width: 110px;
+}
+.compare-dim-sub {
+  display: block; font-size: .55rem; letter-spacing: .04em;
+  text-transform: none; opacity: .5; margin-top: .25rem; font-weight: 400;
+}
+
+/* ── FOOTER ── */
+footer {
+  border-top: 1px solid var(--border);
+  padding: 1.5rem 2rem;
+  display: flex; justify-content: center; align-items: center;
+}
+.footer-credit {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: .68rem; color: var(--text-muted); letter-spacing: .04em;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 700px) {
+  nav { padding: 0 1rem; }
+  .nav-links { gap: 1rem; }
+  .theory-hero { padding: 2.5rem 1rem 2rem; }
+  .back-link { position: static; display: inline-block; margin-top: 1.2rem; }
+  .theory-body { padding: 2rem 1rem 5rem; }
+}
+
+.theory-thinkers a, .theory-policy a {
+  color: inherit; text-decoration: underline;
+  text-decoration-color: rgba(255,255,255,.25); text-underline-offset: 2px;
+}
+.theory-thinkers a:hover, .theory-policy a:hover {
+  color: #fff; text-decoration-color: rgba(255,255,255,.7);
+}
+.res-note { opacity: .55; font-size: .82em; font-style: italic; }
+</style>
+</head>
+<body>
+
+<nav>
+  <ul class="nav-links">
+    <li><a href="index.html">Soul Mapping</a></li>
+    <li><a href="community.html">Community Map</a></li>
+    <li><a href="compare.html">Compare Theories</a></li>
+    <li><a href="agency.html">Action</a></li>
+  </ul>
+</nav>
+
+<div id="hero" class="theory-hero">
+  <div class="school-label" id="school-label">// School of Thought</div>
+  <h1 class="school-name" id="school-name">Loading...</h1>
+  <div class="school-tag" id="school-tag"></div>
+  <a class="back-link" href="index.html">&#8592; Back to Soul Mapping</a>
+</div>
+
+<div class="theory-body" id="theory-body">
+  <div class="not-found" id="not-found" style="display:none">
+    School not found. <a href="index.html" style="color:var(--amber)">Return to Soul Mapping.</a>
+  </div>
+
+  <div class="theory-sections" id="theory-sections">
+    <div>
+      <div class="theory-section-label">Overview</div>
+      <p class="theory-overview" id="overview"></p>
+    </div>
+    <div>
+      <div class="theory-section-label">Kindred Thinkers &amp; Frameworks</div>
+      <div class="theory-thinkers" id="thinkers"></div>
+    </div>
+    <div>
+      <div class="theory-section-label">Resources</div>
+      <div class="theory-policy" id="policy"></div>
+    </div>
+  </div>
+
+  <div class="compare-wrap" id="compare-wrap" style="display:none">
+    <div class="compare-label">// Your Top 3 Coordinates Compared</div>
+    <div class="compare-scroll">
+      <table class="compare-tbl" id="compare-tbl"></table>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-credit">Future of Us Festival &middot; San Francisco &middot; July 2026</div>
+</footer>
+
+<script>
+const SCHOOLS = [
+  { key:'austrian', label:'Austrian', name:'Austrian / Libertarian', tag:'spontaneous order & sound money', col:'#f0c43d',
+    blurb:'Markets self-organize through spontaneous order, the emergent result of countless individual decisions rather than any central plan. Prices carry information no single authority can replicate, which is why state intervention almost always produces unintended harm. The tradition prioritizes individual liberty, private property, and sound money as the foundations of a free society.',
+    thinkers:[
+      {name:'Ludwig von Mises',url:'https://en.wikipedia.org/wiki/Ludwig_von_Mises'},
+      {name:'Friedrich Hayek',url:'https://en.wikipedia.org/wiki/Friedrich_Hayek'},
+      {name:'Murray Rothbard',url:'https://en.wikipedia.org/wiki/Murray_Rothbard'},
+    ],
+    resources:[
+      {title:'The Road to Serfdom',note:'Hayek, 1944',url:'https://en.wikipedia.org/wiki/The_Road_to_Serfdom'},
+      {title:'The Use of Knowledge in Society',note:'Hayek, 1945 essay',url:'https://www.econlib.org/library/Essays/hykKnw.html'},
+      {title:'Human Action',note:'Mises, 1949',url:'https://en.wikipedia.org/wiki/Human_Action'},
+    ],
+    what:'Originating with Carl Menger and developed by Ludwig von Mises and Friedrich Hayek. The central claim is that economic coordination emerges spontaneously from individual exchanges, not from deliberate design. Prices encode dispersed local knowledge that no central authority can aggregate or replicate, which is why central planning always produces worse outcomes than markets in this view.',
+    goal:'Protect individual liberty and property rights; allow spontaneous market order to emerge from voluntary exchange. Remove all barriers to free markets and maintain sound money.',
+    ownership:'Strictly private. Individuals own productive assets, land, capital, businesses, which are freely tradeable. No collective or state ownership of productive assets is considered consistent with individual liberty within this tradition.',
+    decisions:'Fully decentralized through price signals. Consumers signal preferences through spending; entrepreneurs discover and respond to profit opportunities. No directing authority is needed or desirable.',
+    distribution:'Returns go to capital owners; wages to workers as determined by market forces. Redistribution is viewed as a violation of property rights. Inequality is considered a natural and functional feature of free markets rather than a problem requiring policy correction.',
+    power:'The state\'s legitimate role is limited to enforcing contracts and protecting property. Market competition, rather than political institutions, is the primary check on concentrated economic power.',
+    tried:'Partial influence on Hong Kong\'s low-tax, open-market economy. Informed Thatcher-era UK and Reagan-era US deregulation programs. Estonia\'s flat tax reforms in the 1990s.' },
+
+  { key:'neoclassical', label:'Neoclassical', name:'Neoclassical / Market Liberal', tag:'price signals & free trade', col:'#ff7757',
+    blurb:'Prices coordinate economic activity by aggregating what millions of people want and what it costs to provide it, more efficiently than any alternative coordination mechanism. Competitive markets are the default; targeted government intervention corrects specific failures like pollution or public goods. This framework dominates academic economics, most central banks, and mainstream policy institutions worldwide.',
+    thinkers:[
+      {name:'Alfred Marshall',url:'https://en.wikipedia.org/wiki/Alfred_Marshall'},
+      {name:'Milton Friedman',url:'https://en.wikipedia.org/wiki/Milton_Friedman'},
+      {name:'N. Gregory Mankiw',url:'https://en.wikipedia.org/wiki/N._Gregory_Mankiw'},
+    ],
+    resources:[
+      {title:'Free to Choose',note:'Friedman, 1980',url:'https://en.wikipedia.org/wiki/Free_to_Choose'},
+      {title:'The Worldly Philosophers',note:'Heilbroner, 1953',url:'https://en.wikipedia.org/wiki/The_Worldly_Philosophers'},
+      {title:'Principles of Economics',note:'Mankiw, standard intro text',url:'https://en.wikipedia.org/wiki/Principles_of_Economics_(Mankiw_book)'},
+    ],
+    what:'The dominant framework in academic and applied economics since the late 19th century. Models individuals as rational decision-makers and markets as efficient aggregators of information. Supports competitive markets, free trade, and targeted government interventions such as carbon taxes to correct specific failures where markets produce suboptimal outcomes.',
+    goal:'Maximize allocative efficiency and aggregate welfare through well-functioning markets. Grow the overall economy; let comparative advantage guide specialization and trade internationally.',
+    ownership:'Primarily private, with limited public ownership of pure public goods. Intellectual property rights are strong. Markets in land and capital are treated as efficient mechanisms for allocating these assets.',
+    decisions:'Market prices coordinate most decisions. Governments correct well-defined market failures, including externalities, public goods, and information asymmetries, through targeted taxes, regulation, or spending.',
+    distribution:'Market-determined wages reflect productivity; returns flow to capital owners. Redistribution through taxes and transfers is broadly acceptable provided it does not significantly distort market incentives.',
+    power:'Distributed through market competition among firms. Democratic governments set rules but should not override market outcomes except in clearly defined cases of market failure.',
+    tried:'The analytical foundation of most government economic policy since the 1980s. IMF and World Bank programs. WTO trade rules. Washington Consensus structural adjustment programs across Latin America, Africa, and Eastern Europe.' },
+
+  { key:'keynesian', label:'Keynesian', name:'Keynesian / Social Democratic', tag:'managed demand & the welfare state', col:'#4d9fff',
+    blurb:'In a market economy, total spending can collapse without warning, leaving workers unemployed through no fault of their own. Government must actively stabilize activity through spending and taxation, and institutions like the welfare state protect people from the worst outcomes markets produce. The Nordic countries are the most sustained real-world experiment with this approach.',
+    thinkers:[
+      {name:'John Maynard Keynes',url:'https://en.wikipedia.org/wiki/John_Maynard_Keynes'},
+      {name:'Paul Krugman',url:'https://en.wikipedia.org/wiki/Paul_Krugman'},
+      {name:'Mariana Mazzucato',url:'https://en.wikipedia.org/wiki/Mariana_Mazzucato'},
+    ],
+    resources:[
+      {title:'The General Theory of Employment, Interest and Money',note:'Keynes, 1936',url:'https://en.wikipedia.org/wiki/The_General_Theory_of_Employment,_Interest_and_Money'},
+      {title:'End This Depression Now!',note:'Krugman, 2012',url:'https://en.wikipedia.org/wiki/End_This_Depression_Now!'},
+      {title:'The Value of Everything',note:'Mazzucato, 2018',url:'https://en.wikipedia.org/wiki/The_Value_of_Everything'},
+    ],
+    what:'Developed by John Maynard Keynes in response to the Great Depression. Argues that aggregate demand, total spending in the economy, drives output in the short run. When private demand collapses, governments must step in to sustain activity through spending or tax cuts. The social democratic tradition extends this with labor protections, strong public services, and redistribution.',
+    goal:'Sustain full employment and stable growth while ensuring everyone has access to a social floor of income support, healthcare, and education that markets alone will not reliably provide.',
+    ownership:'Mixed: private enterprise for most production; public ownership or strong regulation of infrastructure, healthcare, and utilities; labor unions as institutional counterweights to capital.',
+    decisions:'Market prices operate for most goods and services, but government actively manages aggregate demand through fiscal policy and monetary policy. Collective bargaining shapes wages in key sectors.',
+    distribution:'Market wages supplemented by progressive taxation and universal public services. The welfare state provides income security as a right of citizenship, not a market outcome.',
+    power:'Democratic governments accountable to voters; central banks with public mandates; strong labor unions; regulatory agencies. Capital is checked by collective bargaining, the welfare state, and democratic politics.',
+    tried:'The US New Deal in the 1930s. Postwar European welfare states. The Nordic model in Sweden, Denmark, and Norway. Global stimulus responses to the 2008 financial crisis and the COVID-19 pandemic.' },
+
+  { key:'marxist', label:'Marxist', name:'Marxist / Socialist', tag:'collective ownership & worker control', col:'#ff4d6d',
+    blurb:'Capitalism is not a neutral exchange system; it systematically transfers value created by workers to those who own productive assets. This structural extraction, and the class conflict it generates, drives both inequality and historical change. Meaningful equality requires transforming who owns the means of production, not merely redistributing its outputs through taxes or welfare.',
+    thinkers:[
+      {name:'Karl Marx',url:'https://en.wikipedia.org/wiki/Karl_Marx'},
+      {name:'Rosa Luxemburg',url:'https://en.wikipedia.org/wiki/Rosa_Luxemburg'},
+      {name:'David Harvey',url:'https://en.wikipedia.org/wiki/David_Harvey'},
+    ],
+    resources:[
+      {title:'The Communist Manifesto',note:'Marx & Engels, 1848',url:'https://en.wikipedia.org/wiki/The_Communist_Manifesto'},
+      {title:'Capital, Vol. 1',note:'Marx, 1867',url:'https://en.wikipedia.org/wiki/Das_Kapital'},
+      {title:'A Brief History of Neoliberalism',note:'Harvey, 2005',url:'https://en.wikipedia.org/wiki/A_Brief_History_of_Neoliberalism'},
+    ],
+    what:'Karl Marx argued that in a capitalist economy, workers produce more value than they receive in wages. The difference, surplus value, is appropriated by owners as profit. Class relations between those who own the means of production and those who must sell their labor drive both inequality and historical change. Meaningful change requires transforming ownership, not merely redistributing income.',
+    goal:'End exploitation and class hierarchy. Allow workers to keep the full value of what they produce and collectively govern the economy for human need rather than private profit.',
+    ownership:'Collective or social ownership of the means of production: factories, land, data, infrastructure. Personal possessions remain; productive capital does not belong to a private class of owners who appropriate surplus from workers.',
+    decisions:'Collective planning, worker councils, or democratic state institutions determine economic priorities, replacing market competition with consciously directed social coordination.',
+    distribution:'According to contribution (in socialism) or need (in communism). Surplus belongs to workers and is directed toward collective investment and social services rather than private profit.',
+    power:'Political authority of the working class replaces the economic authority of capital. Worker councils, unions, and democratic institutions are the intended mechanisms. Historical socialist states varied considerably in how democratically this power was exercised.',
+    tried:'Soviet Union, Cuba, and the People\'s Republic of China as major state socialist experiments. Worker-managed enterprises worldwide. Salvador Allende\'s government in Chile. The Zapatista autonomous communities in Chiapas, Mexico.' },
+
+  { key:'mutualist', label:'Mutualist', name:'Mutualist / Commons', tag:'mutual aid & the commons', col:'#9966ff',
+    blurb:'Communities have always built their own systems of mutual support, shared resources, and horizontal governance, without markets or states directing them. Elinor Ostrom\'s Nobel-winning research proved that commons can be managed sustainably without privatization or top-down control. Worker cooperatives, open-source software, mutual aid networks, and time banks are all living expressions of this tradition.',
+    thinkers:[
+      {name:'Peter Kropotkin',url:'https://en.wikipedia.org/wiki/Peter_Kropotkin'},
+      {name:'Elinor Ostrom',url:'https://en.wikipedia.org/wiki/Elinor_Ostrom'},
+      {name:'Pierre-Joseph Proudhon',url:'https://en.wikipedia.org/wiki/Pierre-Joseph_Proudhon'},
+    ],
+    resources:[
+      {title:'Mutual Aid: A Factor of Evolution',note:'Kropotkin, 1902',url:'https://en.wikipedia.org/wiki/Mutual_Aid:_A_Factor_of_Evolution'},
+      {title:'Governing the Commons',note:'Ostrom, 1990',url:'https://en.wikipedia.org/wiki/Governing_the_Commons'},
+      {title:'Mutual Aid: Building Solidarity During This Crisis',note:'Spade, 2020',url:'https://www.versobooks.com/products/2095-mutual-aid'},
+    ],
+    what:'Draws on Pierre-Joseph Proudhon\'s mutualism, Peter Kropotkin\'s mutual aid tradition, and Elinor Ostrom\'s Nobel Prize-winning research. The shared claim: communities can organize production, distribution, and resource management cooperatively, without a capitalist employer extracting surplus or a state directing activity. Governance is horizontal and federated.',
+    goal:'Build economic security and cooperation outside both the market and the state. Replace hierarchy with mutual aid and voluntary federation; ensure that productive assets are governed by those who use them.',
+    ownership:'Held collectively by users: commons governed by communities, worker-owned cooperatives, and mutual societies. Those who use a resource govern it, without outside owners extracting returns.',
+    decisions:'Negotiated horizontally among participants. Federations of cooperatives and communes coordinate without central hierarchy. Consensus and deliberation, rather than price signals or bureaucratic commands, are the primary coordination tools.',
+    distribution:'According to participation and need, negotiated by communities. No surplus is extracted by outside owners; no rent paid to landlords. Time banks and mutual credit systems equalize contributions across different kinds of work.',
+    power:'Deliberately decentralized. Decisions are made at the smallest effective scale. The tradition is skeptical of concentrated authority, whether held by the state or by corporations.',
+    tried:'The Rochdale Pioneers cooperative movement (1844). Mondragon cooperative corporation in Spain. Swiss and Japanese alpine commons, some centuries old. Open-source software communities. Mutual aid networks active during the COVID-19 pandemic.' },
+
+  { key:'ecological', label:'Ecological', name:'Ecological Economics', tag:'the economy is a subset of the planet', col:'#3ad17a',
+    blurb:'Ecological economics starts from a physical fact: the economy is embedded inside the biosphere, not separate from it. Natural systems, soil, water, atmosphere, and biodiversity, are not inputs to the economy; they are its precondition. Two major frameworks have developed from this foundation: the Doughnut (Kate Raworth), which maps a safe space between a social floor and an ecological ceiling; and Degrowth (Hickel, Kallis), which argues wealthy economies must actively reduce material throughput to remain within planetary limits.',
+    thinkers:[
+      {name:'Herman Daly',url:'https://en.wikipedia.org/wiki/Herman_Daly'},
+      {name:'Nicholas Georgescu-Roegen',url:'https://en.wikipedia.org/wiki/Nicholas_Georgescu-Roegen'},
+      {name:'Kate Raworth',url:'https://en.wikipedia.org/wiki/Kate_Raworth'},
+      {name:'Jason Hickel',url:'https://en.wikipedia.org/wiki/Jason_Hickel'},
+    ],
+    resources:[
+      {title:'Beyond Growth',note:'Daly, 1996',url:'https://en.wikipedia.org/wiki/Beyond_Growth'},
+      {title:'Doughnut Economics',note:'Raworth, 2017',url:'https://en.wikipedia.org/wiki/Doughnut_Economics:_Seven_Ways_to_Think_Like_a_21st-Century_Economist'},
+      {title:'Less Is More',note:'Hickel, 2020',url:'https://en.wikipedia.org/wiki/Less_Is_More_(book)'},
+      {title:'Degrowth.info',note:'open research hub',url:'https://degrowth.info/'},
+    ],
+    what:'Grounds economics in the physical and ecological systems that all production depends on. Drawing on thermodynamics and ecology, the tradition argues that continuous material growth is incompatible with a finite planet. The Doughnut framework (Raworth) maps the safe space between a social foundation below which no one should fall and an ecological ceiling that must not be breached. Degrowth (Hickel, Kallis) argues wealthy economies must actively scale back material throughput.',
+    goal:'Bring economic activity within planetary boundaries while maintaining high levels of human wellbeing. Replace GDP growth as the primary measure of success with ecological stability, sufficiency, and equitable distribution.',
+    ownership:'Favors commons, cooperative, and public ownership of land and natural resources, with democratic control over investment decisions that affect the environment.',
+    decisions:'Democratic and community-based, with ecological limits treated as hard constraints rather than factors to be traded off against growth. Markets can operate within these limits but cannot override them.',
+    distribution:'Strong redistribution to enable reduced working hours without poverty. Universal services provide security without requiring the economy to expand. Sufficiency, enough for everyone, rather than unlimited accumulation is the organizing principle.',
+    power:'Accountable to ecological limits and future generations as well as present democratic majorities. Challenges the political and economic power of fossil fuel industries and growth-dependent sectors.',
+    tried:'Amsterdam adopted the Doughnut framework as official city policy in 2020. Bhutan\'s Gross National Happiness framework. Costa Rica\'s ecological metrics alongside economic ones. Gaining significant traction in EU Green Deal discussions.' },
+
+  { key:'wellbeing', label:'Wellbeing', name:'Wellbeing Economics', tag:'quality of life for people and planet', col:'#40d9c9',
+    blurb:'Wellbeing economics asks a prior question before any policy debate: what is the economy actually for? Its answer is human flourishing and quality of life, not growth as an end in itself. Rooted in Amartya Sen\'s capabilities approach, it measures whether people have the real freedom to live lives they have reason to value. Governments in Scotland, New Zealand, Iceland, Wales, and Finland now track wellbeing metrics alongside GDP, treating health, belonging, security, and meaning as legitimate policy goals.',
+    thinkers:[
+      {name:'Amartya Sen',url:'https://en.wikipedia.org/wiki/Amartya_Sen'},
+      {name:'Martha Nussbaum',url:'https://en.wikipedia.org/wiki/Martha_Nussbaum'},
+      {name:'Tim Jackson',url:'https://en.wikipedia.org/wiki/Tim_Jackson_(ecological_economist)'},
+      {name:'Joseph Stiglitz',url:'https://en.wikipedia.org/wiki/Joseph_Stiglitz'},
+    ],
+    resources:[
+      {title:'Development as Freedom',note:'Sen, 1999',url:'https://en.wikipedia.org/wiki/Development_as_Freedom'},
+      {title:'Prosperity Without Growth',note:'Jackson, 2009',url:'https://en.wikipedia.org/wiki/Prosperity_Without_Growth'},
+      {title:'The Economics of Arrival',note:'Trebeck & Williams, 2019',url:'https://www.policypress.co.uk/9781447338109'},
+      {title:'Wellbeing Economy Governments',note:'WEGo alliance',url:'https://weall.org/wego'},
+    ],
+    what:'Developed from Amartya Sen\'s capabilities approach and the Wellbeing Economy Governments movement. Reframes the purpose of economics as expanding human capabilities and ensuring everyone can live a life they have reason to value. GDP is an inadequate proxy for this goal; governments should measure and optimize for health, belonging, security, education, and meaningful work instead.',
+    goal:'Ensure every person has the real freedom to live a good life, with economics serving human and ecological wellbeing rather than growth as an end in itself.',
+    ownership:'Does not prescribe a single ownership form. Supports whatever combination of public, private, cooperative, and commons ownership best achieves wellbeing outcomes in a given context.',
+    decisions:'Combines democratic planning, regulated markets, and community governance, guided by wellbeing metrics rather than GDP targets. Both human flourishing and ecological health function as design constraints on policy.',
+    distribution:'Explicitly prioritizes the social foundation: health, education, income security, housing, and political voice for everyone. These are treated as baseline requirements of a well-functioning society, not optional outcomes.',
+    power:'Accountability runs to people and planet rather than to shareholders or GDP targets. Wellbeing metrics and democratic mandates override growth imperatives in policy design.',
+    tried:'Scotland, New Zealand, Iceland, Wales, and Finland through the Wellbeing Economy Governments group. New Zealand\'s Wellbeing Budget (2019). Iceland\'s use of wellbeing indicators in national planning. Bhutan\'s Gross National Happiness framework.' },
+];
+
+const DIMS = [
+  { key:'what',         label:'What It Is',             sub:'plain-language definition' },
+  { key:'goal',         label:'The Goal',               sub:'what the system is optimizing for' },
+  { key:'ownership',    label:'Who Owns / Controls It', sub:'property and capital: land, tools, data, infrastructure' },
+  { key:'decisions',    label:'How Decisions Get Made', sub:'markets, planning, voting, negotiated rules' },
+  { key:'distribution', label:'Who Gets What',          sub:'capital return, labor payment, equal share, need' },
+  { key:'power',        label:'Power & Accountability', sub:'who can override whom, what checks that power' },
+  { key:'tried',        label:'Real-World Examples',    sub:'where this model has been explored' },
+];
+
+(function init(){
+  const params = new URLSearchParams(window.location.search);
+  const key = (params.get('school') || '').toLowerCase();
+  const school = SCHOOLS.find(s => s.key === key);
+
+  if (!school) {
+    document.getElementById('not-found').style.display = 'block';
+    document.getElementById('theory-sections').style.display = 'none';
+    document.getElementById('school-name').textContent = 'School not found';
+    return;
+  }
+
+  document.documentElement.style.setProperty('--school-col', school.col);
+  document.title = school.name + ' | A.G.E.N.C.Y.';
+
+  document.getElementById('school-label').textContent = '// ' + school.label;
+  document.getElementById('school-name').textContent = school.name;
+  document.getElementById('school-tag').textContent = school.tag;
+  document.getElementById('overview').textContent = school.blurb;
+  document.getElementById('thinkers').innerHTML =
+    school.thinkers.map(t=>'<a href="'+t.url+'" target="_blank" rel="noopener">'+t.name+'</a>').join(' &middot; ');
+  document.getElementById('policy').innerHTML =
+    school.resources.map(r=>'<a href="'+r.url+'" target="_blank" rel="noopener">'+r.title+'</a>'+(r.note?' <span class="res-note">'+r.note+'</span>':'')).join('<br>');
+
+  // Compare table: render if top3 param is present
+  const top3Raw = params.get('top3');
+  if (top3Raw) {
+    const keys = top3Raw.split(',').map(k => k.trim()).slice(0, 3);
+    const schools = keys.map(k => SCHOOLS.find(s => s.key === k)).filter(Boolean);
+    if (schools.length > 1) {
+      const table = document.getElementById('compare-tbl');
+      table.innerHTML =
+        '<thead><tr><th></th>' +
+        schools.map(s => '<th style="color:' + s.col + ';border-bottom:2px solid ' + s.col + '">' + s.name + '</th>').join('') +
+        '</tr></thead><tbody>' +
+        DIMS.map(d =>
+          '<tr><td><span>' + d.label + '</span><span class="compare-dim-sub">' + d.sub + '</span></td>' +
+          schools.map(s => '<td>' + (s[d.key] || '') + '</td>').join('') +
+          '</tr>'
+        ).join('') +
+        '</tbody>';
+      document.getElementById('compare-wrap').style.display = 'flex';
+    }
+  }
+})();
+</script>
+</body>
+</html>

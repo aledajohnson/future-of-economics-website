@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Compare Theories | A.G.E.N.C.Y.</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #08080f;
+  --surface: #111118;
+  --border: rgba(255,255,255,.08);
+  --border-hover: rgba(255,255,255,.16);
+  --text: rgba(255,255,255,.82);
+  --text-dim: rgba(255,255,255,.46);
+  --text-muted: rgba(255,255,255,.28);
+  --cyan: #00d4d4;
+  --orange: #d47b00;
+  --green: #2ab52a;
+  --amber: #ffb347;
+}
+
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-thumb { background: rgba(255,255,255,.12); border-radius: 2px; }
+
+/* ── NAV ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  background: rgba(8,8,15,.96);
+  border-bottom: 1px solid var(--border);
+  height: 52px;
+  display: flex; align-items: center; justify-content: flex-end;
+  padding: 0 2rem;
+  backdrop-filter: blur(12px);
+}
+.nav-links { display: flex; gap: 1.75rem; list-style: none; }
+.nav-links a {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: .68rem; letter-spacing: .12em; text-transform: uppercase;
+  color: var(--text-dim); text-decoration: none;
+  transition: color .15s;
+}
+.nav-links a:hover { color: #fff; }
+.nav-links a.active { color: var(--amber); }
+
+/* ── SECTION ── */
+.section {
+  padding: 0 2rem 64px;
+  max-width: 900px;
+}
+.section-label {
+  font-size: .72rem; letter-spacing: .12em; text-transform: uppercase;
+  color: var(--text-muted); margin-bottom: .5rem;
+}
+.section-title {
+  font-size: 1.25rem; font-weight: 600; color: #fff;
+  margin-bottom: .6rem; letter-spacing: -.01em;
+}
+.section-body {
+  font-size: .9rem; color: var(--text-dim); line-height: 1.75;
+  max-width: 540px; margin-bottom: 2rem;
+}
+
+/* ── MODEL LIST ── */
+.model-list { display: flex; flex-direction: column; gap: 1px; }
+
+.model-row {
+  display: grid;
+  grid-template-columns: 200px 1fr auto;
+  align-items: center;
+  gap: 1.5rem;
+  padding: .95rem 1.1rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  margin-bottom: -1px;
+  transition: background .15s, border-color .15s;
+  cursor: default;
+}
+.model-row:first-child { border-radius: 6px 6px 0 0; }
+.model-row:last-child  { border-radius: 0 0 6px 6px; margin-bottom: 0; }
+.model-row:hover { background: rgba(255,255,255,.03); border-color: var(--border-hover); }
+
+.model-row-name {
+  display: flex; flex-direction: column; gap: .3rem;
+}
+.model-name {
+  font-size: .9rem; font-weight: 600; color: #fff; line-height: 1.3;
+}
+
+.model-tagline {
+  font-size: .88rem; color: var(--text-dim); line-height: 1.55;
+}
+
+.add-compare-btn {
+  font-size: .72rem; color: var(--text-muted);
+  background: none; border: 1px solid var(--border);
+  padding: .3rem .75rem; border-radius: 4px;
+  cursor: pointer; white-space: nowrap;
+  transition: color .15s, border-color .15s;
+  flex-shrink: 0;
+}
+.add-compare-btn:hover { color: var(--text); border-color: var(--border-hover); }
+.add-compare-btn.added { color: var(--cyan); border-color: rgba(0,212,212,.3); }
+
+/* ── DIVIDER ── */
+.divider {
+  border: none; height: 1px;
+  background: var(--border);
+  margin: 0 2rem 56px;
+}
+
+/* ── COMPARE ── */
+#compare { padding: 96px 2rem 80px; max-width: 900px; }
+
+.compare-selectors {
+  display: grid; grid-template-columns: 1fr auto 1fr;
+  gap: .75rem; align-items: center; margin-bottom: 2rem;
+}
+.compare-select {
+  appearance: none;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  padding: .7rem 2.2rem .7rem .9rem;
+  font-family: inherit; font-size: .88rem;
+  color: var(--text); cursor: pointer; width: 100%;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='7' viewBox='0 0 10 7'%3E%3Cpath d='M1 1l4 4 4-4' stroke='rgba(255,255,255,0.3)' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  transition: border-color .15s;
+}
+.compare-select:focus { outline: none; border-color: rgba(255,255,255,.24); }
+.compare-select option, .compare-select optgroup { background: #111118; }
+
+.compare-vs {
+  font-size: .78rem; color: var(--text-muted);
+  text-align: center; font-weight: 500;
+}
+
+#compare-result { display: none; }
+#compare-result.visible { display: block; }
+
+.compare-table {
+  width: 100%; border-collapse: collapse;
+  border: 1px solid var(--border);
+  border-radius: 6px; overflow: hidden;
+}
+.compare-table thead th {
+  padding: .75rem 1rem; text-align: left;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  font-size: .8rem; font-weight: 600;
+}
+.compare-table thead th:first-child {
+  font-size: .7rem; font-weight: 400;
+  color: var(--text-muted); width: 160px;
+}
+.compare-table thead th.col-a { color: var(--cyan); }
+.compare-table thead th.col-b { color: var(--orange); }
+
+.compare-table td {
+  padding: .85rem 1rem;
+  border-bottom: 1px solid var(--border);
+  font-size: .85rem; color: var(--text-dim);
+  line-height: 1.7; vertical-align: top;
+}
+.compare-table tr:last-child td { border-bottom: none; }
+.compare-table td:first-child {
+  font-size: .72rem; font-weight: 500;
+  color: var(--text-muted); background: var(--surface);
+  text-transform: uppercase; letter-spacing: .04em;
+  width: 160px; vertical-align: top;
+}
+.dim-sub {
+  display: block; font-size: .62rem; text-transform: none;
+  letter-spacing: .01em; margin-top: .25rem; opacity: .65; font-weight: 400;
+}
+.compare-table td.cell-a { border-left: 2px solid rgba(0,212,212,.2); }
+.compare-table td.cell-b { border-left: 2px solid rgba(212,123,0,.2); }
+
+.compare-empty {
+  text-align: center; padding: 2.5rem;
+  font-size: .88rem; color: var(--text-muted);
+  border: 1px solid var(--border); border-radius: 6px;
+  background: var(--surface);
+}
+
+/* ── FOOTER ── */
+footer {
+  border-top: 1px solid var(--border);
+  padding: 1.4rem 2rem;
+  display: flex; justify-content: center; align-items: center;
+}
+.footer-note  { font-size: .75rem; color: var(--text-muted); }
+.footer-credit { font-size: .75rem; color: var(--text-muted); }
+.footer-credit a { color: var(--orange); text-decoration: none; }
+.footer-credit a:hover { text-decoration: underline; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 640px) {
+  nav { padding: 0 1rem; }
+  .section, #compare { padding-left: 1rem; padding-right: 1rem; }
+  .model-row { grid-template-columns: 1fr; gap: .4rem; }
+  .add-compare-btn { width: fit-content; }
+  .compare-selectors { grid-template-columns: 1fr; }
+  .compare-vs { display: none; }
+  .divider { margin-left: 1rem; margin-right: 1rem; }
+  footer { flex-direction: column; gap: .5rem; padding: 1.2rem 1rem; text-align: center; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <ul class="nav-links">
+    <li><a href="index.html">Soul Mapping</a></li>
+    <li><a href="community.html">Community Map</a></li>
+    <li><a href="compare.html" class="active">Compare Theories</a></li>
+    <li><a href="agency.html">Action</a></li>
+  </ul>
+</nav>
+
+<div id="compare">
+  <div class="section-label">Compare</div>
+  <h2 class="section-title">Compare any two models</h2>
+  <p class="section-body">Select two models to see how they approach the same questions side by side.</p>
+
+  <div class="compare-selectors">
+    <select class="compare-select" id="sel-a" onchange="runCompare()">
+      <option value="">First model</option>
+    </select>
+    <div class="compare-vs">vs</div>
+    <select class="compare-select" id="sel-b" onchange="runCompare()">
+      <option value="">Second model</option>
+    </select>
+  </div>
+
+  <div id="compare-result">
+    <div class="compare-empty" id="compare-empty">Select two models above to compare them.</div>
+    <table class="compare-table" id="compare-table" style="display:none"></table>
+  </div>
+</div>
+
+<hr class="divider">
+
+<div class="section" id="explore">
+  <div class="section-label">Explore</div>
+  <h2 class="section-title">Economic theories and frameworks</h2>
+  <p class="section-body">Each entry below represents a distinct way of thinking about how economies are or should be organized. Select any two to compare them in detail.</p>
+  <div class="model-list" id="model-list"></div>
+</div>
+
+<footer>
+  <div class="footer-credit">Future of Us Festival</div>
+</footer>
+
+<script>
+const MODELS = [
+  {
+    id: 'capitalism', type: 'system',
+    name: 'Capitalism',
+    tagline: 'Private ownership of the means of production, combined with market coordination and the profit motive, defines capitalist economies.',
+    what: 'In a capitalist economy, land, factories, and capital are privately owned. Prices, wages, and investment emerge from voluntary market exchanges, and the profit motive drives where resources flow. Nearly all economies today are broadly capitalist in structure, though they differ significantly in how much regulation and redistribution they include.',
+    goal: 'Grow aggregate output and raise living standards through competition and innovation. The central argument is that individuals pursuing self-interest within competitive markets tend to produce outcomes that benefit the broader economy.',
+    ownership: 'Private individuals and corporations own productive assets: land, factories, financial capital, and increasingly data and intellectual property. These can be bought, sold, inherited, and used to generate further returns.',
+    decisions: 'Prices coordinate most decisions. Consumers signal preferences through spending; firms respond to profit opportunities; investors allocate capital. Governments set the legal framework and correct market failures but do not direct production.',
+    distribution: 'Returns flow to owners of capital through profit, dividends, and rent. Workers receive wages determined by labor markets. Distribution reflects ownership of assets more than contribution or need.',
+    power: 'Owners of capital hold significant influence over economic decisions. Antitrust law, regulation, and democratic elections provide formal checks. The degree to which concentrated wealth translates into political influence is actively debated.',
+    tried: 'The dominant global economic structure. Examples range from lightly regulated historical forms in 19th-century United States to heavily regulated mixed varieties in contemporary Nordic countries.',
+    relation: 'Austrian and Neoclassical schools provide its theoretical foundation; Keynesian is a reform tradition within it that accepts capitalism while adding government management. Marxist, Mutualist, and Solidarity Economy offer fundamental critiques of private ownership. Ecological and Post-Growth schools challenge its growth imperative regardless of who holds the capital.'
+  },
+  {
+    id: 'socialism', type: 'system',
+    name: 'Socialism',
+    tagline: 'The means of production should be owned collectively or by the state, with production organized around social need rather than private profit.',
+    what: 'Socialism encompasses a broad range of views united by a common principle: the major means of production, including factories, land, and key infrastructure, should be held collectively rather than by private owners. Variants include democratic socialism, market socialism, and more centralized state socialism. The tradition has produced a wide range of real-world experiments.',
+    goal: 'Meet collective needs rather than generate private profit. Reduce inequality by giving workers meaningful control over what they produce and how it is distributed.',
+    ownership: 'Productive capital is collectively or publicly owned. Personal property, including homes and belongings, remains. The defining distinction from capitalism is that ownership of the productive economy is not concentrated in private hands.',
+    decisions: 'Collective or state-directed planning rather than market prices. Decisions about what to produce and how to distribute it are made through democratic institutions, worker councils, or a central planning authority, depending on the variant.',
+    distribution: 'Based on contribution or need rather than capital ownership. Workers receive more of the value they produce. Public services, including healthcare, housing, and education, are provided as rights rather than sold as commodities.',
+    power: 'Economic authority rests with political institutions rather than private capital. In democratic variants, elected governments and worker bodies hold power; in more centralized forms, a party or state administration does. The distinction between these variants has significant consequences in practice.',
+    tried: 'Postwar UK nationalizations. Nordic social democratic welfare states. Worker cooperatives worldwide. Cuba. The Soviet Union is the most extensively studied example of centralized state socialism, analyzed both for its achievements in early industrialization and its failures in political freedom and long-run economic performance.',
+    relation: 'Closely related to the Marxist tradition. Democratic socialism borrows Keynesian tools; at its most decentralized it overlaps with Commons-Based and Solidarity Economy approaches. In direct tension with Austrian and Neoclassical schools on private ownership of productive assets.'
+  },
+  {
+    id: 'mixed', type: 'system',
+    name: 'Mixed Economy',
+    tagline: 'Private enterprise drives most economic activity, but the state owns or regulates essential services that markets tend to underprovide.',
+    what: 'The structure that most countries actually operate within. Private enterprise is the primary driver of production, but governments own or regulate healthcare, utilities, education, and infrastructure. The precise balance between public and private shifts considerably across countries and with political conditions.',
+    goal: 'Combine the efficiency and dynamism of markets with the social protections and public goods that markets systematically underprovide. Sustain growth while moderating the worst outcomes of unchecked market forces.',
+    ownership: 'Primarily private for most productive capital; public or heavily regulated for utilities, healthcare, transport, and education. The boundary between public and private is politically contested and shifts over time.',
+    decisions: 'Markets allocate most goods; governments intervene in cases of market failure, public goods provision, and redistribution. Central banks manage money and credit. The balance between market allocation and public direction is a central ongoing political question.',
+    distribution: 'Market wages and returns, supplemented by progressive taxation and social transfers. Public services provide some access regardless of income. Inequality persists but is moderated relative to a purely private economy.',
+    power: 'Shared between private capital and democratically elected governments. Courts, regulatory agencies, and elections provide checks. Ongoing political tensions between interests pushing for deregulation and those pushing for stronger public provision shape its evolution.',
+    tried: 'Effectively the standard structure among developed nations. Western Europe, Canada, Japan, Australia, and the United States all operate mixed economies, differing mainly in the size of the public sector and the generosity of social transfers.',
+    relation: 'The practical result of Keynesian policies applied within a capitalist structure. Compatible with Neoclassical tools applied selectively. Ecological and Post-Growth critics argue it preserves growth imperatives while offering only marginal reform to the underlying system.'
+  },
+  {
+    id: 'commons', type: 'system',
+    name: 'Commons-Based Economy',
+    tagline: 'Shared resources can be governed sustainably by communities, outside both private ownership and state control.',
+    what: 'Communities collectively manage shared resources, including land, water, knowledge, and digital infrastructure, through agreed rules rather than private ownership or top-down state management. Research has documented how communities worldwide have sustainably managed commons for generations using this approach, giving the model solid empirical grounding.',
+    goal: 'Sustain shared resources across generations while ensuring equitable access for those who depend on them. Prioritize long-term stewardship, participation, and sufficiency over short-term profit or growth.',
+    ownership: 'Resources are held as commons: governed by the community of users under collectively agreed rules, neither owned by a private individual nor managed by the state. The rules, not an owner, determine who can use the resource and how.',
+    decisions: 'Communities negotiate rules through deliberative processes. Key design principles include clearly defined boundaries, rules proportional to local conditions, community participation in rule-making, and effective monitoring and enforcement.',
+    distribution: 'Access based on membership and need rather than ability to pay. Costs and benefits are shared among commoners according to collectively agreed rules.',
+    power: 'Distributed among the community of users. Governing institutions are accountable to members, not external investors or state authorities. The primary historical threat to commons has been enclosure, the conversion to private or state ownership against the will of the community.',
+    tried: 'Village commons in pre-enclosure England. Swiss and Japanese alpine communities, many operating sustainably for centuries. Open-source software. Wikipedia. Indigenous land management systems worldwide.',
+    relation: 'Shares core principles with Mutualist and Solidarity Economy. In tension with both private ownership traditions (Austrian, Neoclassical) and state control traditions (centralized Socialism). Overlaps with Ecological Economics on governance of natural resources and with Mutualist on horizontal governance structures.'
+  },
+  {
+    id: 'doughnut', type: 'framework',
+    name: 'Doughnut Economics',
+    tagline: 'A thriving economy keeps every person above a social foundation of basic needs while keeping human activity within the planet\'s ecological limits.',
+    what: 'The model uses the image of a doughnut: the inner ring is a social foundation (food, housing, healthcare, political voice) below which no one should fall. The outer ring is an ecological ceiling (climate stability, biodiversity, freshwater systems) that must not be breached. The goal is to thrive in the space between.',
+    goal: 'Ensure every person\'s basic needs are met while keeping the economy within planetary boundaries. GDP growth is not the objective; meeting social needs within ecological limits is.',
+    ownership: 'Does not prescribe a single ownership form. Supports whatever combination of public, private, cooperative, and commons ownership best achieves both social and ecological goals in a given context.',
+    decisions: 'Combines democratic planning, regulated markets, and community governance, calibrated to meet social needs without exceeding ecological limits. Both the social floor and the ecological ceiling function as design constraints on policy.',
+    distribution: 'Explicitly prioritizes the social foundation: food, water, housing, energy, health, education, income, and political voice for everyone. These are treated as baseline requirements of a well-functioning economy, not optional outcomes.',
+    power: 'Accountability runs to people and planet rather than to shareholders or GDP targets. Both the social floor and the ecological ceiling are non-negotiable constraints on economic policy, not trade-offs to be balanced against growth.',
+    tried: 'Amsterdam adopted doughnut economics as its official city framework in 2020. Brussels, Copenhagen, and other cities are exploring similar approaches. The Wellbeing Economy Governments group (New Zealand, Scotland, Iceland, Wales, Finland) applies related thinking at national scale.',
+    relation: 'A design framework within Ecological Economics, not a standalone school. Most compatible with Keynesian social democracy in its practical policy tools. Overlaps with Wellbeing Economy on the social floor; adds the ecological ceiling that Wellbeing approaches do not always emphasize. Part of the broader Post-Growth family.'
+  },
+  {
+    id: 'postgrowth', type: 'framework',
+    name: 'Post-Growth Economics',
+    tagline: 'Continuous GDP growth is neither sustainable on a finite planet nor a reliable measure of wellbeing; economies should be designed to thrive without requiring it.',
+    what: 'An umbrella term for frameworks questioning whether perpetual economic growth is desirable or possible. Includes Wellbeing Economics, Degrowth, and Steady-State Economics. The common thread: GDP growth should not be the primary goal of economic policy, and societies can improve wellbeing through better distribution and investment rather than sheer expansion of output.',
+    goal: 'Build economies that sustain high levels of wellbeing without requiring perpetual expansion of output. Equity, health, and ecological sustainability are the real targets; GDP growth is, at best, a tool in service of those goals.',
+    ownership: 'Not prescriptive on ownership, but often supports stronger commons and public ownership to decouple human wellbeing from the need for continuous economic expansion.',
+    decisions: 'Democratic and deliberative processes set social goals. Markets and planning are treated as instruments in service of those goals rather than ends in themselves.',
+    distribution: 'Prioritizes sufficiency and equity over unlimited accumulation. Redistribution and reduced working hours allow prosperity to be shared without requiring the overall economy to keep expanding.',
+    power: 'Accountable to democratic publics and future generations rather than to financial markets or GDP targets. Shifting this accountability structure is seen as the core political challenge.',
+    tried: 'New Zealand\'s Wellbeing Budget (2019). Scotland and Wales have embedded wellbeing goals in legislation. Iceland\'s four-day working week trials. Finland\'s basic income experiment. The Wellbeing Economy Governments group links these national experiments.',
+    relation: 'An umbrella encompassing Degrowth, Wellbeing Economy, and Steady-State approaches. Most aligned with Keynesian social democracy but pushes further by questioning growth itself. In direct tension with Austrian, Neoclassical, and conventional Keynesian schools, all of which treat economic expansion as a core objective.'
+  },
+  {
+    id: 'degrowth', type: 'framework',
+    name: 'Degrowth',
+    tagline: 'Wealthy economies should deliberately reduce their material footprint, not through recession but through a planned shift in priorities, to live within planetary limits.',
+    what: 'Degrowth argues that wealthy economies must actively scale back production and consumption, not as a crisis to be managed but as a deliberate political choice. The focus is on reducing carbon-intensive, exploitative, and unnecessary activity while improving quality of life by redistributing work, reclaiming time, and rebuilding community.',
+    goal: 'Reduce the material and energy throughput of wealthy economies to sustainable levels while improving wellbeing by freeing people from overwork, reducing inequality, and recentering economic life around care, creativity, and community rather than production.',
+    ownership: 'Favors expansion of commons, cooperative, and public ownership, reducing private accumulation of productive assets so that people\'s wellbeing does not depend on continuous growth.',
+    decisions: 'Democratic and participatory, with communities actively deciding what to produce less of and where to invest. Local and regional governance is prioritized; global commodity markets are viewed with skepticism.',
+    distribution: 'Strong redistribution to enable reduced working hours without poverty. Universal public services replace much market provision. Living well on less is an explicit design goal, not a sacrifice.',
+    power: 'Accountable to communities and ecological limits rather than to capital or growth metrics. Degrowth directly challenges the political power of industries whose profitability depends on continuous expansion.',
+    tried: 'No country has adopted degrowth as an explicit national policy. Elements appear in car-free city zones, advertising restrictions in some European cities, the 15-minute city model in Paris, and shorter working week legislation in several countries. The framework is gaining influence in academic and policy circles.',
+    relation: 'A strategy within Ecological Economics, more radical than the Post-Growth umbrella on the need for active reduction rather than redirection. Compatible with Mutualist and Solidarity Economy on ownership of productive assets. In direct tension with all growth-oriented traditions, including Keynesian, which treats stimulus as a solution to social problems.'
+  },
+  {
+    id: 'wellbeing', type: 'framework',
+    name: 'Wellbeing Economy',
+    tagline: 'Economic systems should be explicitly designed and measured around human flourishing, including health, connection, security, and meaning, rather than GDP.',
+    what: 'An approach that argues economic systems should be deliberately designed around human flourishing: health, social connection, meaning, security, and environmental sustainability rather than GDP. Governments in Scotland, New Zealand, Iceland, Wales, and Finland have built national policy frameworks around these principles, treating wellbeing indicators as primary rather than secondary to economic output.',
+    goal: 'Maximize human flourishing across dimensions of health, connection, meaning, security, and sustainability. GDP is treated as one imperfect tool among many, not a target in itself.',
+    ownership: 'Pragmatic on ownership. Supports public investment in social infrastructure, including healthcare, childcare, housing, and transit, that markets systematically underprovide.',
+    decisions: 'Democratic governments set explicit wellbeing targets and use public budgets, regulation, and investment to pursue them. Markets operate within this framework rather than defining its goals.',
+    distribution: 'Prioritizes outcomes for the least well-off. Public services are treated as rights. Progressive taxation redistributes income and wealth toward the social floor.',
+    power: 'Accountable to elected governments and civil society using wellbeing indicators rather than financial markets or GDP growth rates. Shifting from GDP to wellbeing metrics is both a technical and a political project.',
+    tried: 'New Zealand\'s 2019 Wellbeing Budget. Iceland\'s working week reduction trials. Scotland\'s National Performance Framework. Wales\'s Well-being of Future Generations Act. The Wellbeing Economy Governments group provides a formal international network for these experiments.',
+    relation: 'Part of the Post-Growth family, closest to Keynesian social democracy in its practical policy tools. Overlaps with Doughnut Economics on social floors; the Doughnut adds an ecological ceiling. Less focused on reducing material throughput than Degrowth. Compatible with Ecological Economics without adopting its harder limits framing.'
+  },
+  {
+    id: 'solidarity', type: 'framework',
+    name: 'Solidarity Economy',
+    tagline: 'Economic life should be organized through democratic, community-rooted institutions, including cooperatives, mutual aid networks, credit unions, and land trusts, that keep wealth circulating locally.',
+    what: 'Not a single unified system, but an ecosystem of interconnected practices: worker cooperatives, credit unions, mutual aid networks, time banks, community land trusts, and social enterprises. The connecting thread is democratic governance and a commitment to circulating value within communities rather than extracting it.',
+    goal: 'Build democratic economic institutions that give workers and communities control, circulate wealth locally, and embed economic relationships in mutual obligation rather than anonymous market exchange.',
+    ownership: 'Distributed: worker-owned cooperatives, community land trusts, credit unions, and mutual societies. Productive assets are governed by those who use them, with no class of external investors extracting returns.',
+    decisions: 'Democratic governance within each institution, one member one vote. Federations coordinate among enterprises. Markets are used as tools but not as the primary mechanism of coordination.',
+    distribution: 'Surplus returns to workers and members rather than external investors. Benefits circulate locally. Time banks equalize the value of different kinds of work by treating every hour as equivalent.',
+    power: 'Distributed among members and workers. Accountable to the community of participants. The solidarity economy faces ongoing pressure from conventional firms and the risk of gradually adopting conventional practices as institutions grow and scale.',
+    tried: 'Mondragon cooperative corporation in Spain\'s Basque Country, with over 80,000 worker-owners. Emilia-Romagna in Italy, where cooperatives generate roughly 40 percent of regional GDP. Equal Exchange. The cooperative and credit union sectors in many countries.',
+    relation: 'The practical organizational expression of Mutualist principles at scale. Compatible with Marxist critique of capitalism. Overlaps significantly with Commons-Based Economy and often incorporates cooperative ownership structures. Operates within but deliberately challenges capitalist markets from the inside.'
+  },
+  {
+    id: 'ecological', type: 'school',
+    name: 'Ecological Economics',
+    tagline: 'The economy is embedded inside the biosphere, not separate from it. Natural systems are not inputs to the economy; they are its precondition. Includes the Doughnut framework and Degrowth as strategies.',
+    what: 'Grounds economics in the physical and ecological systems that all production depends on. The tradition argues that continuous material growth is incompatible with a finite planet. The Doughnut framework maps the safe space between a social floor and an ecological ceiling; Degrowth argues wealthy economies must actively scale back material throughput. Both are strategies within this broader school.',
+    goal: 'Bring economic activity within planetary boundaries while maintaining high levels of human wellbeing. Replace GDP growth as the primary measure of success with ecological stability, sufficiency, and equitable distribution.',
+    ownership: 'Favors commons, cooperative, and public ownership of land and natural resources, with democratic control over investment decisions that affect the environment.',
+    decisions: 'Democratic and community-based, with ecological limits treated as hard constraints rather than factors to be traded off against growth. Markets can operate within these limits but cannot override them.',
+    distribution: 'Strong redistribution to enable reduced working hours without poverty. Universal services provide security without requiring the economy to expand. Sufficiency, meaning enough for everyone, rather than unlimited accumulation is the organizing principle.',
+    power: 'Accountable to ecological limits and future generations as well as present democratic majorities. Challenges the political and economic power of fossil fuel industries and growth-dependent sectors.',
+    tried: 'Bhutan\'s Gross National Happiness framework. Costa Rica\'s use of ecological metrics alongside economic ones. Steady-state economics has influenced environmental policy in many countries. Gaining significant traction in EU Green Deal discussions and academic economics.',
+    relation: 'Parent framework for Doughnut Economics and Degrowth as strategies. Challenges all growth-oriented schools: Austrian, Neoclassical, and Keynesian. Shares values with Wellbeing Economics but treats planetary limits as hard constraints rather than design aspirations. Overlaps with Mutualist and Commons-Based approaches on natural resource governance and ownership.'
+  },
+  {
+    id: 'austrian', type: 'school',
+    name: 'Austrian / Libertarian',
+    tagline: 'Economic order emerges spontaneously from voluntary exchange; central planning is not merely inefficient but impossible, because prices encode knowledge that no authority can replicate.',
+    what: 'The central claim is that economic coordination emerges spontaneously from voluntary exchanges, not from deliberate design. Prices encode dispersed local knowledge that no central authority can replicate, which is why central planning, in this view, always produces worse outcomes than markets. The tradition is skeptical of any state intervention as likely to cause more harm than it corrects.',
+    goal: 'Protect individual liberty and property rights; allow spontaneous market order to emerge from voluntary exchange. Remove all barriers to free markets and maintain sound money.',
+    ownership: 'Strictly private. Individuals own productive assets, including land, capital, and businesses, which are freely tradeable. No collective or state ownership of productive assets is considered consistent with individual liberty within this tradition.',
+    decisions: 'Fully decentralized through price signals. Consumers signal preferences through spending; entrepreneurs discover and respond to profit opportunities. No directing authority is needed or desirable.',
+    distribution: 'Returns go to capital owners; wages to workers as determined by market forces. Redistribution is viewed as a violation of property rights. Inequality is considered a natural and functional feature of free markets rather than a problem requiring policy correction.',
+    power: 'The state\'s legitimate role is limited to enforcing contracts and protecting property. Market competition, rather than political institutions, is the primary check on concentrated economic power.',
+    tried: 'Partial influence on Hong Kong\'s low-tax, open-market economy. Informed Thatcher-era UK and Reagan-era US deregulation programs. Estonia\'s flat tax reforms in the 1990s.',
+    relation: 'In direct tension with Keynesian on government intervention and with Marxist and Mutualist on private ownership. Shares Neoclassical defense of markets but rejects government correction of market failures that Neoclassical accepts. Its emphasis on decentralization has surface overlap with Mutualist, though through markets rather than community governance.'
+  },
+  {
+    id: 'neoclassical', type: 'school',
+    name: 'Neoclassical / Market Liberal',
+    tagline: 'Prices encode information and guide resources to their highest-value use; competitive markets, if well-designed, maximize welfare across the whole economy.',
+    what: 'The dominant framework in academic and applied economics. Models individuals as rational decision-makers and markets as efficient aggregators of information. Supports competitive markets, free trade, and targeted government interventions such as carbon taxes to correct specific failures where markets produce suboptimal outcomes.',
+    goal: 'Maximize allocative efficiency and aggregate welfare through well-functioning markets. Grow the overall economy; let comparative advantage guide specialization and trade internationally.',
+    ownership: 'Primarily private, with limited public ownership of pure public goods. Intellectual property rights are strong. Markets in land and capital are treated as efficient mechanisms for allocating these assets.',
+    decisions: 'Market prices coordinate most decisions. Governments correct well-defined market failures, including externalities, public goods, and information asymmetries, through targeted taxes, regulation, or spending.',
+    distribution: 'Market-determined wages reflect productivity; returns flow to capital owners. Redistribution through taxes and transfers is broadly acceptable provided it does not significantly distort market incentives.',
+    power: 'Distributed through market competition among firms. Democratic governments set rules but should not override market outcomes except in clearly defined cases of market failure. The framework acknowledges the risk of regulatory capture; critics argue this risk is underweighted in practice.',
+    tried: 'The analytical foundation of most government economic policy since the 1980s. IMF and World Bank programs. WTO trade rules. Washington Consensus structural adjustment programs across Latin America, Africa, and Eastern Europe, with results that remain debated.',
+    relation: 'The mainstream from which Austrian (stricter on markets) and Keynesian (adds government demand management) both branch. Marxist and Ecological schools are its most systematic critics from opposite directions. Most real-world mixed economies use Neoclassical tools with Keynesian corrections applied selectively.'
+  },
+  {
+    id: 'keynesian', type: 'school',
+    name: 'Keynesian / Social Democratic',
+    tagline: 'Markets are prone to instability and crisis; public institutions must actively manage demand and maintain a social floor that unregulated markets will not produce.',
+    what: 'Argues that aggregate demand, total spending in the economy, drives output in the short run. When private demand collapses, governments must step in to sustain activity through spending or tax cuts. The social democratic tradition extends this with labor protections, strong public services, and redistribution, producing the welfare states that characterize most wealthy democracies.',
+    goal: 'Sustain full employment and stable growth while ensuring everyone has access to a social floor of income support, healthcare, and education that markets alone will not reliably provide.',
+    ownership: 'Mixed: private enterprise for most production; public ownership or strong regulation of infrastructure, healthcare, and utilities; labor unions as institutional counterweights to capital.',
+    decisions: 'Market prices operate for most goods and services, but government actively manages aggregate demand through fiscal policy (spending and taxation) and monetary policy. Collective bargaining shapes wages in key sectors.',
+    distribution: 'Market wages supplemented by progressive taxation and universal public services. The welfare state provides income security as a right of citizenship, not a market outcome.',
+    power: 'Democratic governments accountable to voters; central banks with public mandates; strong labor unions; regulatory agencies. Capital is checked by collective bargaining, the welfare state, and democratic politics. The relative strength of these checks varies significantly across countries and periods.',
+    tried: 'The US New Deal (1930s). Postwar European welfare states. The Nordic model in Sweden, Denmark, and Norway. Global stimulus responses to the 2008 financial crisis and the COVID-19 pandemic.',
+    relation: 'Built on Neoclassical foundations while adding active government demand management. Social democratic welfare states are its clearest real-world expression. Austrian is its primary intellectual opponent. Post-Growth economists argue Keynesian stimulus still presupposes indefinite economic growth as the answer to social problems.'
+  },
+  {
+    id: 'marxist', type: 'school',
+    name: 'Marxist / Socialist',
+    tagline: 'Capitalism structurally generates inequality by allowing owners of the means of production to appropriate value that workers create; transforming ownership is the only lasting solution.',
+    what: 'Workers produce more value than they receive in wages; the gap, surplus value, is appropriated by owners as profit. The class relation between those who own the means of production and those who must sell their labor drives both inequality and historical change. Meaningful reform, in this analysis, requires transforming ownership, not merely redistributing income.',
+    goal: 'End exploitation and class hierarchy. Allow workers to keep the full value of what they produce and collectively govern the economy for human need rather than private profit.',
+    ownership: 'Collective or social ownership of the means of production: factories, land, data, infrastructure. Personal possessions remain; productive capital does not belong to a private class of owners who appropriate surplus from workers.',
+    decisions: 'Collective planning, worker councils, or democratic state institutions determine economic priorities, replacing market competition with consciously directed social coordination.',
+    distribution: 'According to contribution (in socialism) or need (in communism). Surplus belongs to workers and is directed toward collective investment and social services rather than private profit.',
+    power: 'Political authority of the working class replaces the economic authority of capital. Worker councils, unions, and democratic institutions are the intended mechanisms. Historical socialist states varied considerably in how democratically this power was exercised in practice.',
+    tried: 'Soviet Union, Cuba, and the People\'s Republic of China as major state socialist experiments. Worker-managed enterprises and workplace democracy initiatives worldwide. Salvador Allende\'s government in Chile (1970-1973). The Zapatista autonomous communities in Chiapas, Mexico.',
+    relation: 'Shares the critique of private ownership with Mutualist but disagrees on the role of the state; the Marxist tradition has historically favored centralized direction that Mutualist rejects. Compatible with Commons-Based and Solidarity Economy approaches at smaller scale. Directly opposed to Austrian and Neoclassical defense of private capital.'
+  },
+  {
+    id: 'mutualist', type: 'school',
+    name: 'Mutualist / Commons',
+    tagline: 'Economic security and cooperation can be built through mutual aid and shared governance of the commons, without requiring either the state or the market as the primary organizer.',
+    what: 'Communities can organize production, distribution, and resource management cooperatively, without a capitalist employer extracting surplus or a state directing activity. Governance is horizontal and federated, built on mutual obligation rather than hierarchy. Research on long-running commons worldwide provides empirical support for the model\'s viability.',
+    goal: 'Build economic security and cooperation outside both the market and the state. Replace hierarchy with mutual aid and voluntary federation; ensure that productive assets are governed by those who use them.',
+    ownership: 'Held collectively by users: commons governed by communities, worker-owned cooperatives, and mutual societies. Those who use a resource govern it, without outside owners extracting returns.',
+    decisions: 'Negotiated horizontally among participants. Federations of cooperatives and communes coordinate without central hierarchy. Consensus and deliberation, rather than price signals or bureaucratic commands, are the primary coordination tools.',
+    distribution: 'According to participation and need, negotiated by communities. No surplus is extracted by outside owners; no rent paid to landlords. Time banks and mutual credit systems equalize contributions across different kinds of work.',
+    power: 'Deliberately decentralized. Decisions are made at the smallest effective scale. The tradition is skeptical of concentrated authority, whether held by the state or by corporations.',
+    tried: 'The Rochdale Pioneers cooperative movement (1844), which laid the groundwork for the modern cooperative sector. Mondragon cooperative corporation in Spain. Swiss and Japanese alpine commons, some centuries old. Open-source software communities. Mutual aid networks active during the COVID-19 pandemic.',
+    relation: 'Agrees with Marxist on exploitation but rejects centralized state planning, making it incompatible with authoritarian socialist traditions. Overlaps significantly with Commons-Based Economy and Solidarity Economy in practice. Skeptical of both market liberalism (Austrian, Neoclassical) and state socialism. Shares horizontal governance principles with Ecological Economics.'
+  }
+];
+
+const DIMENSIONS = [
+  { key: 'what',         label: 'What It Is',             sub: 'plain-language definition' },
+  { key: 'goal',         label: 'The Goal',               sub: 'what the system is optimizing for' },
+  { key: 'ownership',    label: 'Who Owns / Controls It', sub: 'property and capital: land, tools, data, infrastructure' },
+  { key: 'decisions',    label: 'How Decisions Get Made', sub: 'markets, planning, voting, negotiated rules, protocols' },
+  { key: 'distribution', label: 'Who Gets What',          sub: 'capital return, labor payment, equal share, need, stewardship' },
+  { key: 'power',        label: 'Power & Accountability', sub: 'who can override whom, what checks that power' },
+  { key: 'tried',        label: 'Real-World Examples',    sub: 'where this model has been explored' },
+  { key: 'relation',     label: 'Affinities & Tensions',  sub: 'related frameworks and direct opposites' },
+];
+
+// ── RENDER LIST ──
+function renderList() {
+  const list = document.getElementById('model-list');
+  MODELS.forEach(m => {
+    const row = document.createElement('div');
+    row.className = 'model-row';
+    row.id = 'row-' + m.id;
+    row.innerHTML = `
+      <div class="model-row-name">
+        <div class="model-name">${m.name}</div>
+      </div>
+      <div class="model-tagline">${m.tagline}</div>
+      <button class="add-compare-btn" onclick="addToCompare('${m.id}', this)">+ Compare</button>
+    `;
+    list.appendChild(row);
+  });
+}
+
+// ── ADD TO COMPARE ──
+function addToCompare(id, btn) {
+  const selA = document.getElementById('sel-a');
+  const selB = document.getElementById('sel-b');
+
+  // clear "added" state from all buttons
+  if (!selA.value) {
+    selA.value = id;
+  } else if (!selB.value && selB.value !== id) {
+    selB.value = id;
+  } else {
+    // cycle: replace A with B, set B to new
+    selA.value = selB.value;
+    selB.value = id;
+  }
+
+  // highlight selected rows
+  document.querySelectorAll('.add-compare-btn').forEach(b => b.classList.remove('added'));
+  if (selA.value) {
+    const btnA = document.querySelector(`#row-${selA.value} .add-compare-btn`);
+    if (btnA) btnA.classList.add('added');
+  }
+  if (selB.value) {
+    const btnB = document.querySelector(`#row-${selB.value} .add-compare-btn`);
+    if (btnB) btnB.classList.add('added');
+  }
+
+  runCompare();
+  if (selA.value && selB.value) {
+    document.getElementById('compare').scrollIntoView({ behavior: 'smooth' });
+  }
+}
+
+// ── POPULATE SELECTS ──
+function populateSelects() {
+  const groups = [
+    { label: 'Economic Systems',    models: MODELS.filter(m => m.type === 'system') },
+    { label: 'Economic Frameworks', models: MODELS.filter(m => m.type === 'framework') },
+    { label: 'Schools of Thought',  models: MODELS.filter(m => m.type === 'school') },
+  ];
+  ['sel-a', 'sel-b'].forEach(id => {
+    const sel = document.getElementById(id);
+    groups.forEach(g => {
+      const og = document.createElement('optgroup');
+      og.label = g.label;
+      g.models.forEach(m => {
+        const opt = document.createElement('option');
+        opt.value = m.id; opt.textContent = m.name;
+        og.appendChild(opt);
+      });
+      sel.appendChild(og);
+    });
+    sel.addEventListener('change', syncButtonStates);
+  });
+}
+
+function syncButtonStates() {
+  const a = document.getElementById('sel-a').value;
+  const b = document.getElementById('sel-b').value;
+  document.querySelectorAll('.add-compare-btn').forEach(btn => btn.classList.remove('added'));
+  if (a) { const el = document.querySelector(`#row-${a} .add-compare-btn`); if (el) el.classList.add('added'); }
+  if (b) { const el = document.querySelector(`#row-${b} .add-compare-btn`); if (el) el.classList.add('added'); }
+}
+
+// ── RUN COMPARE ──
+function runCompare() {
+  const idA  = document.getElementById('sel-a').value;
+  const idB  = document.getElementById('sel-b').value;
+  const result = document.getElementById('compare-result');
+  const empty  = document.getElementById('compare-empty');
+  const table  = document.getElementById('compare-table');
+
+  result.classList.add('visible');
+
+  if (!idA || !idB || idA === idB) {
+    empty.style.display = 'block';
+    table.style.display = 'none';
+    empty.textContent = idA === idB
+      ? 'Please select two different models.'
+      : 'Select two models above to compare them.';
+    return;
+  }
+
+  const mA = MODELS.find(m => m.id === idA);
+  const mB = MODELS.find(m => m.id === idB);
+  empty.style.display = 'none';
+  table.style.display = 'table';
+
+  table.innerHTML = `
+    <thead>
+      <tr>
+        <th></th>
+        <th class="col-a">${mA.name}</th>
+        <th class="col-b">${mB.name}</th>
+      </tr>
+    </thead>
+    <tbody>
+      ${DIMENSIONS.map(d => `
+        <tr>
+          <td><span>${d.label}</span><span class="dim-sub">${d.sub}</span></td>
+          <td class="cell-a">${mA[d.key] || ''}</td>
+          <td class="cell-b">${mB[d.key] || ''}</td>
+        </tr>
+      `).join('')}
+    </tbody>
+  `;
+}
+
+renderList();
+populateSelects();
+</script>
+</body>
+</html>

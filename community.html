@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A.G.E.N.C.Y. | Community Map</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..600&family=Orbitron:wght@700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #04040a;
+  --panel: #0a0c10;
+  --field: #0e1014;
+  --border: rgba(90,180,255,.25);
+  --border-hover: rgba(90,180,255,.5);
+  --text: rgba(220,255,230,.85);
+  --text-bright: rgba(235,255,240,.96);
+  --text-dim: rgba(180,220,190,.5);
+  --text-muted: rgba(160,200,170,.32);
+  --green: #39ff6a;
+  --amber: #ffb347;
+}
+
+html, body { height: 100%; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 15px;
+  line-height: 1.6;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-thumb { background: rgba(57,255,106,.18); border-radius: 2px; }
+
+/* ── NAV ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+  background: rgba(4,6,4,.92);
+  border-bottom: 1px solid var(--border);
+  height: 52px;
+  display: flex; align-items: center; justify-content: flex-end;
+  padding: 0 2rem;
+  backdrop-filter: blur(10px);
+  flex-shrink: 0;
+}
+.nav-links { display: flex; gap: 1.75rem; list-style: none; }
+.nav-links a {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: .68rem; letter-spacing: .12em; text-transform: uppercase;
+  color: var(--text-dim); text-decoration: none;
+  transition: color .15s;
+}
+.nav-links a:hover { color: var(--green); }
+.nav-links a.active { color: var(--amber); }
+
+/* ── MAIN LAYOUT ── */
+.page-body {
+  margin-top: 52px;
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1fr 240px;
+  grid-template-rows: 1fr auto;
+  gap: 0;
+  min-height: 0;
+}
+
+/* ── MAP PANEL ── */
+.map-panel {
+  grid-column: 1;
+  grid-row: 1 / 3;
+  border-right: 1px solid var(--border);
+  background: var(--panel);
+  box-shadow: inset 0 0 80px rgba(0,0,0,.7);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+.map-panel::before, .map-panel::after {
+  content: ''; position: absolute; width: 22px; height: 22px; opacity: .45; z-index: 2;
+}
+.map-panel::before { top: 12px; left: 12px; border-top: 2px solid var(--amber); border-left: 2px solid var(--amber); }
+.map-panel::after { bottom: 12px; right: 12px; border-bottom: 2px solid var(--amber); border-right: 2px solid var(--amber); }
+
+.ring-stage {
+  flex: 1;
+  position: relative;
+  min-height: 0;
+  perspective: 1400px;
+}
+.ring-stage svg {
+  position: absolute;
+  inset: 0;
+  width: 100%; height: 100%;
+  transform: rotateX(18deg);
+  transform-origin: 50% 50%;
+}
+svg { display: block; overflow: visible; }
+.schoolname { font-family: 'Orbitron', sans-serif; font-size: 11.5px; letter-spacing: .04em; font-weight: 700; }
+.schooltag  { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: .05em; fill: var(--text-dim); }
+
+/* ── COUNT BAR ── */
+.count-bar {
+  padding: .75rem 1.4rem;
+  border-top: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(0,0,0,.35);
+  flex-shrink: 0;
+}
+.signal-count {
+  font-family: 'Orbitron', sans-serif;
+  font-size: clamp(.85rem, 1.8vw, 1.2rem);
+  font-weight: 900; color: #fff; letter-spacing: .04em;
+}
+.scan-label {
+  font-size: .62rem; letter-spacing: .2em; color: var(--text-muted);
+  text-transform: uppercase;
+}
+.scan-label.active { color: var(--amber); animation: blink .9s step-end infinite; }
+@keyframes blink { 50% { opacity: 0; } }
+
+/* ── LEGEND PANEL ── */
+.legend-panel {
+  grid-column: 2;
+  grid-row: 1;
+  display: flex;
+  flex-direction: column;
+  gap: .55rem;
+  padding: 1.2rem 1rem 1rem;
+  overflow-y: auto;
+  min-height: 0;
+}
+.legend-heading {
+  font-size: .62rem; letter-spacing: .22em; text-transform: uppercase;
+  color: var(--amber); margin-bottom: .2rem; flex-shrink: 0;
+}
+.legend-row {
+  display: flex; align-items: center; gap: .65rem;
+  padding: .55rem .75rem;
+  border: 1px solid var(--border); border-radius: 8px;
+  background: var(--field);
+  transition: border-color .2s;
+  flex-shrink: 0;
+}
+.legend-row:hover { border-color: var(--border-hover); }
+.legend-swatch {
+  width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0;
+  box-shadow: 0 0 6px currentColor;
+}
+.legend-name {
+  flex: 1; font-size: .65rem; letter-spacing: .05em; color: var(--text-bright);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.legend-count {
+  font-family: 'Orbitron', sans-serif;
+  font-size: .7rem; font-weight: 700; color: var(--amber);
+  min-width: 2ch; text-align: right;
+}
+
+/* ── EMPTY STATE ── */
+.empty-state {
+  padding: 2rem 1rem; text-align: center;
+  font-size: .78rem; color: var(--text-muted);
+  letter-spacing: .06em; line-height: 1.9;
+}
+
+/* ── FOOTER ── */
+footer {
+  grid-column: 2;
+  grid-row: 2;
+  border-top: 1px solid var(--border);
+  padding: .9rem 1rem;
+  display: flex; justify-content: center; align-items: center;
+  background: rgba(0,0,0,.2);
+}
+.footer-credit { font-size: .6rem; color: var(--text-muted); letter-spacing: .04em; text-align: center; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 700px) {
+  nav { padding: 0 1rem; }
+  .nav-links { gap: 1rem; }
+  .page-body {
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr auto auto auto;
+  }
+  .map-panel { grid-column: 1; grid-row: 1; border-right: none; border-bottom: 1px solid var(--border); min-height: 55vh; }
+  .ring-stage { min-height: 50vh; }
+  .legend-panel { grid-column: 1; grid-row: 3; flex-direction: row; flex-wrap: wrap; padding: .8rem; }
+  .legend-row { min-width: 140px; }
+  footer { grid-column: 1; grid-row: 4; }
+}
+@media (prefers-reduced-motion: reduce) { *, *::after, *::before { animation: none !important; transition: none !important; } }
+</style>
+</head>
+<body>
+
+<nav>
+  <ul class="nav-links">
+    <li><a href="index.html">Soul Mapping</a></li>
+    <li><a href="community.html" class="active">Community Map</a></li>
+    <li><a href="compare.html">Compare Theories</a></li>
+    <li><a href="agency.html">Action</a></li>
+  </ul>
+</nav>
+
+<div class="page-body">
+  <div class="map-panel">
+    <div class="ring-stage">
+      <svg id="ring" viewBox="-82 -16 772 614" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Community coordinate radar showing all calibrated economic positions"></svg>
+    </div>
+    <div class="count-bar">
+      <div class="signal-count" id="signal-count">... SIGNALS MAPPED</div>
+      <div class="scan-label" id="scan-label">AWAITING SIGNAL</div>
+    </div>
+  </div>
+
+  <div class="legend-panel">
+    <div class="legend-heading">// Signal Distribution</div>
+    <div id="legend-rows"></div>
+    <div class="empty-state" id="empty-state" style="display:none">
+      No signals mapped yet.<br>
+      Complete a Soul Mapping<br>calibration to appear here.
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-credit">Future of Us Festival &middot; San Francisco &middot; July 2026</div>
+  </footer>
+</div>
+
+<script>
+const SUPABASE_URL = 'https://hjibnmrmewkhcofgnebv.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_N6-r4Lzh9wAc3YXxm1yoUQ_AY8CPz-c';
+
+const SCHOOLS = [
+  { key:'austrian',     label:'Austrian',     name:'Austrian / Libertarian',       col:'#f0c43d' },
+  { key:'neoclassical', label:'Neoclassical',  name:'Neoclassical / Market Liberal', col:'#ff7757' },
+  { key:'keynesian',    label:'Keynesian',    name:'Keynesian / Social Democratic', col:'#4d9fff' },
+  { key:'marxist',      label:'Marxist',      name:'Marxist / Socialist',           col:'#ff4d6d' },
+  { key:'mutualist',    label:'Mutualist',    name:'Mutualist / Commons',           col:'#9966ff' },
+  { key:'ecological',   label:'Ecological',   name:'Ecological Economics',          col:'#3ad17a' },
+  { key:'wellbeing',    label:'Wellbeing',    name:'Wellbeing Economics',           col:'#40d9c9' },
+];
+
+const SVG_NS = 'http://www.w3.org/2000/svg';
+const CX = 300, CY = 300, R = 260;
+const STORED_R = 200; // Supabase coords were saved with R=200 in index.html
+const el = (t, a = {}) => {
+  const e = document.createElementNS(SVG_NS, t);
+  for (const k in a) e.setAttribute(k, a[k]);
+  return e;
+};
+
+SCHOOLS.forEach((s, i) => {
+  const ang = Math.PI / 2 + (2 * Math.PI * i / SCHOOLS.length);
+  s.ang = ang;
+  s.px = CX + Math.cos(ang) * R;
+  s.py = CY - Math.sin(ang) * R;
+});
+
+const ring = document.getElementById('ring');
+let dotsLayer;
+let knownTimestamps = new Set();
+
+function drawBase() {
+  ring.innerHTML = '';
+
+  const defs = el('defs');
+
+  const filt = el('filter', { id: 'glow', x: '-60%', y: '-60%', width: '220%', height: '220%' });
+  filt.appendChild(el('feGaussianBlur', { stdDeviation: 3.5, result: 'blur' }));
+  const mg = el('feMerge');
+  mg.appendChild(el('feMergeNode', { in: 'blur' }));
+  mg.appendChild(el('feMergeNode', { in: 'SourceGraphic' }));
+  filt.appendChild(mg);
+  defs.appendChild(filt);
+
+  const dotFilt = el('filter', { id: 'dotglow', x: '-100%', y: '-100%', width: '300%', height: '300%' });
+  dotFilt.appendChild(el('feGaussianBlur', { stdDeviation: 2.2, result: 'blur' }));
+  const dg = el('feMerge');
+  dg.appendChild(el('feMergeNode', { in: 'blur' }));
+  dg.appendChild(el('feMergeNode', { in: 'SourceGraphic' }));
+  dotFilt.appendChild(dg);
+  defs.appendChild(dotFilt);
+
+  ring.appendChild(defs);
+
+  // Starfield — covers full viewBox (-82 -16 772 614)
+  const starG = el('g', { opacity: .5 });
+  for (let i = 0; i < 55; i++) {
+    const sx = Math.random() * 772 - 82, sy = Math.random() * 614 - 16;
+    starG.appendChild(el('circle', { cx: sx, cy: sy, r: Math.random() * .9 + .2, fill: '#fff', opacity: Math.random() * .5 + .2 }));
+  }
+  ring.appendChild(starG);
+
+  // Radar rings
+  const radarG = el('g', { opacity: .45 });
+  [1, .68, .36].forEach((f, i) => {
+    radarG.appendChild(el('circle', { cx: CX, cy: CY, r: R * f, fill: 'none', stroke: 'rgba(90,180,255,.6)', 'stroke-width': i === 0 ? 1.4 : .7, 'stroke-dasharray': i === 0 ? 'none' : '2 5' }));
+  });
+  for (let i = 0; i < SCHOOLS.length; i++) {
+    const a = (Math.PI * 2 * i) / SCHOOLS.length;
+    radarG.appendChild(el('line', { x1: CX, y1: CY, x2: CX + Math.cos(a) * R, y2: CY - Math.sin(a) * R, stroke: 'rgba(90,180,255,.4)', 'stroke-width': .6 }));
+  }
+  radarG.appendChild(el('line', { x1: CX - 12, y1: CY, x2: CX + 12, y2: CY, stroke: 'rgba(90,180,255,.35)', 'stroke-width': .8 }));
+  radarG.appendChild(el('line', { x1: CX, y1: CY - 12, x2: CX, y2: CY + 12, stroke: 'rgba(90,180,255,.35)', 'stroke-width': .8 }));
+  radarG.appendChild(el('circle', { cx: CX, cy: CY, r: 2.5, fill: 'none', stroke: 'rgba(90,180,255,.3)', 'stroke-width': .8 }));
+  ring.appendChild(radarG);
+
+  dotsLayer = el('g', {});
+  ring.appendChild(dotsLayer);
+
+  SCHOOLS.forEach(s => {
+    const star = el('text', { x: s.px, y: s.py + 8, 'text-anchor': 'middle', fill: s.col, filter: 'url(#glow)', 'font-size': 22 });
+    star.textContent = '✦';
+    ring.appendChild(star);
+    const cosv = Math.cos(s.ang);
+    const anchor = cosv > 0.25 ? 'start' : cosv < -0.25 ? 'end' : 'middle';
+    const lx = CX + Math.cos(s.ang) * (R + 32), ly = CY - Math.sin(s.ang) * (R + 32);
+    const t1 = el('text', { x: lx, y: ly, 'text-anchor': anchor, class: 'schoolname', fill: 'var(--text-bright)' });
+    t1.textContent = s.label;
+    ring.appendChild(t1);
+  });
+}
+
+function plotEntry(entry, animate) {
+  const school = SCHOOLS.find(s => s.key === entry.school);
+  if (!school) return;
+
+  // Scale stored coords (saved at R=200) to current R
+  const scale = R / STORED_R;
+  const cx = CX + (entry.x - CX) * scale;
+  const cy = CY + (entry.y - CY) * scale;
+
+  const dot = el('circle', {
+    cx, cy, r: 4.2,
+    fill: school.col, opacity: 0.82,
+    filter: 'url(#dotglow)',
+  });
+  dotsLayer.appendChild(dot);
+
+  if (animate) {
+    dot.animate(
+      [{ r: 12, opacity: 1 }, { r: 4.2, opacity: 0.82 }],
+      { duration: 700, easing: 'cubic-bezier(.2,.8,.2,1)', fill: 'forwards' }
+    );
+  }
+}
+
+function buildLegend(entries) {
+  const counts = {};
+  SCHOOLS.forEach(s => { counts[s.key] = 0; });
+  entries.forEach(e => { if (counts[e.school] !== undefined) counts[e.school]++; });
+
+  const container = document.getElementById('legend-rows');
+  container.innerHTML = '';
+  const sorted = [...SCHOOLS].sort((a, b) => counts[b.key] - counts[a.key]);
+  sorted.forEach(s => {
+    const row = document.createElement('div');
+    row.className = 'legend-row';
+    row.innerHTML = `
+      <span class="legend-swatch" style="background:${s.col};color:${s.col}"></span>
+      <span class="legend-name">${s.label}</span>
+      <span class="legend-count">${counts[s.key]}</span>
+    `;
+    container.appendChild(row);
+  });
+}
+
+let allEntries = [];
+
+async function loadCalibrations(isInitial = false) {
+  const scanLabel = document.getElementById('scan-label');
+  scanLabel.textContent = 'SCANNING...';
+  scanLabel.classList.add('active');
+
+  try {
+    const res = await fetch(
+      `${SUPABASE_URL}/rest/v1/calibrations?select=school,x,y,sliders,created_at&order=created_at.asc`,
+      { headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` } }
+    );
+    if (!res.ok) throw new Error('fetch failed');
+    const data = await res.json();
+
+    const newEntries = data.filter(e => !knownTimestamps.has(e.created_at));
+
+    if (isInitial) {
+      dotsLayer.innerHTML = '';
+      data.forEach(e => { plotEntry(e, false); knownTimestamps.add(e.created_at); });
+    } else {
+      newEntries.forEach(e => { plotEntry(e, true); knownTimestamps.add(e.created_at); });
+    }
+
+    allEntries = data;
+
+    document.getElementById('signal-count').textContent =
+      `${data.length} SIGNAL${data.length !== 1 ? 'S' : ''} MAPPED`;
+
+    buildLegend(data);
+
+    const empty = document.getElementById('empty-state');
+    const legendRows = document.getElementById('legend-rows');
+    if (data.length === 0) {
+      empty.style.display = 'block';
+      legendRows.style.display = 'none';
+    } else {
+      empty.style.display = 'none';
+      legendRows.style.display = 'block';
+    }
+
+    scanLabel.textContent = 'SIGNAL LOCKED';
+    scanLabel.classList.remove('active');
+  } catch (e) {
+    scanLabel.textContent = 'NO SIGNAL';
+    scanLabel.classList.remove('active');
+  }
+}
+
+drawBase();
+loadCalibrations(true);
+setInterval(() => loadCalibrations(false), 10000);
+</script>
+</body>
+</html>

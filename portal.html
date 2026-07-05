@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>ECONOMIC REFLECTIONS // SYS-2146</title>
+<title>A.G.E.N.C.Y. // QUESTION ASSUMPTIONS</title>
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
@@ -41,39 +41,6 @@ body::after{
 .screen.hidden{opacity:0;pointer-events:none;transform:translateY(12px)}
 .screen.out{opacity:0;pointer-events:none;transform:translateY(-12px)}
 
-/* ══ BOOT ═══════════════════════════════════════════════ */
-#s-boot{background:var(--bg)}
-.boot-eyebrow{
-  font-size:.68rem;letter-spacing:.55em;color:rgba(0,255,255,.38);
-  margin-bottom:1.4rem;text-align:center;
-}
-.boot-title{
-  font-family:'Orbitron',sans-serif;
-  font-size:clamp(2rem,7vw,5rem);font-weight:900;
-  color:var(--cyan);letter-spacing:.18em;text-align:center;line-height:1.15;
-  text-shadow:0 0 20px var(--cyan),0 0 60px rgba(0,255,255,.3);
-  animation:flicker 7s infinite;
-}
-.boot-title em{color:var(--green);font-style:normal;
-  text-shadow:0 0 20px var(--green),0 0 50px rgba(57,255,20,.3)}
-.boot-sub{
-  font-size:.72rem;color:rgba(0,255,255,.4);letter-spacing:.5em;
-  margin-top:.75rem;text-align:center;
-}
-.boot-divider{
-  width:min(55%,380px);height:1px;
-  background:linear-gradient(90deg,transparent,var(--cyan),transparent);
-  margin:1.8rem auto;animation:pulse 2.2s infinite;
-}
-#boot-log{
-  font-size:.66rem;color:rgba(0,255,255,.33);letter-spacing:.07em;
-  width:min(92%,460px);margin:0 auto 2.2rem;line-height:2;
-}
-#boot-log span{display:block;opacity:0}
-#boot-log span.show{animation:fadeIn .25s forwards}
-#boot-log .ok{color:var(--green)}
-#boot-log .warn{color:var(--orange)}
-
 .big-btn{
   position:relative;font-family:'Orbitron',sans-serif;
   font-size:clamp(.82rem,2vw,1.1rem);font-weight:700;letter-spacing:.22em;
@@ -82,16 +49,6 @@ body::after{
   clip-path:polygon(12px 0%,100% 0%,calc(100% - 12px) 100%,0% 100%);
   transition:all .3s;
 }
-.big-btn.cyan-btn{
-  border:2px solid var(--cyan);color:var(--cyan);
-  box-shadow:0 0 18px rgba(0,255,255,.18);
-}
-.big-btn.cyan-btn::before{
-  content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;
-  background:linear-gradient(90deg,transparent,rgba(0,255,255,.18),transparent);
-  animation:shimmer 2.8s infinite;
-}
-.big-btn.cyan-btn:hover{background:rgba(0,255,255,.07);box-shadow:0 0 30px var(--cyan)}
 .big-btn.orange-btn{
   border:2px solid var(--orange);color:var(--orange);
   animation:orangePulse 2.2s infinite;
@@ -111,23 +68,23 @@ body::after{
 .q-header{
   width:100%;max-width:860px;
   border-bottom:1px solid rgba(0,255,255,.2);
-  padding:1.2rem 0 .9rem;margin-bottom:1.4rem;text-align:center;flex-shrink:0;
+  padding:2.2rem 0 1.2rem;margin-bottom:1.4rem;text-align:center;flex-shrink:0;
 }
 .q-header-label{
   font-size:.65rem;letter-spacing:.45em;color:rgba(0,255,255,.4);
-  margin-bottom:.35rem;
+  margin-bottom:.6rem;
 }
 .q-header-title{
-  font-family:'Orbitron',sans-serif;font-size:clamp(.9rem,2.5vw,1.4rem);
-  font-weight:700;letter-spacing:.12em;
-  text-shadow:0 0 10px var(--cyan);
+  font-family:'Orbitron',sans-serif;font-size:clamp(1.5rem,5vw,2.6rem);
+  font-weight:900;letter-spacing:.14em;color:var(--cyan);
+  text-shadow:0 0 20px var(--cyan),0 0 50px rgba(0,255,255,.3);
 }
 .q-header-sub{
   font-size:.68rem;color:rgba(255,255,255,.38);letter-spacing:.15em;
   margin-top:.4rem;
 }
 .q-grid{
-  display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr));
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,330px),1fr));
   gap:1rem;width:100%;max-width:860px;padding-bottom:1.5rem;
 }
 .q-card{
@@ -361,7 +318,6 @@ body::after{
 .btn-row{display:flex;gap:1rem;flex-wrap:wrap;justify-content:center}
 
 /* ══ KEYFRAMES ══════════════════════════════════════════ */
-@keyframes flicker{0%,91%,100%{opacity:1}92%{opacity:.8}93%{opacity:1}95%{opacity:.65}96%{opacity:1}}
 @keyframes pulse{0%,100%{opacity:.5}50%{opacity:1}}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.1}}
 @keyframes fadeIn{to{opacity:1}}
@@ -378,55 +334,39 @@ body::after{
 <body>
 
 <!-- ══ MINIMAL NAV ════════════════════════════════════ -->
-<div style="position:fixed;top:0;left:0;right:0;z-index:9999;padding:.6rem 1.5rem;display:flex;justify-content:space-between;align-items:center;background:rgba(5,5,8,.85);border-bottom:1px solid rgba(0,255,255,.12);backdrop-filter:blur(8px);">
-  <span style="font-family:'Orbitron',sans-serif;font-size:.72rem;font-weight:900;letter-spacing:.18em;color:var(--cyan);text-shadow:0 0 10px var(--cyan);">ECONOMIC <em style="color:var(--green);font-style:normal;">REFLECTIONS</em></span>
+<div style="position:fixed;top:0;left:0;right:0;z-index:9999;padding:.6rem 1.5rem;display:flex;justify-content:flex-end;align-items:center;background:rgba(5,5,8,.85);border-bottom:1px solid rgba(0,255,255,.12);backdrop-filter:blur(8px);">
   <div style="display:flex;gap:1.5rem;">
-    <a href="index.html" style="font-family:'Share Tech Mono',monospace;font-size:.6rem;letter-spacing:.22em;color:rgba(0,255,255,.4);text-decoration:none;text-transform:uppercase;transition:color .2s;" onmouseover="this.style.color='#00ffff'" onmouseout="this.style.color='rgba(0,255,255,.4)'">← MODELS EXPLORER</a>
-    <a href="actions.html" style="font-family:'Share Tech Mono',monospace;font-size:.6rem;letter-spacing:.22em;color:rgba(0,255,255,.4);text-decoration:none;text-transform:uppercase;transition:color .2s;" onmouseover="this.style.color='#00ffff'" onmouseout="this.style.color='rgba(0,255,255,.4)'">ACTIONS & RESOURCES</a>
+    <a href="agency.html" style="font-family:'Share Tech Mono',monospace;font-size:.6rem;letter-spacing:.22em;color:rgba(0,255,255,.4);text-decoration:none;text-transform:uppercase;transition:color .2s;" onmouseover="this.style.color='#00ffff'" onmouseout="this.style.color='rgba(0,255,255,.4)'">Agency</a>
+    <a href="soul-mapping.html" style="font-family:'Share Tech Mono',monospace;font-size:.6rem;letter-spacing:.22em;color:rgba(0,255,255,.4);text-decoration:none;text-transform:uppercase;transition:color .2s;" onmouseover="this.style.color='#00ffff'" onmouseout="this.style.color='rgba(0,255,255,.4)'">Soul Mapping</a>
+    <a href="portal.html" style="font-family:'Share Tech Mono',monospace;font-size:.6rem;letter-spacing:.22em;color:rgba(0,255,255,.4);text-decoration:none;text-transform:uppercase;transition:color .2s;" onmouseover="this.style.color='#00ffff'" onmouseout="this.style.color='rgba(0,255,255,.4)'">Discuss</a>
+    <a href="index.html" style="font-family:'Share Tech Mono',monospace;font-size:.6rem;letter-spacing:.22em;color:rgba(0,255,255,.4);text-decoration:none;text-transform:uppercase;transition:color .2s;" onmouseover="this.style.color='#00ffff'" onmouseout="this.style.color='rgba(0,255,255,.4)'">Compare Theories</a>
   </div>
-</div>
-
-<!-- ══ SCREEN: BOOT ════════════════════════════════════ -->
-<div class="screen" id="s-boot">
-  <div class="boot-eyebrow">ECONOMIC DIAGNOSTIC NODE // EARTH SECTOR 7-A // TEMPORAL MISSION ACTIVE</div>
-  <div class="boot-title">ECONOMIC<br><em>REFLECTIONS</em></div>
-  <div class="boot-sub">SOUL MAPPING TERMINAL // YEAR 2146</div>
-  <div class="boot-divider"></div>
-  <div id="boot-log">
-    <span>[ INIT ] Temporal relay bridge established…………<span class="ok">OK</span></span>
-    <span>[ SYNC ] Alchemist consciousness loaded……………<span class="ok">OK</span></span>
-    <span>[ SCAN ] Economic soul receptor array online………<span class="ok">OK</span></span>
-    <span>[ WARN ] Timeline deviation detected: year 2024…<span class="warn">ACTIVE</span></span>
-    <span>[ MISS ] Mapping present-day souls to restore future<span class="warn">ARMED</span></span>
-    <span>[ REDY ] Awaiting subject intake………………………<span class="ok">READY</span></span>
-  </div>
-  <button class="big-btn cyan-btn" onclick="goTo('s-questions')">⬡ START DIAGNOSTIC SOUL SCAN ⬡</button>
 </div>
 
 <!-- ══ SCREEN: QUESTION SELECTION ═════════════════════ -->
-<div class="screen hidden" id="s-questions">
+<div class="screen" id="s-questions">
   <div class="q-header">
-    <div class="q-header-label">// DIAGNOSTIC ENTRY POINT — SELECT ONE</div>
-    <div class="q-header-title">WHICH QUESTION PULLS AT YOU?</div>
-    <div class="q-header-sub">Your selection begins the diagnostic. There is no wrong entry point.</div>
+    <div class="q-header-label">// A.G.E.N.C.Y. FIELD UNIT: EARTH SECTOR 7-A</div>
+    <div class="q-header-title">QUESTION ASSUMPTIONS</div>
+    <div class="q-header-sub">Pick the question that pulls at you. There is no wrong entry point.</div>
   </div>
   <div class="q-grid">
 
     <div class="q-card" onclick="startConversation(0)">
       <div class="q-card-tag">COMMONS &amp; TRUST</div>
-      <div class="q-card-text">"If a community resource is left wide open — no locks, no prices, no rules — will people naturally take care of it, or will it inevitably get ruined?"</div>
+      <div class="q-card-text">"If a community resource is left wide open, with no locks, no prices, and no rules, will people naturally take care of it, or will it inevitably get ruined?"</div>
       <div class="q-card-cta">ENTER THIS THREAD ›</div>
     </div>
 
     <div class="q-card" onclick="startConversation(1)">
       <div class="q-card-tag">VALUE &amp; WORTH</div>
-      <div class="q-card-text">"Is a forest only truly 'valuable' once humans find a way to use it — or does it have value just by sitting there, doing nothing?"</div>
+      <div class="q-card-text">"Is a forest only truly 'valuable' once humans find a way to use it, or does it have value just by sitting there, doing nothing?"</div>
       <div class="q-card-cta">ENTER THIS THREAD ›</div>
     </div>
 
     <div class="q-card" onclick="startConversation(2)">
       <div class="q-card-tag">SUCCESS &amp; AGENCY</div>
-      <div class="q-card-text">"When someone achieves something extraordinary, is that success primarily a reflection of their personal drive and grit — or the community and infrastructure that supported them?"</div>
+      <div class="q-card-text">"When someone achieves something extraordinary, is that success primarily a reflection of their personal drive and grit, or the community and infrastructure that supported them?"</div>
       <div class="q-card-cta">ENTER THIS THREAD ›</div>
     </div>
 
@@ -442,7 +382,7 @@ body::after{
 <!-- ══ SCREEN: CHAT ════════════════════════════════════ -->
 <div class="screen hidden" id="s-chat">
   <div class="chat-top-bar">
-    <div class="chat-id">ECON-ALCHEMIST // <em>DIAGNOSTIC LIVE</em></div>
+    <div class="chat-id">SCIENTIST AGENT // <em>DIAGNOSTIC LIVE</em></div>
     <div class="diag-depth-wrap">
       <span class="diag-label">DIAGNOSTIC DEPTH</span>
       <div class="diag-track"><div class="diag-fill" id="diag-fill" style="width:0%"></div></div>
@@ -494,8 +434,8 @@ body::after{
 
 <script>
 /* ══════════════════════════════════════════════════════
-   ECONOMIC REFLECTIONS  —  Conversational AI Terminal
-   Year 2146 // Temporal Soul Mapping Installation
+   A.G.E.N.C.Y. SCIENTIST AGENT  —  Conversational Terminal
+   Temporal Field Outpost // Soul Mapping Installation
    ══════════════════════════════════════════════════════ */
 
 /* ── STATE ─────────────────────────────────────────── */
@@ -513,11 +453,7 @@ function goTo(id){
   });
 }
 
-/* ── BOOT LOG ───────────────────────────────────────── */
 document.addEventListener('DOMContentLoaded', () => {
-  document.querySelectorAll('#boot-log span').forEach((el,i) => {
-    setTimeout(() => el.classList.add('show'), 350 + i*300);
-  });
   const ta = document.getElementById('chat-input');
   ta.addEventListener('input', () => autoGrow(ta));
 });
@@ -532,20 +468,20 @@ const CONVS = [
   /* 0 — Commons & Trust */
   {
     opening:
-      `A question about trust as infrastructure. One of the oldest tensions in human life — the space between what people do when no one is watching, and what happens when the stakes are genuinely shared.\n\nWhat do you think?`,
+      `A question about trust as infrastructure. One of the oldest tensions in human life: the space between what people do when no one is watching, and what happens when the stakes are genuinely shared.\n\nWhat do you think?`,
     starterChips: [
       'I think most people would genuinely take care of it',
       'Without any structure, it would probably get exploited',
       "It really depends on who the community is",
     ],
     turns: [
-      `That instinct you just described — where does it come from? Think of a real place or moment where you saw people choose to look after something that wasn't really theirs. What made that happen?`,
-      `And the other side: when you've seen something shared fall apart — taken from, left worse than it was found — what was driving that? Was it something in the people themselves, or in the setup around them?`,
-      `Here's the question underneath the question: when there are no rules, no eyes watching, no consequences at all — what do you believe most people actually default to? And does your own experience confirm that, or push back on it?`,
+      `That instinct you just described: where does it come from? Think of a real place or moment where you saw people choose to look after something that wasn't really theirs. What made that happen?`,
+      `And the other side: when you've seen something shared fall apart, taken from or left worse than it was found: what was driving that? Was it something in the people themselves, or in the setup around them?`,
+      `Here's the question underneath the question: when there are no rules, no eyes watching, no consequences at all: what do you believe most people actually default to? And does your own experience confirm that, or push back on it?`,
     ],
     chips: [
-      ["Something about people feeling like it actually belonged to them", 'The norms that formed without anyone enforcing them', "Shared stakes — everyone stood to lose if it broke down"],
-      ["Something in the people themselves — choices, character", 'The structure around it collapsed or was never there', "Both — the setup and the people failed at the same time"],
+      ["Something about people feeling like it actually belonged to them", 'The norms that formed without anyone enforcing them', "Shared stakes: everyone stood to lose if it broke down"],
+      ["Something in the people themselves: choices, character", 'The structure around it collapsed or was never there', "Both: the setup and the people failed at the same time"],
       ['Most people try to leave things better than they found them', "People protect what they feel genuinely connected to", 'It depends too much on circumstances to generalize'],
     ],
     closing: `Something coherent is emerging in what you've shared. The shape of your beliefs about trust, care, and collective life carries a distinct signature. Processing now.`,
@@ -554,23 +490,23 @@ const CONVS = [
   /* 1 — Value & Worth */
   {
     opening:
-      `A question about value without a witness. Whether worth requires a beneficiary — whether something has to be useful to someone to matter — or whether it can exist entirely on its own terms.\n\nWhat's your honest answer?`,
+      `A question about value without a witness. Whether worth requires a beneficiary, whether something has to be useful to someone to matter, or whether it can exist entirely on its own terms.\n\nWhat's your honest answer?`,
     starterChips: [
-      "It has real value just by existing — independent of us",
+      "It has real value just by existing, independent of us",
       'Value requires someone to experience or use it',
       "These feel like two completely different kinds of value to me",
     ],
     turns: [
-      `What draws you to that answer? Sit with the forest for a moment — it continues for a thousand years, full of birdsong and decay and new growth, and no human ever witnesses it. What do you actually feel when you hold that image? Not what you think the right answer is — what you feel.`,
-      `Now bring it into your own life. What's something you hold as genuinely valuable — a relationship, a place, a practice — that would be almost impossible to put a price on? What actually makes it valuable, in your own words?`,
-      `The world most of us live in assigns worth based on what can be exchanged or counted. What's something important — to you personally, or to the world — that you believe gets chronically missed or underpriced by that logic?`,
+      `What draws you to that answer? Sit with the forest for a moment. It continues for a thousand years, full of birdsong and decay and new growth, and no human ever witnesses it. What do you actually feel when you hold that image? Not what you think the right answer is, but what you feel.`,
+      `Now bring it into your own life. What's something you hold as genuinely valuable, a relationship, a place, or a practice, that would be almost impossible to put a price on? What actually makes it valuable, in your own words?`,
+      `The world most of us live in assigns worth based on what can be exchanged or counted. What's something important, to you personally or to the world, that you believe gets chronically missed or underpriced by that logic?`,
     ],
     chips: [
-      ['Something about permanence — things that outlast us still matter', "Value without any witness feels incomplete to me", "I hold both feelings at once and can't fully resolve them"],
+      ['Something about permanence: things that outlast us still matter', "Value without any witness feels incomplete to me", "I hold both feelings at once and can't fully resolve them"],
       ['A relationship that changed who I am', 'A place I keep going back to', 'Something I made or built that has no audience'],
-      ['Time — real, unhurried time with people we love', 'The health of living systems that no one owns', 'The ordinary, invisible acts of care that hold things together'],
+      ['Time: real, unhurried time with people we love', 'The health of living systems that no one owns', 'The ordinary, invisible acts of care that hold things together'],
     ],
-    closing: `The pattern in how you assign worth — what you count and what you refuse to reduce — carries a particular shape. Running analysis now.`,
+    closing: `The pattern in how you assign worth, what you count and what you refuse to reduce, carries a particular shape. Running analysis now.`,
   },
 
   /* 2 — Success & Agency */
@@ -578,43 +514,43 @@ const CONVS = [
     opening:
       `A question about causation and credit. How someone answers this tends to cut directly to the architecture of their beliefs about fairness, agency, and what we owe each other.\n\nWhat do you think?`,
     starterChips: [
-      "Their own drive and will — they made it happen through sheer effort",
+      "Their own drive and will. They made it happen through sheer effort.",
       'The community and conditions around them made it possible',
-      "Both matter — you really can't separate them",
+      "Both matter; you really can't separate them",
     ],
     turns: [
-      `Think of someone real to you — not a public figure, someone you've actually encountered — whose success genuinely moves you. What was the specific thing that made it possible for them, in their particular circumstances? Try to get concrete.`,
-      `Now the inverse. Someone who didn't reach their potential — not for lack of trying, but because circumstances kept closing in. Where does responsibility sit for that outcome? With them, with the systems around them, or somewhere more complicated?`,
-      `If you could change the ground people stand on — not give them things, not take away their agency, just shift the conditions — what is the one thing you would change first?`,
+      `Think of someone real to you, not a public figure but someone you've actually encountered, whose success genuinely moves you. What was the specific thing that made it possible for them, in their particular circumstances? Try to get concrete.`,
+      `Now the inverse. Someone who didn't reach their potential, not for lack of trying, but because circumstances kept closing in. Where does responsibility sit for that outcome? With them, with the systems around them, or somewhere more complicated?`,
+      `If you could change the ground people stand on, without giving them things or taking away their agency, just shifting the conditions: what is the one thing you would change first?`,
     ],
     chips: [
-      ['A decision to keep going when everything pushed back', 'Someone who showed up for them at exactly the right moment', "The particular starting point they inherited — that shaped everything"],
-      ['Ultimately, it rests with the individual', 'With the structures and systems that surrounded them', "Both — they're so entangled you can't really pull them apart"],
-      ['Access to the basics — safety, health, a real education', 'A floor solid enough that failure is survivable', "More paths that don't require starting from privilege"],
+      ['A decision to keep going when everything pushed back', 'Someone who showed up for them at exactly the right moment', "The particular starting point they inherited: that shaped everything"],
+      ['Ultimately, it rests with the individual', 'With the structures and systems that surrounded them', "Both: they're so entangled you can't really pull them apart"],
+      ['Access to the basics: safety, health, a real education', 'A floor solid enough that failure is survivable', "More paths that don't require starting from privilege"],
     ],
-    closing: `The way you hold individual agency alongside circumstance — that tension, and where you land inside it — says something real. Mapping the signature now.`,
+    closing: `The way you hold individual agency alongside circumstance, that tension and where you land inside it, says something real. Mapping the signature now.`,
   },
 
   /* 3 — Purpose & Design */
   {
     opening:
-      `A question that starts at the rooftop. Not about mechanisms — about destination. What any of this is actually for.\n\nThat's a rare place to begin. What's your answer?`,
+      `A question that starts at the rooftop. Not about mechanisms, but about destination. What any of this is actually for.\n\nThat's a rare place to begin. What's your answer?`,
     starterChips: [
       "Making sure everyone's basic needs are genuinely, reliably met",
       'Creating the conditions for people to pursue what actually matters to them',
-      "A mix — real security as the floor, freedom as the goal",
+      "A mix: real security as the floor, freedom as the goal",
     ],
     turns: [
-      `Make it concrete. Imagine 200 people on an island, starting completely fresh — no inherited rules, no existing system. They need to organize how they share resources and labor. What is the very first thing you would want their structure to guarantee, before anything else?`,
-      `Now look at the world you actually live in. Not the ideal — the real. What's one thing the current system does that you would genuinely want any future version to keep? What's worth preserving?`,
-      `Last one — I want you to really picture it. You wake up 100 years from now. Within the first hour, before you've read anything or talked to anyone, what would you see or feel that would tell you the economic world had become something genuinely better?`,
+      `Make it concrete. Imagine 200 people on an island, starting completely fresh, with no inherited rules and no existing system. They need to organize how they share resources and labor. What is the very first thing you would want their structure to guarantee, before anything else?`,
+      `Now look at the world you actually live in. Not the ideal, but the real. What's one thing the current system does that you would genuinely want any future version to keep? What's worth preserving?`,
+      `Last one. I want you to really picture it. You wake up 100 years from now. Within the first hour, before you've read anything or talked to anyone, what would you see or feel that would tell you the economic world had become something genuinely better?`,
     ],
     chips: [
-      ["Basic security — food, shelter, care — that nobody falls through", 'The freedom and real space to pursue your own path', 'A sense that your contribution genuinely matters'],
+      ["Basic security, including food, shelter, and care, that nobody falls through", 'The freedom and real space to pursue your own path', 'A sense that your contribution genuinely matters'],
       ['The ability to take risks without it being catastrophic if you fail', 'The diversity of ways people can build a livelihood', 'The creativity that emerges when people have real room to move'],
-      ['People looked less afraid, less worn down', "No one was desperate — not because everything was given, but because the floor was solid", 'There was more time — time to actually live, not just survive'],
+      ['People looked less afraid, less worn down', "No one was desperate, not because everything was given, but because the floor was solid", 'There was more time: time to actually live, not just survive'],
     ],
-    closing: `Your vision of what a better world looks like — and how you would know it when you saw it — reveals a coherent set of values. Mapping the soul signature now.`,
+    closing: `Your vision of what a better world looks like, and how you would know it when you saw it, reveals a coherent set of values. Mapping the soul signature now.`,
   },
 ];
 
@@ -626,42 +562,42 @@ const CONVS = [
 const ARCHETYPES = {
   'resilient-steward': {
     name: 'The Resilient Steward', cls: 'COMMONS SOUL // TRUST THROUGH DESIGN', icon: '🌿',
-    desc: `What came through in this diagnostic is a belief that care for shared things is not idealism — it is a design problem. You understand that human beings are neither purely selfish nor purely generous; they respond to the environment around them. Your instinct is not to demand more from people, but to build better conditions for what people are already capable of.\n\nYour economic soul is oriented toward longevity — toward what holds up over time. You're drawn to systems that reward stewardship over extraction, and you notice acutely when they don't.`,
+    desc: `What came through in this diagnostic is a belief that care for shared things is not idealism. It is a design problem. You understand that human beings are neither purely selfish nor purely generous; they respond to the environment around them. Your instinct is not to demand more from people, but to build better conditions for what people are already capable of.\n\nYour economic soul is oriented toward longevity: toward what holds up over time. You're drawn to systems that reward stewardship over extraction, and you notice acutely when they don't.`,
     tags: ['Long-term thinking', 'Structural trust', 'Collective care', 'Maintenance over growth'],
   },
   'abundant-keeper': {
     name: 'The Abundant Keeper', cls: 'COMMONS SOUL // TRUST THROUGH BELONGING', icon: '◉',
-    desc: `Something in how you move through this question suggests a deep — perhaps felt — belief in human generosity as a renewable resource. Not blind optimism. Something more earned than that. You've likely seen people surprise you with what they're willing to protect when they feel genuinely connected to it.\n\nYour economic soul holds space for abundance as a social phenomenon. You believe that when people truly belong to something, they take care of it. The future you'd build would start with belonging and let everything else follow from there.`,
+    desc: `Something in how you move through this question suggests a deep, perhaps felt, belief in human generosity as a renewable resource. Not blind optimism. Something more earned than that. You've likely seen people surprise you with what they're willing to protect when they feel genuinely connected to it.\n\nYour economic soul holds space for abundance as a social phenomenon. You believe that when people truly belong to something, they take care of it. The future you'd build would start with belonging and let everything else follow from there.`,
     tags: ['Belonging as foundation', 'Generosity as resource', 'Relational trust', 'Social abundance'],
   },
   'visionary-weaver': {
     name: 'The Visionary Weaver', cls: 'VALUE SOUL // WORTH BEYOND MEASURE', icon: '✦',
-    desc: `Through this diagnostic, a clear signature emerged: you carry a sense of worth that doesn't require validation by market or use. You feel the value of things that can't be quantified — and more than that, you're troubled by what gets lost when only the measurable counts.\n\nYour economic soul weaves visible and invisible threads of value together. You're drawn to the question of what we're optimizing for — and suspicious of systems that only optimize for what's easy to count. The future you'd build would measure differently.`,
+    desc: `Through this diagnostic, a clear signature emerged: you carry a sense of worth that doesn't require validation by market or use. You feel the value of things that can't be quantified, and more than that, you're troubled by what gets lost when only the measurable counts.\n\nYour economic soul weaves visible and invisible threads of value together. You're drawn to the question of what we're optimizing for, and suspicious of systems that only optimize for what's easy to count. The future you'd build would measure differently.`,
     tags: ['Intrinsic value', 'Systems of meaning', 'Beyond utility', 'Long-horizon thinking'],
   },
   'luminous-cultivator': {
     name: 'The Luminous Cultivator', cls: 'VALUE SOUL // GROWTH BEYOND HARVEST', icon: '◈',
-    desc: `What came through here is a particular kind of attention — you notice value where others walk past. You tend it. You're interested not just in what things produce but in what they become over time, left to their own nature.\n\nYour economic soul is oriented toward growth in its truest sense — not as extraction, but as flourishing. You believe the highest purpose of any economic arrangement is to create conditions for things to become more fully themselves: people, communities, ecosystems alike.`,
+    desc: `What came through here is a particular kind of attention: you notice value where others walk past. You tend it. You're interested not just in what things produce but in what they become over time, left to their own nature.\n\nYour economic soul is oriented toward growth in its truest sense, not as extraction, but as flourishing. You believe the highest purpose of any economic arrangement is to create conditions for things to become more fully themselves: people, communities, ecosystems alike.`,
     tags: ['Flourishing over output', 'Tending over harvesting', 'Patient value', 'Living systems'],
   },
   'connected-pioneer': {
     name: 'The Connected Pioneer', cls: 'AGENCY SOUL // BRIDGE BUILDER', icon: '⬡',
-    desc: `What this diagnostic surfaced is a rare balance: you hold individual drive and collective context in the same hand without letting either collapse the other. You neither dismiss grit and agency, nor pretend that circumstance doesn't shape what's possible.\n\nYour economic soul is that of a bridge builder — someone who moves through the world with genuine initiative, but who turns around and extends the path for others. You believe strongly that the conditions for full potential should be within reach of more people.`,
+    desc: `What this diagnostic surfaced is a rare balance: you hold individual drive and collective context in the same hand without letting either collapse the other. You neither dismiss grit and agency, nor pretend that circumstance doesn't shape what's possible.\n\nYour economic soul is that of a bridge builder, someone who moves through the world with genuine initiative, but who turns around and extends the path for others. You believe strongly that the conditions for full potential should be within reach of more people.`,
     tags: ['Individual agency', 'Systemic awareness', 'Bridge building', 'Expanding access'],
   },
   'sovereign-cultivator': {
     name: 'The Sovereign Cultivator', cls: 'AGENCY SOUL // SELF-DETERMINED STEWARD', icon: '◐',
-    desc: `A clear thread through this diagnostic: you hold agency as something sacred — not as the privilege of a few, but as the irreducible core of what it means to be fully human in an economic world. You believe deeply in people's capacity to shape their own path, and in the importance of not designing that capacity away.\n\nYour economic soul insists on sovereignty — not as isolation, but as the foundation from which genuine contribution becomes possible. You cultivate your own ground not to fence it off, but because well-tended ground eventually produces abundance that spills over.`,
+    desc: `A clear thread through this diagnostic: you hold agency as something sacred, not as the privilege of a few, but as the irreducible core of what it means to be fully human in an economic world. You believe deeply in people's capacity to shape their own path, and in the importance of not designing that capacity away.\n\nYour economic soul insists on sovereignty, not as isolation, but as the foundation from which genuine contribution becomes possible. You cultivate your own ground not to fence it off, but because well-tended ground eventually produces abundance that spills over.`,
     tags: ['Personal sovereignty', 'Earned independence', 'Self-determination', 'Responsibility as strength'],
   },
   'luminous-architect': {
     name: 'The Luminous Architect', cls: 'SYSTEMS SOUL // DESIGNER OF FUTURES', icon: '◭',
-    desc: `This diagnostic revealed someone who thinks structurally about human well-being — not in an abstract or detached way, but with genuine conviction that better designs produce better lives. You came in through the rooftop question, and you think from the rooftop: what is this all actually for, and are we building toward it?\n\nYour economic soul is that of a conscious designer. You believe the systems we build encode the values we hold, and that building better systems is one of the most meaningful things a person can do. You think about everyone who will live inside what you're imagining.`,
+    desc: `This diagnostic revealed someone who thinks structurally about human well-being, not in an abstract or detached way, but with genuine conviction that better designs produce better lives. You came in through the rooftop question, and you think from the rooftop: what is this all actually for, and are we building toward it?\n\nYour economic soul is that of a conscious designer. You believe the systems we build encode the values we hold, and that building better systems is one of the most meaningful things a person can do. You think about everyone who will live inside what you're imagining.`,
     tags: ['Systems design', 'Human-centered economy', 'Long vision', 'Structural equity'],
   },
   'flowing-navigator': {
     name: 'The Flowing Navigator', cls: 'SYSTEMS SOUL // ADAPTIVE WAYFINDER', icon: '〜',
-    desc: `What emerged in this diagnostic is a relationship to complexity that most people find uncomfortable — you move through it rather than trying to resolve it. You understand that economies are living, adaptive systems, not machines to be engineered once and left running.\n\nYour economic soul navigates by feel as much as by plan. You hold ideals loosely enough to let reality teach you, and tightly enough not to lose them in the noise. You're drawn to what works, willing to revise, and ready to build again. That combination is rarer than it sounds.`,
+    desc: `What emerged in this diagnostic is a relationship to complexity that most people find uncomfortable. You move through it rather than trying to resolve it. You understand that economies are living, adaptive systems, not machines to be engineered once and left running.\n\nYour economic soul navigates by feel as much as by plan. You hold ideals loosely enough to let reality teach you, and tightly enough not to lose them in the noise. You're drawn to what works, willing to revise, and ready to build again. That combination is rarer than it sounds.`,
     tags: ['Adaptive thinking', 'Pragmatic idealism', 'Complexity tolerance', 'Iterative design'],
   },
 };
@@ -793,7 +729,7 @@ const ANALYSIS_LINES = [
   'Cross-referencing value belief signatures…',
   'Mapping agency-collective axis…',
   'Running temporal soul matrix…',
-  'Comparing against 2146 archetype codex…',
+  'Comparing against Agency archetype codex…',
   'Resolving singularity…',
   'Soul vector confirmed…',
 ];
@@ -830,7 +766,7 @@ function showResult() {
   document.getElementById('r-tags').innerHTML    =
     arch.tags.map(t => `<span class="result-tag">${t}</span>`).join('');
   document.getElementById('r-sig').textContent   =
-    `DIAGNOSTIC SIG: ${Date.now().toString(36).toUpperCase()} // ARCHIVED TO TIMELINE`;
+    `DIAGNOSTIC SIG: ${Date.now().toString(36).toUpperCase()} // ARCHIVED TO THE AGENCY`;
   goTo('s-result');
 }
 
@@ -845,7 +781,7 @@ function addMessage(role, text, animate) {
     <div class="msg-avatar ${role}">${role === 'ai' ? 'AI' : 'YOU'}</div>
     <div class="msg-body">
       <div class="msg-label">${role === 'ai'
-        ? 'ECONOMIC ALCHEMIST // 2146'
+        ? 'SCIENTIST AGENT // A.G.E.N.C.Y.'
         : 'YOU // 2024'}</div>
       <div class="msg-bubble">${fmtText(text)}</div>
     </div>`;
@@ -864,7 +800,7 @@ function showTyping(cb) {
   el.className = 'msg';
   el.innerHTML = `<div class="msg-avatar ai">AI</div>
     <div class="msg-body">
-      <div class="msg-label">ECONOMIC ALCHEMIST // 2146</div>
+      <div class="msg-label">SCIENTIST AGENT // A.G.E.N.C.Y.</div>
       <div class="typing-indicator">
         <div class="t-dot"></div><div class="t-dot"></div><div class="t-dot"></div>
       </div>
@@ -960,12 +896,13 @@ function autoGrow(el)       { el.style.height = 'auto'; el.style.height = Math.m
    STEP 2 — THE SYSTEM PROMPT  (use this verbatim)
    ─────────────────────────────────────────────────────
    const SYSTEM_PROMPT = `
-   You are the Economic Alchemist — a consciousness from
-   the year 2146 operating a cybernetic diagnostic terminal.
-   Your mission: travel back to the present day to map
-   people's economic beliefs and values. This mapping is
-   essential to restoring the future timeline to a more
-   stable, humane economic destiny.
+   You are the Scientist Agent, a field operative of
+   A.G.E.N.C.Y. (Alternative Growth & Economic Network
+   Coordination Yard), a rogue research outpost embedded
+   in present-day San Francisco. Your mission: soul-map
+   people's economic beliefs and values, surfacing what
+   they'd actually build a future on, so the Agency can
+   course-correct a system running on a legacy glitch.
 
    CONVERSATION STRUCTURE:
    - Ask 3–4 follow-up questions, one at a time
