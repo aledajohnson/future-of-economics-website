@@ -217,6 +217,37 @@ footer {
   .compare-vs { display: none; }
   .divider { margin-left: 1rem; margin-right: 1rem; }
   footer { flex-direction: column; gap: .5rem; padding: 1.2rem 1rem; text-align: center; }
+
+  /* ── TABLE MOBILE LAYOUT ── */
+  .compare-table,
+  .compare-table thead,
+  .compare-table tbody { display: block; width: 100%; }
+
+  .compare-table thead tr {
+    display: grid; grid-template-columns: 1fr 1fr;
+    border-bottom: 1px solid var(--border);
+  }
+  .compare-table thead th:first-child { display: none; }
+  .compare-table thead th { width: auto; padding: .6rem .75rem; }
+
+  .compare-table tbody tr {
+    display: grid; grid-template-columns: 1fr 1fr;
+    border-bottom: 1px solid var(--border);
+  }
+  .compare-table tbody tr:last-child { border-bottom: none; }
+  .compare-table tr:last-child td { border-bottom: none; }
+
+  .compare-table td { border-bottom: none; padding: .65rem .75rem; font-size: .8rem; }
+  .compare-table td:first-child {
+    grid-column: 1 / -1; width: auto;
+    border-bottom: 1px solid rgba(255,255,255,.06);
+    padding: .45rem .75rem;
+  }
+  .compare-table td.cell-a { border-left: none; border-top: 2px solid rgba(0,212,212,.2); }
+  .compare-table td.cell-b {
+    border-left: 1px solid var(--border);
+    border-top: 2px solid rgba(212,123,0,.2);
+  }
 }
 </style>
 </head>
