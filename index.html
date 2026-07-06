@@ -604,7 +604,7 @@ const DIMS = SLIDERS.length;
 /* ---- geometry ---- */
 const SVG="http://www.w3.org/2000/svg", CX=300, CY=300, R=200;
 
-function wrapTag(tag, max=26){
+function wrapTag(tag, max=32){
   if(tag.length<=max) return [tag];
   const mid=Math.round(tag.length/2);
   let bestSplit=-1, bestDist=Infinity;
@@ -666,7 +666,8 @@ function drawRing(){
     const out=(d)=>[CX+Math.cos(s.ang)*(R+d), CY-Math.sin(s.ang)*(R+d)];
     const cosv=Math.cos(s.ang);
     const anchor=cosv>0.25?'start':cosv<-0.25?'end':'middle';
-    const [lx,ly]=out(26);
+    const dist=Math.sin(s.ang)>0.8?55:26;
+    const [lx,ly]=out(dist);
     const t1=el('text',{x:lx,y:ly,'text-anchor':anchor,class:'schoolname',fill:'var(--text-bright)'});
     t1.textContent=s.label; ring.appendChild(t1);
     const lines=wrapTag(s.tag);
