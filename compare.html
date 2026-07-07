@@ -311,7 +311,13 @@ const MODELS = [
     distribution: 'Returns flow to owners of capital through profit, dividends, and rent. Workers receive wages determined by labor markets. Distribution reflects ownership of assets more than contribution or need.',
     power: 'Owners of capital hold significant influence over economic decisions. Antitrust law, regulation, and democratic elections provide formal checks. The degree to which concentrated wealth translates into political influence is actively debated.',
     tried: 'The dominant global economic structure. Examples range from lightly regulated historical forms in 19th-century United States to heavily regulated mixed varieties in contemporary Nordic countries.',
-    relation: 'Austrian and Neoclassical schools provide its theoretical foundation; Keynesian is a reform tradition within it that accepts capitalism while adding government management. Marxist, Mutualist, and Solidarity Economy offer fundamental critiques of private ownership. Ecological and Post-Growth schools challenge its growth imperative regardless of who holds the capital.'
+    relation: 'Austrian and Neoclassical schools provide its theoretical foundation; Keynesian is a reform tradition within it that accepts capitalism while adding government management. Marxist, Mutualist, and Solidarity Economy offer fundamental critiques of private ownership. Ecological and Post-Growth schools challenge its growth imperative regardless of who holds the capital.',
+    thinkers: 'Adam Smith · Karl Marx · Max Weber · Milton Friedman',
+    resources: [
+      {title:'The Wealth of Nations',note:'Smith, 1776',url:'https://en.wikipedia.org/wiki/The_Wealth_of_Nations'},
+      {title:'Capital in the Twenty-First Century',note:'Piketty, 2013',url:'https://en.wikipedia.org/wiki/Capital_in_the_Twenty-First_Century'},
+      {title:'The Protestant Ethic and the Spirit of Capitalism',note:'Weber, 1905',url:'https://en.wikipedia.org/wiki/The_Protestant_Ethic_and_the_Spirit_of_Capitalism'},
+    ],
   },
   {
     id: 'socialism', type: 'system',
@@ -324,7 +330,13 @@ const MODELS = [
     distribution: 'Based on contribution or need rather than capital ownership. Workers receive more of the value they produce. Public services, including healthcare, housing, and education, are provided as rights rather than sold as commodities.',
     power: 'Economic authority rests with political institutions rather than private capital. In democratic variants, elected governments and worker bodies hold power; in more centralized forms, a party or state administration does. The distinction between these variants has significant consequences in practice.',
     tried: 'Postwar UK nationalizations. Nordic social democratic welfare states. Worker cooperatives worldwide. Cuba. The Soviet Union is the most extensively studied example of centralized state socialism, analyzed both for its achievements in early industrialization and its failures in political freedom and long-run economic performance.',
-    relation: 'Closely related to the Marxist tradition. Democratic socialism borrows Keynesian tools; at its most decentralized it overlaps with Commons-Based and Solidarity Economy approaches. In direct tension with Austrian and Neoclassical schools on private ownership of productive assets.'
+    relation: 'Closely related to the Marxist tradition. Democratic socialism borrows Keynesian tools; at its most decentralized it overlaps with Commons-Based and Solidarity Economy approaches. In direct tension with Austrian and Neoclassical schools on private ownership of productive assets.',
+    thinkers: 'Karl Marx · Friedrich Engels · Rosa Luxemburg · Eduard Bernstein',
+    resources: [
+      {title:'The Communist Manifesto',note:'Marx & Engels, 1848',url:'https://en.wikipedia.org/wiki/The_Communist_Manifesto'},
+      {title:'The State and Revolution',note:'Lenin, 1917',url:'https://en.wikipedia.org/wiki/The_State_and_Revolution'},
+      {title:'Why Not Socialism?',note:'G.A. Cohen, 2009',url:'https://en.wikipedia.org/wiki/Why_Not_Socialism%3F'},
+    ],
   },
   {
     id: 'mixed', type: 'system',
@@ -337,7 +349,13 @@ const MODELS = [
     distribution: 'Market wages and returns, supplemented by progressive taxation and social transfers. Public services provide some access regardless of income. Inequality persists but is moderated relative to a purely private economy.',
     power: 'Shared between private capital and democratically elected governments. Courts, regulatory agencies, and elections provide checks. Ongoing political tensions between interests pushing for deregulation and those pushing for stronger public provision shape its evolution.',
     tried: 'Effectively the standard structure among developed nations. Western Europe, Canada, Japan, Australia, and the United States all operate mixed economies, differing mainly in the size of the public sector and the generosity of social transfers.',
-    relation: 'The practical result of Keynesian policies applied within a capitalist structure. Compatible with Neoclassical tools applied selectively. Ecological and Post-Growth critics argue it preserves growth imperatives while offering only marginal reform to the underlying system.'
+    relation: 'The practical result of Keynesian policies applied within a capitalist structure. Compatible with Neoclassical tools applied selectively. Ecological and Post-Growth critics argue it preserves growth imperatives while offering only marginal reform to the underlying system.',
+    thinkers: 'John Maynard Keynes · Paul Samuelson · John Kenneth Galbraith',
+    resources: [
+      {title:'The Affluent Society',note:'Galbraith, 1958',url:'https://en.wikipedia.org/wiki/The_Affluent_Society'},
+      {title:'Economics',note:'Samuelson, 1948',url:'https://en.wikipedia.org/wiki/Economics_(textbook)'},
+      {title:'The Commanding Heights',note:'Yergin & Stanislaw, 1998',url:'https://en.wikipedia.org/wiki/The_Commanding_Heights_(book)'},
+    ],
   },
   {
     id: 'commons', type: 'system',
@@ -350,7 +368,13 @@ const MODELS = [
     distribution: 'Access based on membership and need rather than ability to pay. Costs and benefits are shared among commoners according to collectively agreed rules.',
     power: 'Distributed among the community of users. Governing institutions are accountable to members, not external investors or state authorities. The primary historical threat to commons has been enclosure, the conversion to private or state ownership against the will of the community.',
     tried: 'Village commons in pre-enclosure England. Swiss and Japanese alpine communities, many operating sustainably for centuries. Open-source software. Wikipedia. Indigenous land management systems worldwide.',
-    relation: 'Shares core principles with Mutualist and Solidarity Economy. In tension with both private ownership traditions (Austrian, Neoclassical) and state control traditions (centralized Socialism). Overlaps with Ecological Economics on governance of natural resources and with Mutualist on horizontal governance structures.'
+    relation: 'Shares core principles with Mutualist and Solidarity Economy. In tension with both private ownership traditions (Austrian, Neoclassical) and state control traditions (centralized Socialism). Overlaps with Ecological Economics on governance of natural resources and with Mutualist on horizontal governance structures.',
+    thinkers: 'Elinor Ostrom · David Bollier · Peter Linebaugh',
+    resources: [
+      {title:'Governing the Commons',note:'Ostrom, 1990',url:'https://en.wikipedia.org/wiki/Governing_the_Commons'},
+      {title:'Free, Fair and Alive',note:'Bollier & Helfrich, 2019',url:'https://freefairandalive.org/'},
+      {title:'Stop, Thief!',note:'Linebaugh, 2014',url:'https://www.pmpress.org/content/articles.php?code=9781604863499'},
+    ],
   },
   {
     id: 'doughnut', type: 'framework',
@@ -363,7 +387,13 @@ const MODELS = [
     distribution: 'Explicitly prioritizes the social foundation: food, water, housing, energy, health, education, income, and political voice for everyone. These are treated as baseline requirements of a well-functioning economy, not optional outcomes.',
     power: 'Accountability runs to people and planet rather than to shareholders or GDP targets. Both the social floor and the ecological ceiling are non-negotiable constraints on economic policy, not trade-offs to be balanced against growth.',
     tried: 'Amsterdam adopted doughnut economics as its official city framework in 2020. Brussels, Copenhagen, and other cities are exploring similar approaches. The Wellbeing Economy Governments group (New Zealand, Scotland, Iceland, Wales, Finland) applies related thinking at national scale.',
-    relation: 'A design framework within Ecological Economics, not a standalone school. Most compatible with Keynesian social democracy in its practical policy tools. Overlaps with Wellbeing Economy on the social floor; adds the ecological ceiling that Wellbeing approaches do not always emphasize. Part of the broader Post-Growth family.'
+    relation: 'A design framework within Ecological Economics, not a standalone school. Most compatible with Keynesian social democracy in its practical policy tools. Overlaps with Wellbeing Economy on the social floor; adds the ecological ceiling that Wellbeing approaches do not always emphasize. Part of the broader Post-Growth family.',
+    thinkers: 'Kate Raworth · Johan Rockström · Herman Daly',
+    resources: [
+      {title:'Doughnut Economics',note:'Raworth, 2017',url:'https://en.wikipedia.org/wiki/Doughnut_Economics:_Seven_Ways_to_Think_Like_a_21st-Century_Economist'},
+      {title:'Planetary Boundaries',note:'Rockström et al., 2009',url:'https://www.science.org/doi/10.1126/science.1153628'},
+      {title:'Beyond Growth',note:'Daly, 1996',url:'https://en.wikipedia.org/wiki/Beyond_Growth'},
+    ],
   },
   {
     id: 'postgrowth', type: 'framework',
@@ -376,7 +406,13 @@ const MODELS = [
     distribution: 'Prioritizes sufficiency and equity over unlimited accumulation. Redistribution and reduced working hours allow prosperity to be shared without requiring the overall economy to keep expanding.',
     power: 'Accountable to democratic publics and future generations rather than to financial markets or GDP targets. Shifting this accountability structure is seen as the core political challenge.',
     tried: 'New Zealand\'s Wellbeing Budget (2019). Scotland and Wales have embedded wellbeing goals in legislation. Iceland\'s four-day working week trials. Finland\'s basic income experiment. The Wellbeing Economy Governments group links these national experiments.',
-    relation: 'An umbrella encompassing Degrowth, Wellbeing Economy, and Steady-State approaches. Most aligned with Keynesian social democracy but pushes further by questioning growth itself. In direct tension with Austrian, Neoclassical, and conventional Keynesian schools, all of which treat economic expansion as a core objective.'
+    relation: 'An umbrella encompassing Degrowth, Wellbeing Economy, and Steady-State approaches. Most aligned with Keynesian social democracy but pushes further by questioning growth itself. In direct tension with Austrian, Neoclassical, and conventional Keynesian schools, all of which treat economic expansion as a core objective.',
+    thinkers: 'Tim Jackson · Herman Daly · Kate Raworth · Jason Hickel',
+    resources: [
+      {title:'Prosperity Without Growth',note:'Jackson, 2009',url:'https://en.wikipedia.org/wiki/Prosperity_Without_Growth'},
+      {title:'The Limits to Growth',note:'Meadows et al., 1972',url:'https://en.wikipedia.org/wiki/The_Limits_to_Growth'},
+      {title:'Less Is More',note:'Hickel, 2020',url:'https://en.wikipedia.org/wiki/Less_Is_More_(book)'},
+    ],
   },
   {
     id: 'degrowth', type: 'framework',
@@ -389,7 +425,13 @@ const MODELS = [
     distribution: 'Strong redistribution to enable reduced working hours without poverty. Universal public services replace much market provision. Living well on less is an explicit design goal, not a sacrifice.',
     power: 'Accountable to communities and ecological limits rather than to capital or growth metrics. Degrowth directly challenges the political power of industries whose profitability depends on continuous expansion.',
     tried: 'No country has adopted degrowth as an explicit national policy. Elements appear in car-free city zones, advertising restrictions in some European cities, the 15-minute city model in Paris, and shorter working week legislation in several countries. The framework is gaining influence in academic and policy circles.',
-    relation: 'A strategy within Ecological Economics, more radical than the Post-Growth umbrella on the need for active reduction rather than redirection. Compatible with Mutualist and Solidarity Economy on ownership of productive assets. In direct tension with all growth-oriented traditions, including Keynesian, which treats stimulus as a solution to social problems.'
+    relation: 'A strategy within Ecological Economics, more radical than the Post-Growth umbrella on the need for active reduction rather than redirection. Compatible with Mutualist and Solidarity Economy on ownership of productive assets. In direct tension with all growth-oriented traditions, including Keynesian, which treats stimulus as a solution to social problems.',
+    thinkers: 'Jason Hickel · Giorgos Kallis · Serge Latouche',
+    resources: [
+      {title:'Less Is More',note:'Hickel, 2020',url:'https://en.wikipedia.org/wiki/Less_Is_More_(book)'},
+      {title:'Degrowth: A Vocabulary for a New Era',note:'D\'Alisa, Demaria & Kallis, 2014',url:'https://www.routledge.com/Degrowth-A-Vocabulary-for-a-New-Era/DAlisa-Demaria-Kallis/p/book/9780415718370'},
+      {title:'The Case for Degrowth',note:'Kallis et al., 2020',url:'https://www.wiley.com/en-us/The+Case+for+Degrowth-p-9781509535910'},
+    ],
   },
   {
     id: 'wellbeing', type: 'framework',
@@ -421,7 +463,13 @@ const MODELS = [
     distribution: 'Surplus returns to workers and members rather than external investors. Benefits circulate locally. Time banks equalize the value of different kinds of work by treating every hour as equivalent.',
     power: 'Distributed among members and workers. Accountable to the community of participants. The solidarity economy faces ongoing pressure from conventional firms and the risk of gradually adopting conventional practices as institutions grow and scale.',
     tried: 'Mondragon cooperative corporation in Spain\'s Basque Country, with over 80,000 worker-owners. Emilia-Romagna in Italy, where cooperatives generate roughly 40 percent of regional GDP. Equal Exchange. The cooperative and credit union sectors in many countries.',
-    relation: 'The practical organizational expression of Mutualist principles at scale. Compatible with Marxist critique of capitalism. Overlaps significantly with Commons-Based Economy and often incorporates cooperative ownership structures. Operates within but deliberately challenges capitalist markets from the inside.'
+    relation: 'The practical organizational expression of Mutualist principles at scale. Compatible with Marxist critique of capitalism. Overlaps significantly with Commons-Based Economy and often incorporates cooperative ownership structures. Operates within but deliberately challenges capitalist markets from the inside.',
+    thinkers: 'Gar Alperovitz · J.K. Gibson-Graham · Ted Howard',
+    resources: [
+      {title:'The Making of a Democratic Economy',note:'Kelly & Howard, 2019',url:'https://islandpress.org/books/making-democratic-economy'},
+      {title:'Take Back the Economy',note:'Gibson-Graham et al., 2013',url:'https://www.upress.umn.edu/book-division/books/take-back-the-economy'},
+      {title:'What Then Must We Do?',note:'Alperovitz, 2013',url:'https://en.wikipedia.org/wiki/What_Then_Must_We_Do%3F'},
+    ],
   },
   {
     id: 'ecological', type: 'school',
