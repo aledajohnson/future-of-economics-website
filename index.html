@@ -911,6 +911,48 @@ document.getElementById('reset').addEventListener('click',()=>{
   SLIDERS.forEach((s,i)=>{ if(nums[i]!==undefined) document.getElementById(`sl-${i}`).value=nums[i]; });
   preview();
 })();
+
+// ── KORG nanoKONTROL2 MIDI ──
+// Faders 1-7 → questions 0-6 (CC 0-6), PLAY (CC 41) advances view, STOP (CC 42) resets
+(function initMIDI(){
+  if(!navigator.requestMIDIAccess) return;
+  navigator.requestMIDIAccess().then(access=>{
+    function bindInputs(){
+      for(const input of access.inputs.values()) input.onmidimessage=onMIDI;
+    }
+    bindInputs();
+    access.onstatechange=bindInputs; // reconnect if controller plugged in after load
+  }).catch(()=>{});
+
+  function onMIDI({data}){
+    const[status,cc,val]=data;
+    if((status&0xF0)!==0xB0) return; // only CC messages
+    // Uncomment to identify CC numbers: console.log('MIDI CC',cc,'=',val);
+
+    if(cc>=0&&cc<=6){
+      // Fader → question slider (scale 0-127 to 0-100)
+      const el=document.getElementById(`sl-${cc}`);
+      if(!el) return;
+      el.value=Math.round(val/127*100);
+      el.dispatchEvent(new Event('input',{bubbles:true}));
+      return;
+    }
+    if(val!==127) return; // only act on button press, not release
+
+    if(cc===41){ // PLAY — advance current view
+      const landing=document.getElementById('view-landing');
+      const questions=document.getElementById('view-questions');
+      const results=document.getElementById('view-results');
+      if(!landing.hidden)   document.getElementById('begin-btn').click();
+      else if(!questions.hidden) document.getElementById('submit').click();
+      else if(!results.hidden)   document.getElementById('community-btn').click();
+    }
+    if(cc===42){ // STOP — start over from any view
+      const reset=document.getElementById('reset');
+      if(reset) reset.click();
+    }
+  }
+})();
 </script>
 </body>
 </html>
