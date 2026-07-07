@@ -918,11 +918,13 @@ document.getElementById('reset').addEventListener('click',()=>{
   if(!navigator.requestMIDIAccess) return;
   navigator.requestMIDIAccess().then(access=>{
     function bindInputs(){
-      for(const input of access.inputs.values()) input.onmidimessage=onMIDI;
+      const inputs=[...access.inputs.values()];
+      console.log('[MIDI] inputs:', inputs.map(i=>i.name));
+      inputs.forEach(i=>{ i.onmidimessage=onMIDI; });
     }
     bindInputs();
-    access.onstatechange=bindInputs; // reconnect if controller plugged in after load
-  }).catch(()=>{});
+    access.onstatechange=e=>{ console.log('[MIDI] state change:',e.port.name,e.port.state); bindInputs(); };
+  }).catch(e=>console.error('[MIDI] access error:',e));
 
   function onMIDI({data}){
     const[status,cc,val]=data;
