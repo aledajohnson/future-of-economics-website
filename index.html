@@ -927,10 +927,8 @@ document.getElementById('reset').addEventListener('click',()=>{
   function onMIDI({data}){
     const[status,cc,val]=data;
     if((status&0xF0)!==0xB0) return; // only CC messages
-    // Uncomment to identify CC numbers: console.log('MIDI CC',cc,'=',val);
 
     if(cc>=0&&cc<=6){
-      // Fader → question slider (scale 0-127 to 0-100)
       const el=document.getElementById(`sl-${cc}`);
       if(!el) return;
       el.value=Math.round(val/127*100);
@@ -940,16 +938,14 @@ document.getElementById('reset').addEventListener('click',()=>{
     if(val!==127) return; // only act on button press, not release
 
     if(cc===41){ // PLAY — advance current view
-      const landing=document.getElementById('view-landing');
-      const questions=document.getElementById('view-questions');
-      const results=document.getElementById('view-results');
-      if(!landing.hidden)   document.getElementById('begin-btn').click();
-      else if(!questions.hidden) document.getElementById('submit').click();
-      else if(!results.hidden)   document.getElementById('community-btn').click();
+      const activeView=[...document.querySelectorAll('.view')].find(v=>!v.hidden);
+      console.log('[MIDI] PLAY on view:', activeView?.id);
+      if(activeView?.id==='view-landing')   showView('view-questions');
+      else if(activeView?.id==='view-questions'){ reveal(); showView('view-results'); }
+      else if(activeView?.id==='view-results')  window.location.href='community.html';
     }
-    if(cc===42){ // STOP — start over from any view
-      const reset=document.getElementById('reset');
-      if(reset) reset.click();
+    if(cc===42){ // STOP — reset from any view
+      document.getElementById('reset').click();
     }
   }
 })();
