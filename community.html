@@ -9,22 +9,22 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --bg: #04040a;
-  --panel: #0a0c10;
-  --field: #0e1014;
-  --border: rgba(90,180,255,.25);
-  --border-hover: rgba(90,180,255,.5);
-  --text: rgba(220,255,230,.85);
-  --text-bright: rgba(235,255,240,.96);
-  --text-dim: rgba(180,220,190,.5);
-  --text-muted: rgba(160,200,170,.32);
-  --green: #39ff6a;
-  --amber: #ffb347;
+  --bg: #f5f4f0;
+  --panel: #ffffff;
+  --field: #eeecea;
+  --border: rgba(0,0,0,.13);
+  --border-hover: rgba(0,0,0,.28);
+  --text: rgba(20,22,30,.88);
+  --text-bright: rgba(10,12,20,.92);
+  --text-dim: rgba(45,52,72,.68);
+  --text-muted: rgba(45,52,72,.42);
+  --green: #1a7030;
+  --amber: #b5700a;
 }
 
 html, body { height: 100%; }
 body {
-  background: var(--bg);
+  background: var(--bg); font-weight: 600;
   color: var(--text);
   font-family: 'Share Tech Mono', monospace;
   font-size: 15px;
@@ -35,12 +35,12 @@ body {
 }
 
 ::-webkit-scrollbar { width: 4px; }
-::-webkit-scrollbar-thumb { background: rgba(57,255,106,.18); border-radius: 2px; }
+::-webkit-scrollbar-thumb { background: rgba(0,0,0,.18); border-radius: 2px; }
 
 /* ── NAV ── */
 nav {
   position: fixed; top: 0; left: 0; right: 0; z-index: 200;
-  background: rgba(4,6,4,.92);
+  background: rgba(245,244,240,.96);
   border-bottom: 1px solid var(--border);
   height: 52px;
   display: flex; align-items: center; justify-content: flex-end;
@@ -75,7 +75,7 @@ nav {
   grid-row: 1 / 3;
   border-right: 1px solid var(--border);
   background: var(--panel);
-  box-shadow: inset 0 0 80px rgba(0,0,0,.7);
+  box-shadow: inset 0 0 20px rgba(0,0,0,.04);
   position: relative;
   display: flex;
   flex-direction: column;
@@ -111,13 +111,13 @@ svg { display: block; overflow: visible; }
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: rgba(0,0,0,.35);
+  background: rgba(0,0,0,.05);
   flex-shrink: 0;
 }
 .signal-count {
   font-family: 'Orbitron', sans-serif;
   font-size: clamp(.85rem, 1.8vw, 1.2rem);
-  font-weight: 900; color: #fff; letter-spacing: .04em;
+  font-weight: 900; color: var(--text-bright); letter-spacing: .04em;
 }
 .scan-label {
   font-size: .62rem; letter-spacing: .2em; color: var(--text-muted);
@@ -178,7 +178,7 @@ footer {
   border-top: 1px solid var(--border);
   padding: .9rem 1rem;
   display: flex; justify-content: center; align-items: center;
-  background: rgba(0,0,0,.2);
+  background: rgba(0,0,0,.03);
 }
 .footer-credit { font-size: .6rem; color: var(--text-muted); letter-spacing: .04em; text-align: center; }
 
@@ -296,22 +296,22 @@ function drawBase() {
   const starG = el('g', { opacity: .5 });
   for (let i = 0; i < 55; i++) {
     const sx = Math.random() * 772 - 82, sy = Math.random() * 614 - 16;
-    starG.appendChild(el('circle', { cx: sx, cy: sy, r: Math.random() * .9 + .2, fill: '#fff', opacity: Math.random() * .5 + .2 }));
+    starG.appendChild(el('circle', { cx: sx, cy: sy, r: Math.random() * .9 + .2, fill: 'rgba(0,0,0,.35)', opacity: Math.random() * .5 + .2 }));
   }
   ring.appendChild(starG);
 
   // Radar rings
   const radarG = el('g', { opacity: .45 });
   [1, .68, .36].forEach((f, i) => {
-    radarG.appendChild(el('circle', { cx: CX, cy: CY, r: R * f, fill: 'none', stroke: 'rgba(90,180,255,.6)', 'stroke-width': i === 0 ? 1.4 : .7, 'stroke-dasharray': i === 0 ? 'none' : '2 5' }));
+    radarG.appendChild(el('circle', { cx: CX, cy: CY, r: R * f, fill: 'none', stroke: 'rgba(30,80,180,.45)', 'stroke-width': i === 0 ? 1.4 : .7, 'stroke-dasharray': i === 0 ? 'none' : '2 5' }));
   });
   for (let i = 0; i < SCHOOLS.length; i++) {
     const a = (Math.PI * 2 * i) / SCHOOLS.length;
-    radarG.appendChild(el('line', { x1: CX, y1: CY, x2: CX + Math.cos(a) * R, y2: CY - Math.sin(a) * R, stroke: 'rgba(90,180,255,.4)', 'stroke-width': .6 }));
+    radarG.appendChild(el('line', { x1: CX, y1: CY, x2: CX + Math.cos(a) * R, y2: CY - Math.sin(a) * R, stroke: 'rgba(30,80,180,.3)', 'stroke-width': .6 }));
   }
-  radarG.appendChild(el('line', { x1: CX - 12, y1: CY, x2: CX + 12, y2: CY, stroke: 'rgba(90,180,255,.35)', 'stroke-width': .8 }));
-  radarG.appendChild(el('line', { x1: CX, y1: CY - 12, x2: CX, y2: CY + 12, stroke: 'rgba(90,180,255,.35)', 'stroke-width': .8 }));
-  radarG.appendChild(el('circle', { cx: CX, cy: CY, r: 2.5, fill: 'none', stroke: 'rgba(90,180,255,.3)', 'stroke-width': .8 }));
+  radarG.appendChild(el('line', { x1: CX - 12, y1: CY, x2: CX + 12, y2: CY, stroke: 'rgba(30,80,180,.28)', 'stroke-width': .8 }));
+  radarG.appendChild(el('line', { x1: CX, y1: CY - 12, x2: CX, y2: CY + 12, stroke: 'rgba(30,80,180,.28)', 'stroke-width': .8 }));
+  radarG.appendChild(el('circle', { cx: CX, cy: CY, r: 2.5, fill: 'none', stroke: 'rgba(30,80,180,.25)', 'stroke-width': .8 }));
   ring.appendChild(radarG);
 
   dotsLayer = el('g', {});

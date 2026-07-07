@@ -320,10 +320,79 @@ footer {
 .footer-credit a { color: var(--amber); text-decoration: none; }
 .footer-credit a:hover { text-decoration: underline; }
 
+/* ── WIDE INSTALLATION LAYOUT ── */
+body { height: 100vh; overflow: hidden; font-weight: 600; }
+
+.app-layout {
+  display: flex;
+  height: calc(100vh - 52px);
+  margin-top: 52px;
+  padding: .75rem 1.25rem;
+  gap: 1.25rem;
+  overflow: hidden;
+}
+
+.col-ring {
+  flex: 0 0 52%;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+.col-ring .ring-panel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  max-width: none;
+  min-height: 0;
+}
+.col-ring .ring-stage {
+  flex: 1;
+  height: auto;
+  max-height: none;
+}
+
+.col-controls {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: .55rem;
+  overflow: hidden;
+  min-height: 0;
+}
+
+/* Compact readout for installation — hide long prose, keep name + bars */
+#readout-panel { margin: 0; }
+#readout-panel #blurb,
+#readout-panel #kin,
+#readout-panel #policy,
+#readout-panel #learn-more { display: none !important; }
+#readout-panel .cell { padding: .65rem 1rem; }
+#readout-panel .cell .v { font-size: clamp(1.1rem, 1.8vw, 1.5rem); }
+#readout-panel .cell .wing { font-size: .8rem; margin-top: .25rem; }
+
+/* Compact slider cards for no-scroll */
+.col-controls .field { padding: .55rem .8rem .65rem; }
+.col-controls .beliefs { margin: .4rem 0 .55rem; }
+
+/* Bold text throughout */
+.belief { font-weight: 700; font-size: .82rem; }
+.field .name { font-weight: 700; letter-spacing: .15em; }
+.bar .bn { font-weight: 700; }
+.cell .k { font-weight: 700; }
+.cell .wing { font-weight: 600; }
+.neutral-label { font-weight: 600; }
+
+/* Reset button — subtle, below submit */
+.reset { display: block; width: 100%; margin: 0; background: transparent;
+  border-color: var(--border); font-size: .62rem; padding: .35rem; border-radius: 6px; }
+
+footer { display: none; }
+
 @media (max-width: 640px) {
   nav { padding: 0 1rem; }
   .nav-links { gap: 1rem; }
-  footer { flex-direction: column; gap: .5rem; padding: 1.2rem 1rem; text-align: center; }
 }
 @media (prefers-reduced-motion: reduce) { *{ transition: none !important; animation: none !important; } }
 </style>
@@ -339,53 +408,41 @@ footer {
   </ul>
 </nav>
 
-<div id="hero-atmosphere">
-  <div class="horizon-glow"></div>
-  <div class="prism-beam"></div>
-  <div class="chrome-sphere sphere-a"></div>
-  <div class="chrome-sphere sphere-b"></div>
-  <div class="hero-header">
-    <header>
-      <h1>Economic Soul Mapping Terminal</h1>
-    </header>
-  </div>
-</div>
-
-<div class="wrap">
-  <div class="ring-panel">
-    <div class="ring-stage">
-      <svg id="ring" viewBox="-100 -50 840 640" role="img" aria-label="Economic affinity radar of eight schools"></svg>
-    </div>
-    <div class="calib-line" id="calib-line">AWAITING CALIBRATION</div>
-  </div>
-
-  <div class="grid-divider"><div class="grid-floor"></div></div>
-
-  <div class="readout">
-    <div class="cell" id="cell-primary">
-      <div class="primary-layout">
-        <div class="primary-text">
-          <div class="k" id="cell-label">Primary Coordinate Mapped</div>
-          <div class="v" id="primary">Awaiting calibration</div>
-          <div class="wing" id="wing">Move the sliders to help calibrate our future economic system.</div>
-        </div>
+<div class="app-layout">
+  <div class="col-ring">
+    <div class="ring-panel">
+      <div class="ring-stage">
+        <svg id="ring" viewBox="-100 -50 840 640" role="img" aria-label="Economic affinity radar of eight schools"></svg>
       </div>
-      <div class="sub" id="blurb"></div>
-      <div class="kin" id="kin"></div>
-      <div class="kin" id="policy"></div>
-      <a class="learn-more-btn" id="learn-more" href="#" style="display:none">Compare Theories</a>
-    </div>
-    <div class="cell">
-      <div class="k">Coordinates</div>
-      <div class="bars" id="bars"></div>
+      <div class="calib-line" id="calib-line">AWAITING CALIBRATION</div>
     </div>
   </div>
 
-  <button class="reset" id="reset">Reset</button>
+  <div class="col-controls">
+    <div class="readout" id="readout-panel">
+      <div class="cell" id="cell-primary">
+        <div class="primary-layout">
+          <div class="primary-text">
+            <div class="k" id="cell-label">Primary Coordinate Mapped</div>
+            <div class="v" id="primary">Awaiting calibration</div>
+            <div class="wing" id="wing">Move the sliders to calibrate.</div>
+          </div>
+        </div>
+        <div class="sub" id="blurb"></div>
+        <div class="kin" id="kin"></div>
+        <div class="kin" id="policy"></div>
+        <a class="learn-more-btn" id="learn-more" href="#" style="display:none">Compare Theories</a>
+      </div>
+      <div class="cell">
+        <div class="k">Coordinates</div>
+        <div class="bars" id="bars"></div>
+      </div>
+    </div>
 
-  <div class="section-label">// Calibrate Coordinates</div>
-  <div class="sliders" id="sliders"></div>
-  <button class="submit" id="submit">Calibrate Soul Map</button>
+    <div class="sliders" id="sliders"></div>
+    <button class="submit" id="submit">Calibrate Soul Map</button>
+    <button class="reset" id="reset">Reset</button>
+  </div>
 </div>
 
 <footer>
