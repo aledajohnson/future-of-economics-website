@@ -195,6 +195,8 @@ nav {
   border: 1px solid var(--border); border-radius: 6px;
   background: var(--surface);
 }
+.res-note { opacity: .6; font-size: .85em; font-style: italic; }
+.compare-table td a { color: inherit; text-underline-offset: 2px; }
 
 /* ── FOOTER ── */
 footer {
@@ -400,7 +402,13 @@ const MODELS = [
     distribution: 'Prioritizes outcomes for the least well-off. Public services are treated as rights. Progressive taxation redistributes income and wealth toward the social floor.',
     power: 'Accountable to elected governments and civil society using wellbeing indicators rather than financial markets or GDP growth rates. Shifting from GDP to wellbeing metrics is both a technical and a political project.',
     tried: 'New Zealand\'s 2019 Wellbeing Budget. Iceland\'s working week reduction trials. Scotland\'s National Performance Framework. Wales\'s Well-being of Future Generations Act. The Wellbeing Economy Governments group provides a formal international network for these experiments.',
-    relation: 'Part of the Post-Growth family, closest to Keynesian social democracy in its practical policy tools. Overlaps with Doughnut Economics on social floors; the Doughnut adds an ecological ceiling. Less focused on reducing material throughput than Degrowth. Compatible with Ecological Economics without adopting its harder limits framing.'
+    relation: 'Part of the Post-Growth family, closest to Keynesian social democracy in its practical policy tools. Overlaps with Doughnut Economics on social floors; the Doughnut adds an ecological ceiling. Less focused on reducing material throughput than Degrowth. Compatible with Ecological Economics without adopting its harder limits framing.',
+    thinkers: 'Amartya Sen · Martha Nussbaum · Tim Jackson · Joseph Stiglitz',
+    resources: [
+      {title:'Development as Freedom',note:'Sen, 1999',url:'https://en.wikipedia.org/wiki/Development_as_Freedom'},
+      {title:'Prosperity Without Growth',note:'Jackson, 2009',url:'https://en.wikipedia.org/wiki/Prosperity_Without_Growth'},
+      {title:'The Economics of Arrival',note:'Trebeck & Williams, 2019',url:'https://www.policypress.co.uk/9781447338109'},
+    ],
   },
   {
     id: 'solidarity', type: 'framework',
@@ -426,7 +434,13 @@ const MODELS = [
     distribution: 'Strong redistribution to enable reduced working hours without poverty. Universal services provide security without requiring the economy to expand. Sufficiency, meaning enough for everyone, rather than unlimited accumulation is the organizing principle.',
     power: 'Accountable to ecological limits and future generations as well as present democratic majorities. Challenges the political and economic power of fossil fuel industries and growth-dependent sectors.',
     tried: 'Bhutan\'s Gross National Happiness framework. Costa Rica\'s use of ecological metrics alongside economic ones. Steady-state economics has influenced environmental policy in many countries. Gaining significant traction in EU Green Deal discussions and academic economics.',
-    relation: 'Parent framework for Doughnut Economics and Degrowth as strategies. Challenges all growth-oriented schools: Austrian, Neoclassical, and Keynesian. Shares values with Wellbeing Economics but treats planetary limits as hard constraints rather than design aspirations. Overlaps with Mutualist and Commons-Based approaches on natural resource governance and ownership.'
+    relation: 'Parent framework for Doughnut Economics and Degrowth as strategies. Challenges all growth-oriented schools: Austrian, Neoclassical, and Keynesian. Shares values with Wellbeing Economics but treats planetary limits as hard constraints rather than design aspirations. Overlaps with Mutualist and Commons-Based approaches on natural resource governance and ownership.',
+    thinkers: 'Herman Daly · Nicholas Georgescu-Roegen · Kate Raworth · Jason Hickel',
+    resources: [
+      {title:'Beyond Growth',note:'Daly, 1996',url:'https://en.wikipedia.org/wiki/Beyond_Growth'},
+      {title:'Doughnut Economics',note:'Raworth, 2017',url:'https://en.wikipedia.org/wiki/Doughnut_Economics:_Seven_Ways_to_Think_Like_a_21st-Century_Economist'},
+      {title:'Less Is More',note:'Hickel, 2020',url:'https://en.wikipedia.org/wiki/Less_Is_More_(book)'},
+    ],
   },
   {
     id: 'austrian', type: 'school',
@@ -439,7 +453,13 @@ const MODELS = [
     distribution: 'Returns go to capital owners; wages to workers as determined by market forces. Redistribution is viewed as a violation of property rights. Inequality is considered a natural and functional feature of free markets rather than a problem requiring policy correction.',
     power: 'The state\'s legitimate role is limited to enforcing contracts and protecting property. Market competition, rather than political institutions, is the primary check on concentrated economic power.',
     tried: 'Partial influence on Hong Kong\'s low-tax, open-market economy. Informed Thatcher-era UK and Reagan-era US deregulation programs. Estonia\'s flat tax reforms in the 1990s.',
-    relation: 'In direct tension with Keynesian on government intervention and with Marxist and Mutualist on private ownership. Shares Neoclassical defense of markets but rejects government correction of market failures that Neoclassical accepts. Its emphasis on decentralization has surface overlap with Mutualist, though through markets rather than community governance.'
+    relation: 'In direct tension with Keynesian on government intervention and with Marxist and Mutualist on private ownership. Shares Neoclassical defense of markets but rejects government correction of market failures that Neoclassical accepts. Its emphasis on decentralization has surface overlap with Mutualist, though through markets rather than community governance.',
+    thinkers: 'Ludwig von Mises · Friedrich Hayek · Murray Rothbard',
+    resources: [
+      {title:'The Road to Serfdom',note:'Hayek, 1944',url:'https://en.wikipedia.org/wiki/The_Road_to_Serfdom'},
+      {title:'The Use of Knowledge in Society',note:'Hayek, 1945 essay',url:'https://www.econlib.org/library/Essays/hykKnw.html'},
+      {title:'Human Action',note:'Mises, 1949',url:'https://en.wikipedia.org/wiki/Human_Action'},
+    ],
   },
   {
     id: 'neoclassical', type: 'school',
@@ -452,7 +472,13 @@ const MODELS = [
     distribution: 'Market-determined wages reflect productivity; returns flow to capital owners. Redistribution through taxes and transfers is broadly acceptable provided it does not significantly distort market incentives.',
     power: 'Distributed through market competition among firms. Democratic governments set rules but should not override market outcomes except in clearly defined cases of market failure. The framework acknowledges the risk of regulatory capture; critics argue this risk is underweighted in practice.',
     tried: 'The analytical foundation of most government economic policy since the 1980s. IMF and World Bank programs. WTO trade rules. Washington Consensus structural adjustment programs across Latin America, Africa, and Eastern Europe, with results that remain debated.',
-    relation: 'The mainstream from which Austrian (stricter on markets) and Keynesian (adds government demand management) both branch. Marxist and Ecological schools are its most systematic critics from opposite directions. Most real-world mixed economies use Neoclassical tools with Keynesian corrections applied selectively.'
+    relation: 'The mainstream from which Austrian (stricter on markets) and Keynesian (adds government demand management) both branch. Marxist and Ecological schools are its most systematic critics from opposite directions. Most real-world mixed economies use Neoclassical tools with Keynesian corrections applied selectively.',
+    thinkers: 'Alfred Marshall · Milton Friedman · N. Gregory Mankiw',
+    resources: [
+      {title:'Free to Choose',note:'Friedman, 1980',url:'https://en.wikipedia.org/wiki/Free_to_Choose'},
+      {title:'The Worldly Philosophers',note:'Heilbroner, 1953',url:'https://en.wikipedia.org/wiki/The_Worldly_Philosophers'},
+      {title:'Principles of Economics',note:'Mankiw, standard intro text',url:'https://en.wikipedia.org/wiki/Principles_of_Economics_(Mankiw_book)'},
+    ],
   },
   {
     id: 'keynesian', type: 'school',
@@ -465,7 +491,13 @@ const MODELS = [
     distribution: 'Market wages supplemented by progressive taxation and universal public services. The welfare state provides income security as a right of citizenship, not a market outcome.',
     power: 'Democratic governments accountable to voters; central banks with public mandates; strong labor unions; regulatory agencies. Capital is checked by collective bargaining, the welfare state, and democratic politics. The relative strength of these checks varies significantly across countries and periods.',
     tried: 'The US New Deal (1930s). Postwar European welfare states. The Nordic model in Sweden, Denmark, and Norway. Global stimulus responses to the 2008 financial crisis and the COVID-19 pandemic.',
-    relation: 'Built on Neoclassical foundations while adding active government demand management. Social democratic welfare states are its clearest real-world expression. Austrian is its primary intellectual opponent. Post-Growth economists argue Keynesian stimulus still presupposes indefinite economic growth as the answer to social problems.'
+    relation: 'Built on Neoclassical foundations while adding active government demand management. Social democratic welfare states are its clearest real-world expression. Austrian is its primary intellectual opponent. Post-Growth economists argue Keynesian stimulus still presupposes indefinite economic growth as the answer to social problems.',
+    thinkers: 'John Maynard Keynes · Paul Krugman · Mariana Mazzucato',
+    resources: [
+      {title:'The General Theory of Employment, Interest and Money',note:'Keynes, 1936',url:'https://en.wikipedia.org/wiki/The_General_Theory_of_Employment,_Interest_and_Money'},
+      {title:'End This Depression Now!',note:'Krugman, 2012',url:'https://en.wikipedia.org/wiki/End_This_Depression_Now!'},
+      {title:'The Value of Everything',note:'Mazzucato, 2018',url:'https://en.wikipedia.org/wiki/The_Value_of_Everything'},
+    ],
   },
   {
     id: 'marxist', type: 'school',
@@ -478,7 +510,13 @@ const MODELS = [
     distribution: 'According to contribution (in socialism) or need (in communism). Surplus belongs to workers and is directed toward collective investment and social services rather than private profit.',
     power: 'Political authority of the working class replaces the economic authority of capital. Worker councils, unions, and democratic institutions are the intended mechanisms. Historical socialist states varied considerably in how democratically this power was exercised in practice.',
     tried: 'Soviet Union, Cuba, and the People\'s Republic of China as major state socialist experiments. Worker-managed enterprises and workplace democracy initiatives worldwide. Salvador Allende\'s government in Chile (1970-1973). The Zapatista autonomous communities in Chiapas, Mexico.',
-    relation: 'Shares the critique of private ownership with Mutualist but disagrees on the role of the state; the Marxist tradition has historically favored centralized direction that Mutualist rejects. Compatible with Commons-Based and Solidarity Economy approaches at smaller scale. Directly opposed to Austrian and Neoclassical defense of private capital.'
+    relation: 'Shares the critique of private ownership with Mutualist but disagrees on the role of the state; the Marxist tradition has historically favored centralized direction that Mutualist rejects. Compatible with Commons-Based and Solidarity Economy approaches at smaller scale. Directly opposed to Austrian and Neoclassical defense of private capital.',
+    thinkers: 'Karl Marx · Rosa Luxemburg · David Harvey',
+    resources: [
+      {title:'The Communist Manifesto',note:'Marx & Engels, 1848',url:'https://en.wikipedia.org/wiki/The_Communist_Manifesto'},
+      {title:'Capital, Vol. 1',note:'Marx, 1867',url:'https://en.wikipedia.org/wiki/Das_Kapital'},
+      {title:'A Brief History of Neoliberalism',note:'Harvey, 2005',url:'https://en.wikipedia.org/wiki/A_Brief_History_of_Neoliberalism'},
+    ],
   },
   {
     id: 'mutualist', type: 'school',
@@ -491,7 +529,13 @@ const MODELS = [
     distribution: 'According to participation and need, negotiated by communities. No surplus is extracted by outside owners; no rent paid to landlords. Time banks and mutual credit systems equalize contributions across different kinds of work.',
     power: 'Deliberately decentralized. Decisions are made at the smallest effective scale. The tradition is skeptical of concentrated authority, whether held by the state or by corporations.',
     tried: 'The Rochdale Pioneers cooperative movement (1844), which laid the groundwork for the modern cooperative sector. Mondragon cooperative corporation in Spain. Swiss and Japanese alpine commons, some centuries old. Open-source software communities. Mutual aid networks active during the COVID-19 pandemic.',
-    relation: 'Agrees with Marxist on exploitation but rejects centralized state planning, making it incompatible with authoritarian socialist traditions. Overlaps significantly with Commons-Based Economy and Solidarity Economy in practice. Skeptical of both market liberalism (Austrian, Neoclassical) and state socialism. Shares horizontal governance principles with Ecological Economics.'
+    relation: 'Agrees with Marxist on exploitation but rejects centralized state planning, making it incompatible with authoritarian socialist traditions. Overlaps significantly with Commons-Based Economy and Solidarity Economy in practice. Skeptical of both market liberalism (Austrian, Neoclassical) and state socialism. Shares horizontal governance principles with Ecological Economics.',
+    thinkers: 'Peter Kropotkin · Elinor Ostrom · Pierre-Joseph Proudhon',
+    resources: [
+      {title:'Mutual Aid: A Factor of Evolution',note:'Kropotkin, 1902',url:'https://en.wikipedia.org/wiki/Mutual_Aid:_A_Factor_of_Evolution'},
+      {title:'Governing the Commons',note:'Ostrom, 1990',url:'https://en.wikipedia.org/wiki/Governing_the_Commons'},
+      {title:'Mutual Aid: Building Solidarity During This Crisis',note:'Spade, 2020',url:'https://www.versobooks.com/products/2095-mutual-aid'},
+    ],
   }
 ];
 
@@ -504,6 +548,9 @@ const DIMENSIONS = [
   { key: 'power',        label: 'Power & Accountability', sub: 'who can override whom, what checks that power' },
   { key: 'tried',        label: 'Real-World Examples',    sub: 'where this model has been explored' },
   { key: 'relation',     label: 'Affinities & Tensions',  sub: 'related frameworks and direct opposites' },
+  { key: 'thinkers',     label: 'Key Thinkers',           sub: 'major figures associated with this tradition' },
+  { key: 'resources',    label: 'Learning Resources',     sub: 'books, essays, and starting points',
+    render: m => (m.resources || []).map(r => `<a href="${r.url}" target="_blank" rel="noopener">${r.title}</a><span class="res-note"> ${r.note}</span>`).join('<br>') },
 ];
 
 // ── RENDER LIST ──
@@ -612,6 +659,7 @@ function runCompare() {
   empty.style.display = 'none';
   table.style.display = 'table';
 
+  const cellVal = (d, m) => d.render ? d.render(m) : (m[d.key] || '');
   table.innerHTML = `
     <thead>
       <tr>
@@ -624,8 +672,8 @@ function runCompare() {
       ${DIMENSIONS.map(d => `
         <tr>
           <td><span>${d.label}</span><span class="dim-sub">${d.sub}</span></td>
-          <td class="cell-a">${mA[d.key] || ''}</td>
-          <td class="cell-b">${mB[d.key] || ''}</td>
+          <td class="cell-a">${cellVal(d, mA)}</td>
+          <td class="cell-b">${cellVal(d, mB)}</td>
         </tr>
       `).join('')}
     </tbody>
