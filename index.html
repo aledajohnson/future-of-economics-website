@@ -384,11 +384,11 @@ nav { display: none; }
   font-size: clamp(1.8rem, 3vw, 3rem); font-weight: 900; line-height: 1.1;
   color: #000; margin-bottom: .35rem; transition: color .4s;
 }
-.result-wing { font-size: .95rem; color: #333; line-height: 1.6; margin-bottom: .75rem; font-style: italic; }
-.result-blurb { font-size: .88rem; color: #111; line-height: 1.75; margin-bottom: .6rem; }
-#cell-primary .kin { margin-top: .55rem; }
-#cell-primary .kin a { color: #111; text-decoration-color: rgba(0,0,0,.3); }
-#cell-primary .kk { color: #555 !important; }
+.result-wing { display: none; }
+.result-blurb { font-size: .88rem; color: #000; line-height: 1.75; margin-bottom: .5rem; }
+.result-kin { font-size: .85rem; color: #000; line-height: 1.55; margin-top: .6rem; }
+.result-kin .kk { display: block; font-size: .6rem; letter-spacing: .18em; text-transform: uppercase; color: #666; margin-bottom: .3rem; }
+.result-kin a { color: #000; text-decoration: underline; text-decoration-color: rgba(0,0,0,.3); text-underline-offset: 2px; }
 #learn-more { display: none !important; }
 #bars { margin: .75rem 0 0; }
 .result-actions { display: flex; gap: .75rem; align-items: center; margin-top: 1rem; flex-wrap: wrap; }
@@ -441,8 +441,8 @@ nav { display: none; }
     <p class="result-wing" id="wing"></p>
     <div id="cell-primary">
       <div id="blurb" class="result-blurb"></div>
-      <div id="kin" class="cell kin"></div>
-      <div id="policy" class="cell kin"></div>
+      <div id="kin" class="result-kin"></div>
+      <div id="policy" class="result-kin"></div>
       <a id="learn-more" class="learn-more-btn"></a>
     </div>
     <div id="bars" class="bars"></div>
@@ -855,14 +855,9 @@ function reveal(){
     }
     const pct=Math.round(o.raw*100);
     const row=document.createElement('div'); row.className='bar'; row.dataset.key=o.s.key;
-    row.innerHTML=`<span class="bn">${o.s.label}</span><span class="track"><span class="fill"></span></span><span class="pct">${pct}</span>`;
+    row.innerHTML=`<span class="bn">${o.s.label}</span><span class="track" style="background:linear-gradient(to right,${o.s.col} ${pct}%,rgba(0,0,0,.08) ${pct}%)"></span><span class="pct">${pct}</span>`;
     row.addEventListener('click',()=>showSchoolDetail(o.s, o.s.key===p.primary.key));
     bars.appendChild(row);
-    requestAnimationFrame(()=>{
-      const f=row.querySelector('.fill');
-      f.style.width=pct+'%'; f.style.background=o.s.col;
-      f.style.boxShadow=`0 0 8px ${o.s.col}`;
-    });
   });
   document.querySelector(`.bar[data-key="${p.primary.key}"]`).classList.add('active');
 
@@ -873,6 +868,8 @@ function reveal(){
   line.textContent=`PROFILE LOCKED // ${p.primary.name.toUpperCase()}`;
   postCalibration(p.primary, p.x, p.y, v);
   _top3Keys = p.ranked.slice(0, 3).map(o => o.s.key);
+  _allRanked = p.ranked;
+  _currentSchoolIdx = 0;
   // Clone ring with convergence lines into results panel after animations finish
   setTimeout(()=>{
     const holder=document.getElementById('result-ring-holder');
@@ -888,6 +885,8 @@ function reveal(){
 }
 
 let _top3Keys = [];
+let _allRanked = [];
+let _currentSchoolIdx = 0;
 
 function showView(id){
   document.querySelectorAll('.view').forEach(v=>{ v.hidden=true; });
@@ -969,13 +968,24 @@ document.getElementById('reset').addEventListener('click',()=>{
 
     if(cc===41){ // PLAY — advance current view
       const activeView=[...document.querySelectorAll('.view')].find(v=>!v.hidden);
-      console.log('[MIDI] PLAY on view:', activeView?.id);
-      if(activeView?.id==='view-landing')   showView('view-questions');
+      if(activeView?.id==='view-landing')        showView('view-questions');
       else if(activeView?.id==='view-questions'){ reveal(); showView('view-results'); }
-      else if(activeView?.id==='view-results')  window.location.href='community.html';
+      else if(activeView?.id==='view-results')    window.location.href='community.html';
     }
     if(cc===42){ // STOP — reset from any view
       document.getElementById('reset').click();
+    }
+    if(cc===44){ // >> — next school on results view
+      if(document.getElementById('view-results').hidden||!_allRanked.length) return;
+      _currentSchoolIdx=(_currentSchoolIdx+1)%_allRanked.length;
+      const o=_allRanked[_currentSchoolIdx];
+      showSchoolDetail(o.s, _currentSchoolIdx===0);
+    }
+    if(cc===43){ // << — prev school on results view
+      if(document.getElementById('view-results').hidden||!_allRanked.length) return;
+      _currentSchoolIdx=(_currentSchoolIdx-1+_allRanked.length)%_allRanked.length;
+      const o=_allRanked[_currentSchoolIdx];
+      showSchoolDetail(o.s, _currentSchoolIdx===0);
     }
   }
 })();
