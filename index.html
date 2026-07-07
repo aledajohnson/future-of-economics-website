@@ -849,11 +849,7 @@ function reveal(){
 
   const bars=document.getElementById('bars'); bars.innerHTML='';
   p.ranked.forEach((o,idx)=>{
-    if(idx===1){
-      const lbl=document.createElement('div');
-      lbl.className='bars-label'; lbl.textContent='Also worth exploring';
-      bars.appendChild(lbl);
-    }
+
     const pct=Math.round(o.raw*100);
     const row=document.createElement('div'); row.className='bar'; row.dataset.key=o.s.key;
     row.innerHTML=`<span class="bn">${o.s.label}</span><span class="track" style="background:linear-gradient(to right,${o.s.col} ${pct}%,rgba(0,0,0,.08) ${pct}%)"></span><span class="pct">${pct}</span>`;
