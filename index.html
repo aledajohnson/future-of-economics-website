@@ -320,146 +320,121 @@ footer {
 .footer-credit a { color: var(--amber); text-decoration: none; }
 .footer-credit a:hover { text-decoration: underline; }
 
-/* ── WIDE INSTALLATION LAYOUT ── */
-/* Force all text to system sans-serif and black */
+/* ── INSTALLATION: all text black system sans-serif ── */
 *, *::before, *::after {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif !important;
   color: inherit;
 }
-body { height: 100vh; overflow: hidden; font-weight: 600; color: #000; }
+body { font-weight: 600; color: #000; }
+nav { display: none; }
 
-.app-layout {
-  display: flex;
-  height: calc(100vh - 52px);
-  margin-top: 52px;
-  padding: .75rem 1.25rem;
-  gap: 1.25rem;
-  overflow: hidden;
+/* ── VIEWS ── */
+.view { width: 100%; height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
+.view[hidden] { display: none !important; }
+
+/* ── VIEW 1: LANDING ── */
+#view-landing .ring-panel {
+  flex: 1; margin: 0; max-width: none; border-radius: 0; border: none; border-bottom: 1px solid var(--border);
+  display: flex; flex-direction: column; min-height: 0;
+  box-shadow: none;
 }
-
-.col-ring {
-  flex: 0 0 52%;
-  display: flex;
-  flex-direction: column;
-  min-height: 0;
+#view-landing .ring-stage { flex: 1; height: auto; max-height: none; }
+.landing-cta {
+  flex-shrink: 0; padding: 1.5rem 2rem;
+  display: flex; justify-content: center; align-items: center;
+  background: var(--panel);
 }
-.col-ring .ring-panel {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  margin: 0;
-  max-width: none;
-  min-height: 0;
+.begin-btn {
+  font-size: 1.4rem; font-weight: 800; padding: 1rem 5rem;
+  letter-spacing: .06em; text-transform: uppercase;
+  background: #000; color: #fff; border: none; border-radius: 8px; cursor: pointer;
+  transition: background .15s;
 }
-.col-ring .ring-stage {
-  flex: 1;
-  height: auto;
-  max-height: none;
-}
+.begin-btn:hover { background: #222; }
 
-.col-controls {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  padding-top: .4rem;
-  gap: .4rem;
-  overflow: hidden;
-  min-height: 0;
-}
-
-/* Compact readout for installation — primary school name only, hide bars cell */
-#readout-panel { margin: 0; grid-template-columns: 1fr; }
-#readout-panel #blurb,
-#readout-panel #kin,
-#readout-panel #policy,
-#readout-panel #learn-more { display: none !important; }
-#readout-panel .cell:last-child { display: none; }
-#readout-panel .cell { padding: .5rem .9rem; }
-#readout-panel .cell .v { font-size: clamp(1rem, 1.6vw, 1.35rem); }
-#readout-panel .cell .wing { font-size: .78rem; margin-top: .2rem; }
-
-/* Compact slider cards for no-scroll — single column, no question headers */
-.col-controls .sliders { grid-template-columns: 1fr; }
-.col-controls .field { padding: .35rem .75rem .4rem; }
-.col-controls .field .head { display: none; }
-.col-controls .beliefs { margin: .2rem 0 .3rem; }
-
-/* Bold + larger text throughout */
+/* ── VIEW 2: QUESTIONS ── */
+#view-questions { justify-content: center; align-items: center; padding: 1.25rem 2.5rem; }
+.questions-inner { width: 100%; max-width: 1400px; display: flex; flex-direction: column; gap: .75rem; }
+.questions-inner .sliders { grid-template-columns: 1fr 1fr; }
+.field { padding: .55rem .9rem .65rem; }
+.field .head { display: none; }
+.beliefs { margin: .3rem 0 .45rem; }
 .belief { font-weight: 700; font-size: .92rem; }
-.field .name { font-weight: 700; font-size: .9rem; letter-spacing: .12em; }
-.field .num { font-size: 1.3rem; }
-.bar { font-size: .92rem; }
-.bar .bn { font-weight: 700; }
-.bars-label { font-size: .72rem; }
-.cell .k { font-weight: 700; font-size: .8rem; }
-.cell .wing { font-weight: 600; font-size: .92rem; }
-.neutral-label { font-weight: 600; font-size: .72rem; }
+.neutral-label { font-weight: 600; font-size: .68rem; }
+.submit { margin-top: .25rem; }
 
-/* Reset button — subtle, below submit */
-.reset { display: block; width: 100%; margin: 0; background: transparent;
-  border-color: var(--border); font-size: .62rem; padding: .35rem; border-radius: 6px; }
-
-footer { display: none; }
-
-@media (max-width: 640px) {
-  nav { padding: 0 1rem; }
-  .nav-links { gap: 1rem; }
+/* ── VIEW 3: RESULTS ── */
+#view-results { justify-content: center; align-items: center; text-align: center; padding: 2rem; }
+.results-inner { max-width: 720px; width: 100%; }
+.result-eyebrow {
+  font-size: .75rem; font-weight: 700; letter-spacing: .22em; text-transform: uppercase;
+  color: #666; margin-bottom: .9rem;
 }
+.result-name {
+  font-size: clamp(2.5rem, 5vw, 4.5rem); font-weight: 900; line-height: 1.1;
+  color: #000; margin-bottom: .8rem; transition: color .4s;
+}
+.result-wing {
+  font-size: 1.1rem; color: #333; line-height: 1.65; margin-bottom: 2.5rem;
+  font-style: italic;
+}
+.result-actions { display: flex; flex-direction: column; gap: .9rem; align-items: center; }
+.community-btn {
+  font-size: 1.1rem; font-weight: 700; padding: .9rem 3.5rem;
+  background: #000; color: #fff; border: none; border-radius: 8px;
+  cursor: pointer; letter-spacing: .04em; transition: background .15s;
+}
+.community-btn:hover { background: #222; }
+.start-over-btn {
+  font-size: .78rem; font-weight: 600; padding: .5rem 2rem;
+  background: transparent; color: #666; border: 1px solid #ccc;
+  border-radius: 6px; cursor: pointer;
+}
+
 @media (prefers-reduced-motion: reduce) { *{ transition: none !important; animation: none !important; } }
 </style>
 </head>
 <body>
 
-<nav>
-  <ul class="nav-links">
-    <li><a href="index.html" class="active">Soul Mapping</a></li>
-    <li><a href="community.html">Community Map</a></li>
-    <li><a href="compare.html">Compare Theories</a></li>
-    <li><a href="agency.html">Action</a></li>
-  </ul>
-</nav>
-
-<div class="app-layout">
-  <div class="col-ring">
-    <div class="readout" id="readout-panel">
-      <div class="cell" id="cell-primary">
-        <div class="primary-layout">
-          <div class="primary-text">
-            <div class="k" id="cell-label">Primary Coordinate Mapped</div>
-            <div class="v" id="primary">Awaiting calibration</div>
-            <div class="wing" id="wing">Move the sliders to calibrate.</div>
-          </div>
-        </div>
-        <div class="sub" id="blurb"></div>
-        <div class="kin" id="kin"></div>
-        <div class="kin" id="policy"></div>
-        <a class="learn-more-btn" id="learn-more" href="#" style="display:none">Compare Theories</a>
-      </div>
-      <div class="cell">
-        <div class="k">Coordinates</div>
-        <div class="bars" id="bars"></div>
-      </div>
+<!-- ── VIEW 1: LANDING ── -->
+<div id="view-landing" class="view">
+  <div class="ring-panel">
+    <div class="ring-stage">
+      <svg id="ring" viewBox="-40 10 680 580" role="img" aria-label="Economic affinity radar of eight schools"></svg>
     </div>
-
-    <div class="ring-panel">
-      <div class="ring-stage">
-        <svg id="ring" viewBox="-40 10 680 580" role="img" aria-label="Economic affinity radar of eight schools"></svg>
-      </div>
-      <div class="calib-line" id="calib-line">AWAITING CALIBRATION</div>
-    </div>
+    <div class="calib-line" id="calib-line">AWAITING CALIBRATION</div>
   </div>
-
-  <div class="col-controls">
-    <div class="sliders" id="sliders"></div>
-    <button class="submit" id="submit">Calibrate Soul Map</button>
-    <button class="reset" id="reset">Reset</button>
+  <div class="landing-cta">
+    <button class="begin-btn" id="begin-btn">Begin Soul Mapping</button>
   </div>
 </div>
 
-<footer>
-  <div class="footer-credit">Future of Us Festival · San Francisco · July 2026</div>
-</footer>
+<!-- ── VIEW 2: QUESTIONS ── -->
+<div id="view-questions" class="view" hidden>
+  <div class="questions-inner">
+    <div class="sliders" id="sliders"></div>
+    <button class="submit" id="submit">Calibrate Soul Map</button>
+  </div>
+</div>
+
+<!-- ── VIEW 3: RESULTS ── -->
+<div id="view-results" class="view" hidden>
+  <div class="results-inner">
+    <p class="result-eyebrow" id="cell-label">Your Primary Coordinate</p>
+    <h2 class="result-name" id="primary">—</h2>
+    <p class="result-wing" id="wing"></p>
+    <div class="result-actions">
+      <button class="community-btn" id="community-btn">See Community Coordinates</button>
+      <button class="start-over-btn" id="reset">Start Over</button>
+    </div>
+  </div>
+  <!-- Hidden nodes kept for JS compatibility -->
+  <div id="cell-primary" style="display:none">
+    <div id="blurb"></div><div id="kin"></div><div id="policy"></div>
+    <a id="learn-more"></a>
+  </div>
+  <div id="bars" style="display:none"></div>
+</div>
 
 <script>
 const SUPABASE_URL = 'https://hjibnmrmewkhcofgnebv.supabase.co';
@@ -881,35 +856,49 @@ function reveal(){
   line.textContent=`PROFILE LOCKED // ${p.primary.name.toUpperCase()}`;
   postCalibration(p.primary, p.x, p.y, v);
   _top3Keys = p.ranked.slice(0, 3).map(o => o.s.key);
-  setTimeout(()=>document.querySelector('.ring-panel').scrollIntoView({behavior:'smooth',block:'start'}),150);
+  // view transition handled by submit listener
 }
 
 let _top3Keys = [];
 
+function showView(id){
+  document.querySelectorAll('.view').forEach(v=>{ v.hidden=true; });
+  document.getElementById(id).hidden=false;
+}
+
 drawRing(); preview();
 SLIDERS.forEach((s,i)=>document.getElementById(`sl-${i}`).addEventListener('input',preview));
-document.getElementById('submit').addEventListener('click',reveal);
+
+document.getElementById('begin-btn').addEventListener('click',()=>showView('view-questions'));
+
+document.getElementById('submit').addEventListener('click',()=>{
+  reveal();
+  showView('view-results');
+});
+
+document.getElementById('community-btn').addEventListener('click',()=>{
+  window.location.href='community.html';
+});
+
 document.getElementById('reset').addEventListener('click',()=>{
-  SLIDERS.forEach((s,i)=>{
-    document.getElementById(`sl-${i}`).value=s.start;
-  });
+  SLIDERS.forEach((s,i)=>{ document.getElementById(`sl-${i}`).value=s.start; });
   webG.innerHTML=''; convRing.setAttribute('r',0);
-  document.getElementById('cell-label').textContent='Primary Coordinate Mapped';
-  document.getElementById('primary').textContent='Awaiting calibration';
+  document.getElementById('cell-label').textContent='Your Primary Coordinate';
+  document.getElementById('primary').textContent='—';
   document.getElementById('primary').style.color='';
   document.getElementById('primary').style.textShadow='';
-  document.getElementById('cell-primary').style.setProperty('--cell-accent', 'var(--amber)');
-  document.getElementById('wing').textContent='Move the sliders to help calibrate our future economic system.';
+  document.getElementById('cell-primary').style.setProperty('--cell-accent','var(--amber)');
+  document.getElementById('wing').textContent='';
   document.getElementById('blurb').textContent='';
   document.getElementById('kin').innerHTML='';
   document.getElementById('policy').innerHTML='';
-  document.getElementById('learn-more').style.display='none';
   document.getElementById('bars').innerHTML='';
   const line=document.getElementById('calib-line');
   line.classList.remove('locked','calibrating');
   line.textContent='AWAITING CALIBRATION';
-  _top3Keys = [];
+  _top3Keys=[];
   preview();
+  showView('view-landing');
 });
 
 // ── DEEP LINK: ?v=50,50,50,50,50 ──

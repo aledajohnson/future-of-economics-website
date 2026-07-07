@@ -177,10 +177,18 @@ footer {
   grid-row: 2;
   border-top: 1px solid var(--border);
   padding: .9rem 1rem;
-  display: flex; justify-content: center; align-items: center;
+  display: flex; flex-direction: column; justify-content: center; align-items: center; gap: .4rem;
   background: rgba(0,0,0,.03);
 }
 .footer-credit { font-size: .6rem; color: var(--text-muted); letter-spacing: .04em; text-align: center; }
+.return-btn {
+  display: inline-block; margin-top: .6rem;
+  font-size: .72rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase;
+  padding: .5rem 1.4rem; background: #000; color: #fff;
+  border: none; border-radius: 6px; text-decoration: none; cursor: pointer;
+  transition: background .15s;
+}
+.return-btn:hover { background: #333; }
 
 /* ── RESPONSIVE ── */
 @media (max-width: 700px) {
@@ -232,6 +240,7 @@ footer {
 
   <footer>
     <div class="footer-credit">Future of Us Festival &middot; San Francisco &middot; July 2026</div>
+    <a href="index.html" class="return-btn">Return to Mapping Terminal</a>
   </footer>
 </div>
 
