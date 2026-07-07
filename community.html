@@ -435,6 +435,23 @@ async function loadCalibrations(isInitial = false) {
 drawBase();
 loadCalibrations(true);
 setInterval(() => loadCalibrations(false), 10000);
+
+// ── KORG nanoKONTROL2: PLAY returns to mapping terminal ──
+(function initMIDI(){
+  if(!navigator.requestMIDIAccess) return;
+  navigator.requestMIDIAccess().then(access=>{
+    function bindInputs(){
+      for(const input of access.inputs.values()) input.onmidimessage=onMIDI;
+    }
+    bindInputs();
+    access.onstatechange=bindInputs;
+  }).catch(()=>{});
+  function onMIDI({data}){
+    const[status,cc,val]=data;
+    if((status&0xF0)!==0xB0||cc!==41||val!==127) return;
+    window.location.href='index.html';
+  }
+})();
 </script>
 </body>
 </html>
