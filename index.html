@@ -14,10 +14,10 @@
   --field: #eeecea;
   --border: rgba(0,0,0,.13);
   --border-hover: rgba(0,0,0,.28);
-  --text: rgba(20,22,30,.88);
-  --text-bright: rgba(10,12,20,.92);
-  --text-dim: rgba(45,52,72,.68);
-  --text-muted: rgba(45,52,72,.42);
+  --text: #0d0d0d;
+  --text-bright: #000;
+  --text-dim: #2a2a2a;
+  --text-muted: #555;
   --green: #1a7030;
   --blue: #1a5cb0;
   --amber: #b5700a;
@@ -29,7 +29,7 @@ html { scroll-behavior: smooth; }
 body {
   background: radial-gradient(ellipse 90% 60% at 50% 0%, rgba(26,112,48,.04), transparent 60%), var(--bg);
   color: var(--text);
-  font-family: 'Share Tech Mono', monospace;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
   font-size: 15px;
   line-height: 1.6;
   overflow-x: hidden;
@@ -256,7 +256,7 @@ svg { display: block; width: 100%; height: auto; overflow: visible; }
 .field .head { display: flex; justify-content: space-between; align-items: baseline; gap: .6rem; }
 .field .name {
   font-size: .68rem; letter-spacing: .18em; text-transform: uppercase;
-  color: rgba(10,12,20,.82);
+  color: #000;
 }
 .field .num {
   font-family: 'Orbitron', sans-serif;
@@ -274,8 +274,8 @@ svg { display: block; width: 100%; height: auto; overflow: visible; }
   font-size: .88rem; line-height: 1.6; color: var(--text-dim);
   font-style: italic;
 }
-.belief-left { text-align: left; color: rgba(30,70,160,.72); }
-.belief-right { text-align: right; color: rgba(90,30,140,.65); }
+.belief-left { text-align: left; color: #111; }
+.belief-right { text-align: right; color: #111; }
 .field .neutral-label {
   text-align: center; font-size: .58rem; letter-spacing: .08em; text-transform: uppercase;
   color: var(--text-muted); margin-top: .5rem;
@@ -321,7 +321,12 @@ footer {
 .footer-credit a:hover { text-decoration: underline; }
 
 /* ── WIDE INSTALLATION LAYOUT ── */
-body { height: 100vh; overflow: hidden; font-weight: 600; }
+/* Force all text to system sans-serif and black */
+*, *::before, *::after {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif !important;
+  color: inherit;
+}
+body { height: 100vh; overflow: hidden; font-weight: 600; color: #000; }
 
 .app-layout {
   display: flex;
@@ -413,15 +418,6 @@ footer { display: none; }
 
 <div class="app-layout">
   <div class="col-ring">
-    <div class="ring-panel">
-      <div class="ring-stage">
-        <svg id="ring" viewBox="-100 -50 840 640" role="img" aria-label="Economic affinity radar of eight schools"></svg>
-      </div>
-      <div class="calib-line" id="calib-line">AWAITING CALIBRATION</div>
-    </div>
-  </div>
-
-  <div class="col-controls">
     <div class="readout" id="readout-panel">
       <div class="cell" id="cell-primary">
         <div class="primary-layout">
@@ -442,6 +438,15 @@ footer { display: none; }
       </div>
     </div>
 
+    <div class="ring-panel">
+      <div class="ring-stage">
+        <svg id="ring" viewBox="70 70 460 460" role="img" aria-label="Economic affinity radar of eight schools"></svg>
+      </div>
+      <div class="calib-line" id="calib-line">AWAITING CALIBRATION</div>
+    </div>
+  </div>
+
+  <div class="col-controls">
     <div class="sliders" id="sliders"></div>
     <button class="submit" id="submit">Calibrate Soul Map</button>
     <button class="reset" id="reset">Reset</button>
@@ -723,20 +728,6 @@ function drawRing(){
   SCHOOLS.forEach(s=>{
     const star=el('text',{x:s.px,y:s.py+8,'text-anchor':'middle',fill:s.col,filter:'url(#glow)','font-size':24});
     star.textContent='✦'; ring.appendChild(star);
-    const out=(d)=>[CX+Math.cos(s.ang)*(R+d), CY-Math.sin(s.ang)*(R+d)];
-    const cosv=Math.cos(s.ang);
-    const anchor=cosv>0.25?'start':cosv<-0.25?'end':'middle';
-    const dist=Math.sin(s.ang)>0.8?55:26;
-    const [lx,ly]=out(dist);
-    const t1=el('text',{x:lx,y:ly,'text-anchor':anchor,class:'schoolname',fill:'var(--text-bright)'});
-    t1.textContent=s.label; ring.appendChild(t1);
-    const lines=wrapTag(s.tag);
-    const t2=el('text',{x:lx,y:ly+16,'text-anchor':anchor,class:'schooltag'});
-    lines.forEach((line,i)=>{
-      const sp=el('tspan',{x:lx,dy:i===0?'0':'1.3em'});
-      sp.textContent=line; t2.appendChild(sp);
-    });
-    ring.appendChild(t2);
   });
 
   webG=el('g',{}); ring.appendChild(webG);
