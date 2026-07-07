@@ -377,9 +377,11 @@ body { height: 100vh; overflow: hidden; font-weight: 600; color: #000; }
 #readout-panel .cell .v { font-size: clamp(1.1rem, 1.8vw, 1.5rem); }
 #readout-panel .cell .wing { font-size: .8rem; margin-top: .25rem; }
 
-/* Compact slider cards for no-scroll */
+/* Compact slider cards for no-scroll — single column, no question headers */
+.col-controls .sliders { grid-template-columns: 1fr; }
 .col-controls .field { padding: .55rem .8rem .65rem; }
-.col-controls .beliefs { margin: .4rem 0 .55rem; }
+.col-controls .field .head { display: none; }
+.col-controls .beliefs { margin: .3rem 0 .45rem; }
 
 /* Bold + larger text throughout */
 .belief { font-weight: 700; font-size: 1.05rem; }
@@ -440,7 +442,7 @@ footer { display: none; }
 
     <div class="ring-panel">
       <div class="ring-stage">
-        <svg id="ring" viewBox="70 70 460 460" role="img" aria-label="Economic affinity radar of eight schools"></svg>
+        <svg id="ring" viewBox="-40 10 680 580" role="img" aria-label="Economic affinity radar of eight schools"></svg>
       </div>
       <div class="calib-line" id="calib-line">AWAITING CALIBRATION</div>
     </div>
@@ -728,6 +730,13 @@ function drawRing(){
   SCHOOLS.forEach(s=>{
     const star=el('text',{x:s.px,y:s.py+8,'text-anchor':'middle',fill:s.col,filter:'url(#glow)','font-size':24});
     star.textContent='✦'; ring.appendChild(star);
+    const out=(d)=>[CX+Math.cos(s.ang)*(R+d), CY-Math.sin(s.ang)*(R+d)];
+    const cosv=Math.cos(s.ang);
+    const anchor=cosv>0.25?'start':cosv<-0.25?'end':'middle';
+    const dist=Math.sin(s.ang)>0.8?55:26;
+    const [lx,ly]=out(dist);
+    const t1=el('text',{x:lx,y:ly,'text-anchor':anchor,class:'schoolname',fill:'var(--text-bright)'});
+    t1.textContent=s.label; ring.appendChild(t1);
   });
 
   webG=el('g',{}); ring.appendChild(webG);
