@@ -338,7 +338,8 @@ nav { display: none; }
   display: flex; flex-direction: column; min-height: 0;
   box-shadow: none;
 }
-#view-landing .ring-stage { flex: 1; height: auto; max-height: none; }
+#view-landing .ring-stage { flex: 1; height: auto; max-height: none; overflow: hidden; }
+.ring-stage svg { pointer-events: none; }
 .landing-cta {
   flex-shrink: 0; padding: 1.5rem 2rem;
   display: flex; justify-content: center; align-items: center;
