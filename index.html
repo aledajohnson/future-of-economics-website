@@ -385,7 +385,9 @@ nav { display: none; }
   color: #000; margin-bottom: .35rem; transition: color .4s;
 }
 .result-wing { display: none; }
-.result-blurb { font-size: .88rem; color: #000; line-height: 1.75; margin-bottom: .5rem; }
+.result-blurb { font-size: .88rem; color: #000; line-height: 1.75; margin-bottom: .5rem; transition: opacity .3s; }
+.result-blurb.loading { opacity: .45; animation: blurb-pulse 1.4s ease-in-out infinite; }
+@keyframes blurb-pulse { 0%,100%{opacity:.45} 50%{opacity:.18} }
 .result-kin { font-size: .85rem; color: #000; line-height: 1.55; margin-top: .6rem; }
 .result-kin .kk { display: block; font-size: .6rem; letter-spacing: .18em; text-transform: uppercase; color: #666; margin-bottom: .3rem; }
 .result-kin a { color: #000; text-decoration: underline; text-decoration-color: rgba(0,0,0,.3); text-underline-offset: 2px; }
@@ -846,6 +848,8 @@ function reveal(){
   });
 
   showSchoolDetail(p.primary, true);
+  _soulReadSession++;
+  fetchSoulRead(v, p.ranked, _soulReadSession);
 
   const bars=document.getElementById('bars'); bars.innerHTML='';
   p.ranked.forEach((o,idx)=>{
@@ -884,6 +888,35 @@ function reveal(){
 let _top3Keys = [];
 let _allRanked = [];
 let _currentSchoolIdx = 0;
+let _soulReadSession = 0;
+
+async function fetchSoulRead(sliders, ranked, session){
+  const blurb=document.getElementById('blurb');
+  const staticText=blurb.textContent;
+  blurb.classList.add('loading');
+  blurb.textContent='READING YOUR COORDINATES…';
+  try{
+    const res=await fetch('/soul-read',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        sliders,
+        ranked:ranked.map(r=>({name:r.s.name, pct:Math.round(r.raw*100)})),
+      }),
+    });
+    if(_soulReadSession!==session) return;
+    if(!res.ok) throw new Error('api '+res.status);
+    const{text}=await res.json();
+    if(_soulReadSession!==session) return;
+    blurb.classList.remove('loading');
+    blurb.textContent=text||staticText;
+  }catch(_){
+    if(_soulReadSession===session){
+      blurb.classList.remove('loading');
+      blurb.textContent=staticText;
+    }
+  }
+}
 
 function showView(id){
   document.querySelectorAll('.view').forEach(v=>{ v.hidden=true; });
@@ -905,6 +938,7 @@ document.getElementById('community-btn').addEventListener('click',()=>{
 });
 
 document.getElementById('reset').addEventListener('click',()=>{
+  _soulReadSession++;
   SLIDERS.forEach((s,i)=>{ document.getElementById(`sl-${i}`).value=s.start; });
   webG.innerHTML=''; convRing.setAttribute('r',0);
   document.getElementById('cell-label').textContent='Your Primary Coordinate';
