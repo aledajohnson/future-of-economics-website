@@ -77,8 +77,8 @@ const SLIDERS = [
     leftStmt: "We should measure economic success primarily by GDP growth, productivity, and market output.",
     rightStmt: "We should measure economic success primarily by human wellbeing and social equity." },
   { name: 'Public Spending',
-    leftStmt: "Governments should prioritize balanced budgets and sound public finances.",
-    rightStmt: "Governments should spend actively, even running deficits, to ensure full employment and economic stability." },
+    leftStmt: "Governments should keep budgets lean and balanced, spending only what tax revenue allows.",
+    rightStmt: "Governments should spend actively, even running deficits, to drive full employment and invest in public research and infrastructure." },
 ];
 
 function buildPrompt(sliders, ranked) {
