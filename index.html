@@ -892,6 +892,7 @@ let _top3Keys = [];
 let _allRanked = [];
 let _currentSchoolIdx = 0;
 let _soulReadSession = 0;
+let _aiReadout = '';
 
 async function fetchSoulRead(sliders, ranked, session){
   const blurb=document.getElementById('blurb');
@@ -913,6 +914,7 @@ async function fetchSoulRead(sliders, ranked, session){
     if(_soulReadSession!==session) return;
     blurb.classList.remove('loading');
     blurb.textContent=text||staticText;
+    if(text) _aiReadout=text;
   }catch(_){
     if(_soulReadSession===session){
       blurb.classList.remove('loading');
@@ -936,8 +938,16 @@ document.getElementById('submit').addEventListener('click',()=>{
   showView('view-results');
 });
 
-document.getElementById('community-btn').addEventListener('click',()=>{
+function goToCommunity(){
+  if(_aiReadout){
+    fetch('/print',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({text:_aiReadout})})
+      .catch(()=>{});
+  }
   window.location.href='community.html';
+}
+
+document.getElementById('community-btn').addEventListener('click',()=>{
+  goToCommunity();
 });
 
 document.getElementById('reset').addEventListener('click',()=>{
@@ -1004,7 +1014,7 @@ document.getElementById('reset').addEventListener('click',()=>{
       const activeView=[...document.querySelectorAll('.view')].find(v=>!v.hidden);
       if(activeView?.id==='view-landing')        showView('view-questions');
       else if(activeView?.id==='view-questions'){ reveal(); showView('view-results'); }
-      else if(activeView?.id==='view-results')    window.location.href='community.html';
+      else if(activeView?.id==='view-results')    goToCommunity();
     }
     if(cc===42){ // STOP — reset from any view
       document.getElementById('reset').click();

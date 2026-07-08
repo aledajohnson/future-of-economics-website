@@ -1,0 +1,22 @@
+{
+  "name": "economic-reflections",
+  "version": "1.0.0",
+  "description": "A public-facing civic art installation. Scientists from the year 2200 are soul-mapping the economic values of the present day in an effort to recalibrate the timeline toward a better economic destiny.",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aledajohnson/future-of-economics-website.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/aledajohnson/future-of-economics-website/issues"
+  },
+  "homepage": "https://github.com/aledajohnson/future-of-economics-website#readme"
+}

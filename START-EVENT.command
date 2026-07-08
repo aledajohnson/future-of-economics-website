@@ -12,4 +12,9 @@ if [ ! -f .env ]; then
   echo ""
 fi
 
+if [ ! -d node_modules ]; then
+  echo "  Installing dependencies..."
+  npm install --silent
+fi
+
 node server.js
