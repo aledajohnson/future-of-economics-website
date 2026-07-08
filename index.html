@@ -892,7 +892,6 @@ let _top3Keys = [];
 let _allRanked = [];
 let _currentSchoolIdx = 0;
 let _soulReadSession = 0;
-let _aiReadout = '';
 
 async function fetchSoulRead(sliders, ranked, session){
   const blurb=document.getElementById('blurb');
@@ -914,7 +913,6 @@ async function fetchSoulRead(sliders, ranked, session){
     if(_soulReadSession!==session) return;
     blurb.classList.remove('loading');
     blurb.textContent=text||staticText;
-    if(text) _aiReadout=text;
   }catch(_){
     if(_soulReadSession===session){
       blurb.classList.remove('loading');
@@ -939,10 +937,6 @@ document.getElementById('submit').addEventListener('click',()=>{
 });
 
 function goToCommunity(){
-  if(_aiReadout){
-    const blob=new Blob([JSON.stringify({text:_aiReadout})],{type:'application/json'});
-    navigator.sendBeacon('/print', blob);
-  }
   window.location.href='community.html';
 }
 

@@ -6,27 +6,6 @@ const path = require('path');
 const https = require('https');
 const { exec } = require('child_process');
 
-// Thermal printer — JADENS_JD_268BT is the default CUPS printer
-const PRINTER_NAME = 'JADENS_JD_268BT';
-
-function wordWrap(text, width) {
-  const words = text.split(' ');
-  const lines = [];
-  let line = '';
-  for (const word of words) {
-    if (line && (line + ' ' + word).length > width) { lines.push(line); line = word; }
-    else line = line ? line + ' ' + word : word;
-  }
-  if (line) lines.push(line);
-  return lines.join('\n');
-}
-
-function printReading(text, cb) {
-  const tmp = path.join(require('os').tmpdir(), 'soul_reading.txt');
-  try { fs.writeFileSync(tmp, wordWrap(text, 46) + '\n'); }
-  catch (e) { return cb && cb(e); }
-  exec(`lpr -P "${PRINTER_NAME}" "${tmp}"`, err => cb && cb(err || null));
-}
 
 // Parse .env file
 try {
@@ -140,28 +119,6 @@ function readBody(req) {
 }
 
 http.createServer(async (req, res) => {
-  // Print endpoint — receives AI text and sends to thermal printer
-  if (req.method === 'POST' && req.url === '/print') {
-    try {
-      const { text } = JSON.parse(await readBody(req));
-      printReading(text, err => {
-        if (err) {
-          console.error('[PRINT] Error:', err.message);
-          res.writeHead(500, { 'Content-Type': 'application/json' });
-          res.end(JSON.stringify({ error: err.message }));
-        } else {
-          console.log('[PRINT] Sent to printer');
-          res.writeHead(200, { 'Content-Type': 'application/json' });
-          res.end(JSON.stringify({ ok: true }));
-        }
-      });
-    } catch (e) {
-      res.writeHead(400, { 'Content-Type': 'application/json' });
-      res.end(JSON.stringify({ error: String(e) }));
-    }
-    return;
-  }
-
   // AI proxy endpoint
   if (req.method === 'POST' && req.url === '/soul-read') {
     try {
