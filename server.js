@@ -4,6 +4,7 @@ const http = require('http');
 const fs = require('fs');
 const path = require('path');
 const https = require('https');
+const { exec } = require('child_process');
 
 // Parse .env file
 try {
@@ -146,7 +147,21 @@ http.createServer(async (req, res) => {
   }
 
 }).listen(PORT, () => {
-  console.log(`\nA.G.E.N.C.Y. running at http://localhost:${PORT}`);
-  if (!API_KEY) console.warn('  ⚠  ANTHROPIC_API_KEY not found in .env — AI readout will fall back to static blurb\n');
-  else console.log('  ✓  ANTHROPIC_API_KEY loaded — AI readout active\n');
+  const url = `http://localhost:${PORT}`;
+  console.log(`\nA.G.E.N.C.Y. running at ${url}`);
+  if (!API_KEY) console.warn('  ⚠  ANTHROPIC_API_KEY not found in .env — AI readout will fall back to static blurb');
+  else console.log('  ✓  ANTHROPIC_API_KEY loaded — AI readout active');
+  console.log('\n  Press Ctrl+C to stop.\n');
+
+  // Open Chrome in app mode (no browser UI) — ideal for kiosk installation
+  // Falls back to default browser if Chrome isn't found
+  const noOpen = process.argv.includes('--no-open');
+  if (!noOpen) {
+    const chromeCmd = process.platform === 'darwin'
+      ? `open -a "Google Chrome" --args --app=${url} --start-fullscreen`
+      : `google-chrome --app=${url} --start-fullscreen`;
+    exec(chromeCmd, err => {
+      if (err) exec(`open ${url}`); // fallback: system default browser
+    });
+  }
 });
