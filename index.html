@@ -476,17 +476,17 @@ async function postCalibration(school, x, y, sliders) {
 }
 
 /* =========================================================================
-   SEVEN BELIEF-FORK QUESTIONS  (each slider 0-100, 0 = left belief / 50 neutral / 100 = right belief)
+   EIGHT BELIEF-FORK QUESTIONS  (each slider 0-100, 0 = left belief / 50 neutral / 100 = right belief)
    sig = [Q1 Theory of Value, Q2 Regulation, Q3 Power & State, Q4 Ownership,
-          Q5 Land & Rent, Q6 Growth, Q7 The Goal]
+          Q5 Land & Rent, Q6 Growth, Q7 The Goal, Q8 Public Spending]
 
-   SEVEN SCHOOLS, each a point in the 7-dim belief space.
+   SEVEN SCHOOLS, each a point in the 8-dim belief space.
    Engine: plain Euclidean distance (no per-question weighting).
    Nearest school = primary result; 2nd and 3rd surfaced as "also worth exploring."
    ========================================================================= */
 const SCHOOLS = [
   { key:'austrian', label:'Austrian', name:'Austrian / Libertarian', tag:'spontaneous order & sound money', col:'#f0c43d',
-    sig:[90,5,88,8,15,35,20],
+    sig:[90,5,88,8,15,18,20,8],
     blurb:'The Core Belief: Trust the individual, not the blueprint.\nMarkets self-organize through millions of independent choices, carrying a depth of human information no government can replicate or replace.\n\nPrioritizes: Liberty, self-reliance, and decentralization.',
     thinkers:[
       {name:'Ludwig von Mises',url:'https://en.wikipedia.org/wiki/Ludwig_von_Mises'},
@@ -507,7 +507,7 @@ const SCHOOLS = [
     tried:'Partial influence on Hong Kong\'s low-tax, open-market economy. Informed Thatcher-era UK and Reagan-era US deregulation programs. Estonia\'s flat tax reforms in the 1990s.' },
 
   { key:'neoclassical', label:'Neoclassical', name:'Neoclassical / Market Liberal', tag:'price signals & free trade', col:'#ff7757',
-    sig:[85,20,45,12,25,20,22],
+    sig:[85,20,45,12,25,20,22,28],
     blurb:'The Core Belief: Markets are the ultimate coordination tool.\nPrices function as signals that balance supply and demand, making competitive markets the most efficient default system for running a global economy.\n\nPrioritizes: Efficiency, pragmatism, and optimization.',
     thinkers:[
       {name:'Alfred Marshall',url:'https://en.wikipedia.org/wiki/Alfred_Marshall'},
@@ -528,7 +528,7 @@ const SCHOOLS = [
     tried:'The analytical foundation of most government economic policy since the 1980s. IMF and World Bank programs. WTO trade rules. Washington Consensus structural adjustment programs across Latin America, Africa, and Eastern Europe.' },
 
   { key:'keynesian', label:'Keynesian', name:'Keynesian / Social Democratic', tag:'managed demand & the welfare state', col:'#4d9fff',
-    sig:[55,75,18,30,40,28,45],
+    sig:[55,75,18,30,40,28,45,92],
     blurb:'The Core Belief: Stability is a public responsibility.\nBecause unguided economies can stall and leave regular people stranded, the public sector must step in to kickstart spending and maintain a reliable safety net.\n\nPrioritizes: Security, structural safety nets, and collective protection.',
     thinkers:[
       {name:'John Maynard Keynes',url:'https://en.wikipedia.org/wiki/John_Maynard_Keynes'},
@@ -549,7 +549,7 @@ const SCHOOLS = [
     tried:'The US New Deal in the 1930s. Postwar European welfare states. The Nordic model in Sweden, Denmark, and Norway. Global stimulus responses to the 2008 financial crisis and the COVID-19 pandemic.' },
 
   { key:'marxist', label:'Marxist', name:'Marxist / Socialist', tag:'collective ownership & worker control', col:'#ff4d6d',
-    sig:[8,90,28,92,80,30,35],
+    sig:[8,90,28,92,80,30,65,65],
     blurb:'The Core Belief: Capital exploits; production belongs to the people.\nCapitalism inherently funnels the wealth created by workers into the hands of property owners, meaning true fairness requires changing who owns the means of production itself.\n\nPrioritizes: Worker solidarity, systemic equality, and structural transformation.',
     thinkers:[
       {name:'Karl Marx',url:'https://en.wikipedia.org/wiki/Karl_Marx'},
@@ -570,7 +570,7 @@ const SCHOOLS = [
     tried:'Soviet Union, Cuba, and the People\'s Republic of China as major state socialist experiments. Worker-managed enterprises and workplace democracy initiatives worldwide. Salvador Allende\'s government in Chile. The Zapatista autonomous communities in Chiapas, Mexico.' },
 
   { key:'mutualist', label:'Mutualist', name:'Mutualist / Commons', tag:'mutual aid & the commons', col:'#9966ff',
-    sig:[28,40,88,78,75,50,62],
+    sig:[28,40,88,78,75,50,62,22],
     blurb:'The Core Belief: Communities can cooperate without states or corporations.\nPeople are entirely capable of managing shared resources sustainably through horizontal networks, worker-owned cooperatives, and local mutual aid.\n\nPrioritizes: Interdependence, grassroots democracy, and shared stewardship.',
     thinkers:[
       {name:'Peter Kropotkin',url:'https://en.wikipedia.org/wiki/Peter_Kropotkin'},
@@ -591,7 +591,7 @@ const SCHOOLS = [
     tried:'The Rochdale Pioneers cooperative movement (1844). Mondragon cooperative corporation in Spain. Swiss and Japanese alpine commons, some centuries old. Open-source software communities. Mutual aid networks active during the COVID-19 pandemic.' },
 
   { key:'ecological', label:'Ecological', name:'Ecological Economics', tag:'the economy is a subset of the planet', col:'#3ad17a',
-    sig:[40,80,30,60,82,92,88],
+    sig:[40,80,30,60,55,92,70,62],
     blurb:'The Core Belief: The economy lives inside the biosphere.\nNature is the absolute precondition for economic activity, meaning we must design our systems to fit safely within the boundaries of a finite planet.\n\nPrioritizes: Sustainability, planetary boundaries, and long-term balance.',
     thinkers:[
       {name:'Herman Daly',url:'https://en.wikipedia.org/wiki/Herman_Daly'},
@@ -614,7 +614,7 @@ const SCHOOLS = [
     tried:'Amsterdam adopted the Doughnut framework as official city policy in 2020. Bhutan\'s Gross National Happiness framework. Costa Rica\'s ecological metrics alongside economic ones. Gaining significant traction in EU Green Deal discussions.' },
 
   { key:'wellbeing', label:'Wellbeing', name:'Wellbeing Economics', tag:'quality of life for people and planet', col:'#40d9c9',
-    sig:[50,70,20,45,55,62,95],
+    sig:[50,70,20,45,55,62,95,75],
     blurb:'The Core Belief: Progress should be measured in human flourishing.\nAn economy should directly serve health, belonging, and quality of life rather than chasing raw financial growth for its own sake.\n\nPrioritizes: Human flourishing, community belonging, and dignity.',
     thinkers:[
       {name:'Amartya Sen',url:'https://en.wikipedia.org/wiki/Amartya_Sen'},
@@ -645,20 +645,23 @@ const SLIDERS = [
     leftStmt:'Markets sort themselves out. Supply and demand create proper balance.',
     rightStmt:'Government should actively steer. Markets need a guiding hand.' },
   { name:'Power & the State', start:50,
-    leftStmt:'Public institutions are how we solve problems too big for any of us alone.',
-    rightStmt:'Concentrated power, whether state or corporate, is the problem, not the solution.' },
+    leftStmt:'We should trust public institutions to manage and coordinate major societal challenges.',
+    rightStmt:'Top-down public institutions breed bureaucracy; real solutions come from local communities and individuals.' },
   { name:'Ownership', start:50,
     leftStmt:'Productive wealth, including land, firms, and capital, is best held as private property.',
     rightStmt:'The things we all depend on should be owned in common by those who use them.' },
   { name:'Land & Rent', start:50,
     leftStmt:'Land and natural resources are property like anything else: own them, trade them.',
-    rightStmt:'No one made the earth; what nature provides should benefit everyone.' },
+    rightStmt:'Land and natural resources derive their value from the surrounding community, not their private owners — that value should be returned to the public.' },
   { name:'Growth', start:50,
-    leftStmt:'A prosperous society is a growing one: more output, more abundance, more progress.',
-    rightStmt:'Endless growth on a finite planet is the illusion; health means living within limits.' },
+    leftStmt:'Environmental challenges are best solved by growing the economy to fund technological breakthroughs.',
+    rightStmt:'Environmental challenges are best solved by moving away from a growth-dependent economy entirely.' },
   { name:'The Goal', start:50,
-    leftStmt:'Get the economy producing as much as possible, as efficiently as possible.',
-    rightStmt:'Measure success by human and ecological wellbeing, not by how much we produce.' },
+    leftStmt:'We should measure economic success primarily by GDP growth, productivity, and market output.',
+    rightStmt:'We should measure economic success primarily by human wellbeing and social equity.' },
+  { name:'Public Spending', start:50,
+    leftStmt:'Governments should prioritize balanced budgets and sound public finances.',
+    rightStmt:'Governments should spend actively, even running deficits, to ensure full employment and economic stability.' },
 ];
 
 /* ---- tuning ---- */
@@ -988,7 +991,7 @@ document.getElementById('reset').addEventListener('click',()=>{
     const[status,cc,val]=data;
     if((status&0xF0)!==0xB0) return; // only CC messages
 
-    if(cc>=0&&cc<=6){
+    if(cc>=0&&cc<=7){
       const el=document.getElementById(`sl-${cc}`);
       if(!el) return;
       el.value=Math.round(val/127*100);

@@ -15,11 +15,14 @@ const SLIDERS = [
     leftStmt: "Land and natural resources are property like anything else: own them, trade them.",
     rightStmt: "No one made the earth; what nature provides should benefit everyone." },
   { name: 'Growth',
-    leftStmt: "A prosperous society is a growing one: more output, more abundance, more progress.",
-    rightStmt: "Endless growth on a finite planet is the illusion; health means living within limits." },
+    leftStmt: "Environmental challenges are best solved by growing the economy to fund technological breakthroughs.",
+    rightStmt: "Environmental challenges are best solved by moving away from a growth-dependent economy entirely." },
   { name: 'The Goal',
-    leftStmt: "Get the economy producing as much as possible, as efficiently as possible.",
-    rightStmt: "Measure success by human and ecological wellbeing, not by how much we produce." },
+    leftStmt: "We should measure economic success primarily by GDP growth, productivity, and market output.",
+    rightStmt: "We should measure economic success primarily by human wellbeing and social equity." },
+  { name: 'Public Spending',
+    leftStmt: "Governments should prioritize balanced budgets and sound public finances.",
+    rightStmt: "Governments should spend actively, even running deficits, to ensure full employment and economic stability." },
 ];
 
 export async function onRequestPost(context) {
@@ -50,7 +53,7 @@ export async function onRequestPost(context) {
 
     const topSchools = ranked.slice(0, 3).map((r, i) => `${i + 1}. ${r.name} (${r.pct}%)`).join(', ');
 
-    const prompt = `You are writing a short personalized readout for a visitor at an interactive art installation at the Future of Us Festival in San Francisco. The visitor just moved 7 sliders to calibrate their economic worldview. Their responses:
+    const prompt = `You are writing a short personalized readout for a visitor at an interactive art installation at the Future of Us Festival in San Francisco. The visitor just moved 8 sliders to calibrate their economic worldview. Their responses:
 
 ${sliderLines}
 

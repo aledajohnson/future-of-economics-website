@@ -52,8 +52,11 @@ const SLIDERS = [
     leftStmt: "A prosperous society is a growing one: more output, more abundance, more progress.",
     rightStmt: "Endless growth on a finite planet is the illusion; health means living within limits." },
   { name: 'The Goal',
-    leftStmt: "Get the economy producing as much as possible, as efficiently as possible.",
-    rightStmt: "Measure success by human and ecological wellbeing, not by how much we produce." },
+    leftStmt: "We should measure economic success primarily by GDP growth, productivity, and market output.",
+    rightStmt: "We should measure economic success primarily by human wellbeing and social equity." },
+  { name: 'Public Spending',
+    leftStmt: "Governments should prioritize balanced budgets and sound public finances.",
+    rightStmt: "Governments should spend actively, even running deficits, to ensure full employment and economic stability." },
 ];
 
 function buildPrompt(sliders, ranked) {
@@ -71,7 +74,7 @@ function buildPrompt(sliders, ranked) {
 
   const top = ranked.slice(0, 3).map((r, i) => `${i + 1}. ${r.name} (${r.pct}%)`).join(', ');
 
-  return `You are writing a short personalized readout for a visitor at an interactive art installation at the Future of Us Festival in San Francisco. The visitor just moved 7 sliders to calibrate their economic worldview. Their responses:\n\n${lines}\n\nTheir closest coordinates: ${top}\n\nWrite exactly 2-3 sentences to this person. Describe what their specific combination of answers reveals about what they value, grounded in their actual responses. Be observational and precise, not validating or cheerleading. Do not use the words tension, contradiction, or conflict. Be professional and clear. Address the person directly using "you" or "you've". Do not begin the first sentence with the word "Your". No preamble, no quotation marks. The — character is forbidden. Use only commas or periods to connect ideas.`;
+  return `You are writing a short personalized readout for a visitor at an interactive art installation at the Future of Us Festival in San Francisco. The visitor just moved 8 sliders to calibrate their economic worldview. Their responses:\n\n${lines}\n\nTheir closest coordinates: ${top}\n\nWrite exactly 2-3 sentences to this person. Describe what their specific combination of answers reveals about what they value, grounded in their actual responses. Be observational and precise, not validating or cheerleading. Do not use the words tension, contradiction, or conflict. Be professional and clear. Address the person directly using "you" or "you've". Do not begin the first sentence with the word "Your". No preamble, no quotation marks. The — character is forbidden. Use only commas or periods to connect ideas.`;
 }
 
 function callAnthropic(prompt) {
