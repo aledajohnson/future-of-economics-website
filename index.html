@@ -385,7 +385,7 @@ nav { display: none; }
   color: #000; margin-bottom: .35rem; transition: color .4s;
 }
 .result-wing { display: none; }
-.result-blurb { font-size: .88rem; color: #000; line-height: 1.75; margin-bottom: .5rem; transition: opacity .3s; }
+.result-blurb { font-size: .88rem; color: #000; line-height: 1.75; margin-bottom: .5rem; transition: opacity .3s; white-space: pre-line; }
 .result-blurb.loading { opacity: .45; animation: blurb-pulse 1.4s ease-in-out infinite; }
 @keyframes blurb-pulse { 0%,100%{opacity:.45} 50%{opacity:.18} }
 .result-kin { font-size: .85rem; color: #000; line-height: 1.55; margin-top: .6rem; }
@@ -487,7 +487,7 @@ async function postCalibration(school, x, y, sliders) {
 const SCHOOLS = [
   { key:'austrian', label:'Austrian', name:'Austrian / Libertarian', tag:'spontaneous order & sound money', col:'#f0c43d',
     sig:[90,5,88,8,15,35,20],
-    blurb:'Markets self-organize through spontaneous order, the emergent result of countless individual decisions rather than any central plan. Prices carry information no single authority can replicate, which is why state intervention almost always produces unintended harm. The tradition prioritizes individual liberty, private property, and sound money as the foundations of a free society.',
+    blurb:'The Core Belief: Trust the individual, not the blueprint.\nMarkets self-organize through millions of independent choices, carrying a depth of human information no government can replicate or replace.\n\nPrioritizes: Liberty, self-reliance, and decentralization.',
     thinkers:[
       {name:'Ludwig von Mises',url:'https://en.wikipedia.org/wiki/Ludwig_von_Mises'},
       {name:'Friedrich Hayek',url:'https://en.wikipedia.org/wiki/Friedrich_Hayek'},
@@ -508,7 +508,7 @@ const SCHOOLS = [
 
   { key:'neoclassical', label:'Neoclassical', name:'Neoclassical / Market Liberal', tag:'price signals & free trade', col:'#ff7757',
     sig:[85,20,45,12,25,20,22],
-    blurb:'Prices coordinate economic activity by aggregating what millions of people want and what it costs to provide it, more efficiently than any alternative coordination mechanism. Competitive markets are the default; targeted government intervention corrects specific failures like pollution or public goods. This framework dominates academic economics, most central banks, and mainstream policy institutions worldwide.',
+    blurb:'The Core Belief: Markets are the ultimate coordination tool.\nPrices function as signals that balance supply and demand, making competitive markets the most efficient default system for running a global economy.\n\nPrioritizes: Efficiency, pragmatism, and optimization.',
     thinkers:[
       {name:'Alfred Marshall',url:'https://en.wikipedia.org/wiki/Alfred_Marshall'},
       {name:'Milton Friedman',url:'https://en.wikipedia.org/wiki/Milton_Friedman'},
@@ -529,7 +529,7 @@ const SCHOOLS = [
 
   { key:'keynesian', label:'Keynesian', name:'Keynesian / Social Democratic', tag:'managed demand & the welfare state', col:'#4d9fff',
     sig:[55,75,18,30,40,28,45],
-    blurb:'In a market economy, total spending can collapse without warning, leaving workers unemployed through no fault of their own. Government must actively stabilize activity through spending and taxation, and institutions like the welfare state protect people from the worst outcomes markets produce. The Nordic countries are the most sustained real-world experiment with this approach.',
+    blurb:'The Core Belief: Stability is a public responsibility.\nBecause unguided economies can stall and leave regular people stranded, the public sector must step in to kickstart spending and maintain a reliable safety net.\n\nPrioritizes: Security, structural safety nets, and collective protection.',
     thinkers:[
       {name:'John Maynard Keynes',url:'https://en.wikipedia.org/wiki/John_Maynard_Keynes'},
       {name:'Paul Krugman',url:'https://en.wikipedia.org/wiki/Paul_Krugman'},
@@ -550,7 +550,7 @@ const SCHOOLS = [
 
   { key:'marxist', label:'Marxist', name:'Marxist / Socialist', tag:'collective ownership & worker control', col:'#ff4d6d',
     sig:[8,90,28,92,80,30,35],
-    blurb:'Capitalism is not a neutral exchange system; it systematically transfers value created by workers to those who own productive assets. This structural extraction, and the class conflict it generates, drives both inequality and historical change. Meaningful equality requires transforming who owns the means of production, not merely redistributing its outputs through taxes or welfare.',
+    blurb:'The Core Belief: Capital exploits; production belongs to the people.\nCapitalism inherently funnels the wealth created by workers into the hands of property owners, meaning true fairness requires changing who owns the means of production itself.\n\nPrioritizes: Worker solidarity, systemic equality, and structural transformation.',
     thinkers:[
       {name:'Karl Marx',url:'https://en.wikipedia.org/wiki/Karl_Marx'},
       {name:'Rosa Luxemburg',url:'https://en.wikipedia.org/wiki/Rosa_Luxemburg'},
@@ -571,7 +571,7 @@ const SCHOOLS = [
 
   { key:'mutualist', label:'Mutualist', name:'Mutualist / Commons', tag:'mutual aid & the commons', col:'#9966ff',
     sig:[28,40,88,78,75,50,62],
-    blurb:'Communities have always built their own systems of mutual support, shared resources, and horizontal governance, without markets or states directing them. Elinor Ostrom\'s Nobel-winning research proved that commons can be managed sustainably without privatization or top-down control. Worker cooperatives, open-source software, mutual aid networks, and time banks are all living expressions of this tradition.',
+    blurb:'The Core Belief: Communities can cooperate without states or corporations.\nPeople are entirely capable of managing shared resources sustainably through horizontal networks, worker-owned cooperatives, and local mutual aid.\n\nPrioritizes: Interdependence, grassroots democracy, and shared stewardship.',
     thinkers:[
       {name:'Peter Kropotkin',url:'https://en.wikipedia.org/wiki/Peter_Kropotkin'},
       {name:'Elinor Ostrom',url:'https://en.wikipedia.org/wiki/Elinor_Ostrom'},
@@ -592,7 +592,7 @@ const SCHOOLS = [
 
   { key:'ecological', label:'Ecological', name:'Ecological Economics', tag:'the economy is a subset of the planet', col:'#3ad17a',
     sig:[40,80,30,60,82,92,88],
-    blurb:'Ecological economics starts from a physical fact: the economy is embedded inside the biosphere, not separate from it. Natural systems, soil, water, atmosphere, and biodiversity, are not inputs to the economy; they are its precondition. Two major frameworks have developed from this foundation: the Doughnut (Kate Raworth), which maps a safe space between a social floor and an ecological ceiling; and Degrowth (Hickel, Kallis), which argues wealthy economies must actively reduce material throughput to remain within planetary limits.',
+    blurb:'The Core Belief: The economy lives inside the biosphere.\nNature is the absolute precondition for economic activity, meaning we must design our systems to fit safely within the boundaries of a finite planet.\n\nPrioritizes: Sustainability, planetary boundaries, and long-term balance.',
     thinkers:[
       {name:'Herman Daly',url:'https://en.wikipedia.org/wiki/Herman_Daly'},
       {name:'Nicholas Georgescu-Roegen',url:'https://en.wikipedia.org/wiki/Nicholas_Georgescu-Roegen'},
@@ -615,7 +615,7 @@ const SCHOOLS = [
 
   { key:'wellbeing', label:'Wellbeing', name:'Wellbeing Economics', tag:'quality of life for people and planet', col:'#40d9c9',
     sig:[50,70,20,45,55,62,95],
-    blurb:'Wellbeing economics asks a prior question before any policy debate: what is the economy actually for? Its answer is human flourishing and quality of life, not growth as an end in itself. Rooted in Amartya Sen\'s capabilities approach, it measures whether people have the real freedom to live lives they have reason to value. Governments in Scotland, New Zealand, Iceland, Wales, and Finland now track wellbeing metrics alongside GDP, treating health, belonging, security, and meaning as legitimate policy goals.',
+    blurb:'The Core Belief: Progress should be measured in human flourishing.\nAn economy should directly serve health, belonging, and quality of life rather than chasing raw financial growth for its own sake.\n\nPrioritizes: Human flourishing, community belonging, and dignity.',
     thinkers:[
       {name:'Amartya Sen',url:'https://en.wikipedia.org/wiki/Amartya_Sen'},
       {name:'Martha Nussbaum',url:'https://en.wikipedia.org/wiki/Martha_Nussbaum'},
