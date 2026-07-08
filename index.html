@@ -940,8 +940,8 @@ document.getElementById('submit').addEventListener('click',()=>{
 
 function goToCommunity(){
   if(_aiReadout){
-    fetch('/print',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({text:_aiReadout})})
-      .catch(()=>{});
+    const blob=new Blob([JSON.stringify({text:_aiReadout})],{type:'application/json'});
+    navigator.sendBeacon('/print', blob);
   }
   window.location.href='community.html';
 }
