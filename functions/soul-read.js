@@ -50,13 +50,13 @@ export async function onRequestPost(context) {
 
     const topSchools = ranked.slice(0, 3).map((r, i) => `${i + 1}. ${r.name} (${r.pct}%)`).join(', ');
 
-    const prompt = `You are writing a short personalized readout for a visitor at A.G.E.N.C.Y., an interactive art installation at the Future of Us Festival in San Francisco. The visitor just moved 7 sliders to calibrate their economic worldview. Their responses:
+    const prompt = `You are writing a short personalized readout for a visitor at an interactive art installation at the Future of Us Festival in San Francisco. The visitor just moved 7 sliders to calibrate their economic worldview. Their responses:
 
 ${sliderLines}
 
 Their closest coordinates: ${topSchools}
 
-Write exactly 2-3 sentences directly to this person. Focus on what their SPECIFIC combination of answers reveals — not a textbook description of the top school. Look for tensions, contradictions, or surprising alignments in their answers. What do these choices together say about what they actually value? Be direct and human, no jargon. Do not start with "Your" — vary the opening. No preamble, no quotation marks around the response.`;
+Write exactly 2-3 sentences to this person. Focus on what their SPECIFIC combination of answers reveals, not a textbook description of the top school. Look for tensions, contradictions, or surprising alignments in their answers. What do these choices together say about what they actually value? Be direct and human, no jargon. Do not start with "Your" — vary the opening. No preamble, no quotation marks around the response. Never use em-dashes (the — character). Use commas or periods instead.`;
 
     const res = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',

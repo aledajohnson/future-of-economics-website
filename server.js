@@ -71,7 +71,7 @@ function buildPrompt(sliders, ranked) {
 
   const top = ranked.slice(0, 3).map((r, i) => `${i + 1}. ${r.name} (${r.pct}%)`).join(', ');
 
-  return `You are writing a short personalized readout for a visitor at A.G.E.N.C.Y., an interactive art installation at the Future of Us Festival in San Francisco. The visitor just moved 7 sliders to calibrate their economic worldview. Their responses:\n\n${lines}\n\nTheir closest coordinates: ${top}\n\nWrite exactly 2-3 sentences directly to this person. Focus on what their SPECIFIC combination of answers reveals — not a textbook description of the top school. Look for tensions, contradictions, or surprising alignments in their answers. What do these choices together say about what they actually value? Be direct and human, no jargon. Do not start with "Your" — vary the opening. No preamble, no quotation marks around the response.`;
+  return `You are writing a short personalized readout for a visitor at an interactive art installation at the Future of Us Festival in San Francisco. The visitor just moved 7 sliders to calibrate their economic worldview. Their responses:\n\n${lines}\n\nTheir closest coordinates: ${top}\n\nWrite exactly 2-3 sentences to this person. Focus on what their SPECIFIC combination of answers reveals, not a textbook description of the top school. Look for tensions, contradictions, or surprising alignments in their answers. What do these choices together say about what they actually value? Be direct and human, no jargon. Do not start with "Your" — vary the opening. No preamble, no quotation marks around the response. Never use em-dashes (the — character). Use commas or periods instead.`;
 }
 
 function callAnthropic(prompt) {
