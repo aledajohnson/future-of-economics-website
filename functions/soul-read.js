@@ -56,7 +56,7 @@ ${sliderLines}
 
 Their closest coordinates: ${topSchools}
 
-Write exactly 2-3 sentences to this person. Focus on what their SPECIFIC combination of answers reveals, not a textbook description of the top school. Look for tensions, contradictions, or surprising alignments in their answers. What do these choices together say about what they actually value? Be direct and human, no jargon. Do not start with "Your" — vary the opening. No preamble, no quotation marks around the response. Never use em-dashes (the — character). Use commas or periods instead.`;
+Write exactly 2-3 sentences to this person. Describe what their specific combination of answers reveals about what they value, grounded in their actual responses. Be observational and precise, not validating or cheerleading. Do not use the words tension, contradiction, or conflict. Be professional and clear. Address the person directly using "you" or "you've". Do not begin the first sentence with the word "Your". No preamble, no quotation marks. The — character is forbidden. Use only commas or periods to connect ideas.`;
 
     const res = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
